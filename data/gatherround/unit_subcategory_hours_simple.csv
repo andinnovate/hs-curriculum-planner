@@ -1,0 +1,700 @@
+unit,subcategory,hours
+NAB (v2),Chemistry,0.5
+Unsolved Mysteries,Chemistry,0.5
+Ancient  Civilizations,Chemistry,4.0
+Ocean Life,Chemistry,3.0
+Renaissance + Revival,Chemistry,0.5
+Botany,Chemistry,1.5
+Asia,Chemistry,2.0
+NAB (v2),Physics,3.0
+Unsolved Mysteries,Physics,1.5
+Renaissance + Revival,Physics,1.0
+Sports + PE,Physics,4.5
+Botany,Physics,1.0
+Ocean Life,Astronomy,1.0
+Renaissance + Revival,Astronomy,3.5
+Sports + PE,Astronomy,0.5
+Ocean Life,Geology,3.0
+Renaissance + Revival,Geology,1.0
+Sports + PE,Geology,0.5
+Asia,Geology,4.0
+Ancient  Civilizations,Environmental Science,4.0
+Ocean Life,Environmental Science,12.0
+Botany,Environmental Science,3.5
+Indigenous Peoples,Environmental Science,1.0
+Asia,Environmental Science,4.0
+Ocean Life,Oceanography,15.0
+Renaissance + Revival,Oceanography,2.0
+Renaissance + Revival,Meteorology,1.0
+Asia,Meteorology,1.0
+Botany,Paleontology,0.5
+NAB (v2),Biology,2.5
+Unsolved Mysteries,Biology,3.5
+Ancient  Civilizations,Biology,0.5
+Ocean Life,Biology,0.5
+Botany,Biology,8.5
+Asia,Biology,0.5
+NAB (v2),Botany,1.5
+Botany,Botany,35.5
+Unsolved Mysteries,Marine Biology,0.5
+Ocean Life,Marine Biology,32.5
+NAB (v2),Anatomy + Physiology,2.0
+Unsolved Mysteries,Anatomy + Physiology,2.0
+Ocean Life,Anatomy + Physiology,0.5
+Sports + PE,Anatomy + Physiology,4.5
+Growing Up With God,Anatomy + Physiology,2.0
+NAB (v2),Zoology,39.5
+Renaissance + Revival,Zoology,0.5
+Sports + PE,Zoology,3.0
+Asia,Zoology,6.5
+NAB (v2),English + Composition,30.5
+Unsolved Mysteries,English + Composition,27.0
+Ancient  Civilizations,English + Composition,36.0
+Ocean Life,English + Composition,22.0
+Renaissance + Revival,English + Composition,24.5
+Sports + PE,English + Composition,24.5
+Botany,English + Composition,25.5
+Indigenous Peoples,English + Composition,19.5
+Asia,English + Composition,26.0
+NAB (v2),American Literature,0.5
+Renaissance + Revival,American Literature,0.5
+Sports + PE,American Literature,20.0
+Indigenous Peoples,American Literature,20.0
+Renaissance + Revival,British Literature,7.5
+Botany,British Literature,10.0
+NAB (v2),Classical Literature,1.0
+Ancient  Civilizations,Classical Literature,20.0
+Renaissance + Revival,Classical Literature,0.5
+Sports + PE,Classical Literature,1.0
+NAB (v2),US History,3.0
+Unsolved Mysteries,US History,3.0
+Ocean Life,US History,1.0
+Renaissance + Revival,US History,0.5
+Sports + PE,US History,3.5
+Botany,US History,2.5
+Indigenous Peoples,US History,18.5
+NAB (v2),World History,1.0
+Unsolved Mysteries,World History,17.0
+Ancient  Civilizations,World History,42.5
+Ocean Life,World History,3.0
+Renaissance + Revival,World History,35.0
+Sports + PE,World History,7.0
+Botany,World History,3.5
+Indigenous Peoples,World History,1.0
+Asia,World History,20.5
+NAB (v2),Government (Civics),2.5
+Ancient  Civilizations,Government (Civics),7.0
+Ocean Life,Government (Civics),1.0
+Renaissance + Revival,Government (Civics),1.5
+Botany,Government (Civics),1.0
+NAB (v2),Economics,3.5
+Ancient  Civilizations,Economics,1.0
+Ocean Life,Economics,1.0
+Botany,Economics,2.5
+Asia,Economics,9.0
+NAB (v2),Bible,3.0
+Unsolved Mysteries,Bible,24.0
+Ancient  Civilizations,Bible,13.5
+Ocean Life,Bible,4.5
+Renaissance + Revival,Bible,17.5
+Sports + PE,Bible,4.5
+Botany,Bible,6.0
+Indigenous Peoples,Bible,4.0
+Asia,Bible,19.5
+Growing Up With God,Bible,4.0
+Ancient  Civilizations,Physical Education,2.0
+Ocean Life,Physical Education,1.0
+Sports + PE,Physical Education,26.0
+NAB (v2),Visual Arts,13.0
+Unsolved Mysteries,Visual Arts,2.5
+Ancient  Civilizations,Visual Arts,9.0
+Ocean Life,Visual Arts,13.5
+Renaissance + Revival,Visual Arts,12.5
+Sports + PE,Visual Arts,1.0
+Botany,Visual Arts,12.0
+Indigenous Peoples,Visual Arts,2.0
+Asia,Visual Arts,6.5
+NAB (v2),Media Arts,4.0
+Unsolved Mysteries,Media Arts,1.0
+Ancient  Civilizations,Media Arts,5.0
+Ocean Life,Media Arts,3.0
+Sports + PE,Media Arts,0.5
+Botany,Media Arts,3.0
+Renaissance + Revival,Performing Arts,5.5
+Sports + PE,Performing Arts,1.0
+NAB (v2),Culinary Arts,1.0
+NAB (v2),Career + Technology,2.0
+Unsolved Mysteries,Career + Technology,2.0
+Ancient  Civilizations,Career + Technology,1.5
+Ocean Life,Career + Technology,1.5
+Sports + PE,Career + Technology,3.5
+Botany,Career + Technology,1.0
+NAB (v2),Home Economics,1.0
+Botany,Home Economics,5.5
+NAB (v2),Geography,22.0
+Unsolved Mysteries,Geography,4.0
+Ancient  Civilizations,Geography,10.0
+Ocean Life,Geography,11.0
+Renaissance + Revival,Geography,7.5
+Sports + PE,Geography,9.5
+Botany,Geography,1.0
+Indigenous Peoples,Geography,4.0
+Asia,Geography,25.5
+NAB (v2),Psychology,4.0
+Unsolved Mysteries,Psychology,5.0
+Ocean Life,Psychology,1.0
+Renaissance + Revival,Psychology,0.5
+Sports + PE,Psychology,3.0
+Botany,Psychology,3.5
+Renaissance + Revival,Sociology,3.0
+Sports + PE,Sociology,3.0
+Botany,Sociology,0.5
+Indigenous Peoples,Sociology,1.5
+Asia,Sociology,1.0
+Unsolved Mysteries,Philosophy,0.5
+Ancient  Civilizations,Philosophy,6.5
+Renaissance + Revival,Philosophy,1.5
+Ocean Life,Ethics,2.5
+Indigenous Peoples,Ethics,0.5
+Ancient  Civilizations,World Religions,3.0
+Unsolved Mysteries,Criminology,9.0
+Renaissance + Revival,Current Events,1.0
+Unsolved Mysteries,Creative Writing,19.0
+Ancient  Civilizations,Creative Writing,0.5
+Ocean Life,Creative Writing,2.5
+Renaissance + Revival,Creative Writing,3.5
+Sports + PE,Journalism,5.0
+NAB (v2),Debate/Public Speaking,7.5
+Unsolved Mysteries,Debate/Public Speaking,3.0
+Ocean Life,Debate/Public Speaking,3.0
+Ancient  Civilizations,Foreign Language,2.0
+Renaissance + Revival,Foreign Language,0.5
+Unsolved Mysteries,Forensics,17.0
+NAB (v2),"Engineering (architecture, robotics, materials, etc.)",5.5
+Unsolved Mysteries,"Engineering (architecture, robotics, materials, etc.)",3.0
+Ancient  Civilizations,"Engineering (architecture, robotics, materials, etc.)",7.0
+Renaissance + Revival,"Engineering (architecture, robotics, materials, etc.)",6.0
+Sports + PE,"Engineering (architecture, robotics, materials, etc.)",2.5
+Botany,"Engineering (architecture, robotics, materials, etc.)",0.5
+Ancient  Civilizations,Agriculture,0.5
+Botany,Agriculture,1.0
+Ancient  Civilizations,Archeology,2.5
+Unsolved Mysteries,Computer Science,1.0
+NAB (v2),Veterinary Science,0.5
+NAB (v2),Health,5.0
+Sports + PE,Health,21.0
+Botany,Health,5.0
+Growing Up With God,Health,8.0
+Ocean Life,Statistics,0.5
+Sports + PE,Statistics,1.0
+Ancient  Civilizations,Personal Finance,1.0
+Ocean Life,Problem-solving/Logic,0.5
+Renaissance + Revival,Problem-solving/Logic,1.5
+Sports + PE,Problem-solving/Logic,1.5
+Chemistry,Chemistry,48.5
+Artists,Chemistry,1.5
+Rocks + Minerals,Chemistry,3.0
+Astronomy,Chemistry,3.5
+Living off the Land,Chemistry,5.5
+Chemistry,Physics,1.0
+Artists,Physics,3.0
+Rocks + Minerals,Physics,2.5
+US History 2,Physics,0.5
+Astronomy,Physics,36.0
+Living off the Land,Physics,2.0
+Rocks + Minerals,Astronomy,3.5
+Rocks + Minerals,Geology,30.0
+US History 3,Geology,0.5
+Chemistry,Environmental Science,2.0
+Artists,Environmental Science,0.5
+Rocks + Minerals,Environmental Science,1.0
+Astronomy,Environmental Science,1.0
+Living off the Land,Environmental Science,5.5
+Chemistry,Meteorology,0.5
+Astronomy,Meteorology,2.0
+Chemistry,Biology,4.0
+Astronomy,Biology,1.0
+Living off the Land,Biology,4.0
+Chemistry,Botany,0.5
+Astronomy,Botany,0.5
+South America,Botany,1.0
+Living off the Land,Botany,2.5
+Chemistry,Anatomy + Physiology,3.0
+Artists,Anatomy + Physiology,1.0
+Rocks + Minerals,Anatomy + Physiology,2.5
+Astronomy,Anatomy + Physiology,1.5
+Chemistry,Zoology,1.0
+Rocks + Minerals,Zoology,2.0
+South America,Zoology,14.5
+Living off the Land,Zoology,0.5
+Chemistry,English + Composition,37.0
+Artists,English + Composition,41.5
+US History 1,English + Composition,31.0
+Rocks + Minerals,English + Composition,37.0
+US History 2,English + Composition,36.5
+Astronomy,English + Composition,36.0
+US History 3,English + Composition,25.0
+South America,English + Composition,24.5
+Living off the Land,English + Composition,33.5
+Chemistry,American Literature,10.0
+US History 1,American Literature,20.0
+Rocks + Minerals,American Literature,20.0
+US History 2,American Literature,21.0
+Astronomy,American Literature,20.0
+US History 3,American Literature,24.0
+South America,American Literature,20.0
+Living off the Land,American Literature,20.0
+Artists,British Literature,1.5
+Artists,Classical Literature,0.5
+Chemistry,US History,1.0
+Artists,US History,3.0
+US History 1,US History,17.5
+Rocks + Minerals,US History,3.5
+US History 2,US History,26.0
+Astronomy,US History,0.5
+US History 3,US History,22.5
+Living off the Land,US History,25.5
+Chemistry,World History,4.5
+Artists,World History,11.0
+US History 1,World History,2.5
+Rocks + Minerals,World History,4.0
+US History 2,World History,0.5
+Astronomy,World History,5.5
+South America,World History,10.5
+Living off the Land,World History,2.5
+US History 3,Government (Civics),0.5
+South America,Government (Civics),1.0
+Living off the Land,Government (Civics),1.0
+South America,Economics,1.0
+Living off the Land,Economics,1.5
+Chemistry,Bible,3.5
+Artists,Bible,8.0
+US History 1,Bible,1.0
+Rocks + Minerals,Bible,22.0
+US History 2,Bible,1.0
+Astronomy,Bible,7.5
+US History 3,Bible,1.5
+South America,Bible,17.5
+Living off the Land,Bible,15.0
+Astronomy,Physical Education,1.0
+Chemistry,Visual Arts,21.0
+Artists,Visual Arts,26.0
+US History 1,Visual Arts,6.0
+Rocks + Minerals,Visual Arts,8.0
+US History 2,Visual Arts,8.0
+Astronomy,Visual Arts,14.5
+US History 3,Visual Arts,4.0
+South America,Visual Arts,8.5
+Living off the Land,Visual Arts,18.0
+Artists,Media Arts,3.0
+Astronomy,Media Arts,2.5
+Living off the Land,Media Arts,3.5
+Artists,Performing Arts,4.5
+US History 2,Performing Arts,2.0
+Artists,Music,3.5
+US History 2,Music,0.5
+Astronomy,Music,1.0
+US History 3,Music,0.5
+Living off the Land,Music,1.0
+Artists,Culinary Arts,2.0
+US History 2,Culinary Arts,0.5
+Chemistry,Career + Technology,0.5
+Artists,Career + Technology,3.0
+Astronomy,Career + Technology,11.5
+Chemistry,Home Economics,1.0
+Artists,Home Economics,2.0
+Rocks + Minerals,Home Economics,1.0
+US History 2,Home Economics,0.5
+US History 3,Home Economics,2.0
+Living off the Land,Home Economics,11.5
+Chemistry,Geography,2.0
+Artists,Geography,3.0
+US History 1,Geography,6.5
+Rocks + Minerals,Geography,11.0
+US History 2,Geography,2.0
+Astronomy,Geography,1.5
+US History 3,Geography,3.5
+South America,Geography,23.0
+Living off the Land,Geography,3.0
+Chemistry,Psychology,0.5
+Chemistry,Sociology,0.5
+Artists,Sociology,1.0
+US History 1,Sociology,2.0
+Rocks + Minerals,Sociology,1.0
+US History 2,Sociology,0.5
+US History 3,Sociology,1.0
+Rocks + Minerals,Ethics,1.0
+Living off the Land,Ethics,1.0
+Living off the Land,World Religions,1.5
+Astronomy,Current Events,1.0
+South America,Current Events,5.0
+US History 3,Debate/Public Speaking,4.0
+Living off the Land,Debate/Public Speaking,0.5
+South America,Foreign Language,10.0
+US History 2,"Engineering (architecture, robotics, materials, etc.)",1.0
+Astronomy,"Engineering (architecture, robotics, materials, etc.)",1.0
+Living off the Land,"Engineering (architecture, robotics, materials, etc.)",1.5
+South America,Agriculture,1.0
+Artists,Archeology,1.0
+Astronomy,Computer Science,1.0
+Chemistry,Health,4.5
+Rocks + Minerals,Health,3.0
+Astronomy,Health,1.5
+Living off the Land,Health,3.5
+Money Step 6 (Personal Finance),Personal Finance,10.0
+Rocks + Minerals,Problem-solving/Logic,2.5
+Astronomy,Problem-solving/Logic,1.0
+Inventions + Ideas,Chemistry,3.0
+Europe,Chemistry,3.0
+Transportation,Chemistry,1.0
+Inventions + Ideas,Physics,15.5
+Life Skills,Physics,3.0
+Europe,Physics,5.5
+Energy,Physics,24.5
+Music,Physics,8.0
+Transportation,Physics,19.5
+Intro to Psychology,Physics,1.0
+Inventions + Ideas,Astronomy,0.5
+US History 5,Astronomy,0.5
+Transportation,Astronomy,2.0
+Europe,Geology,1.0
+Energy,Geology,4.0
+Transportation,Geology,1.0
+Inventions + Ideas,Environmental Science,0.5
+Life Skills,Environmental Science,1.5
+Energy,Environmental Science,9.0
+US History 5,Environmental Science,0.5
+Transportation,Environmental Science,3.0
+Intro to Psychology,Environmental Science,1.0
+Energy,Meteorology,4.0
+US History 6,Meteorology,1.0
+Intro to Psychology,Meteorology,0.5
+Inventions + Ideas,Biology,2.5
+Life Skills,Biology,3.0
+Life Skills,Botany,1.0
+Energy,Botany,1.0
+Inventions + Ideas,Anatomy + Physiology,2.0
+Life Skills,Anatomy + Physiology,2.0
+Energy,Anatomy + Physiology,1.0
+Music,Anatomy + Physiology,3.5
+Intro to Psychology,Anatomy + Physiology,7.5
+Life Skills,Zoology,2.0
+Europe,Zoology,6.0
+Music,Zoology,0.5
+Transportation,Zoology,1.5
+Intro to Psychology,Zoology,1.0
+Inventions + Ideas,English + Composition,36.0
+Life Skills,English + Composition,27.5
+Europe,English + Composition,23.5
+US History 4,English + Composition,23.5
+Energy,English + Composition,31.0
+Music,English + Composition,35.5
+US History 5,English + Composition,24.0
+Transportation,English + Composition,26.0
+US History 6,English + Composition,16.5
+Intro to Psychology,English + Composition,28.5
+Energy,American Literature,10.0
+US History 5,American Literature,20.0
+US History 6,American Literature,20.0
+Europe,Classical Literature,22.5
+Intro to Psychology,Classical Literature,1.0
+Inventions + Ideas,US History,2.5
+Life Skills,US History,1.0
+US History 4,US History,22.0
+Music,US History,2.0
+US History 5,US History,23.0
+Transportation,US History,2.5
+Intro to Psychology,US History,5.0
+Inventions + Ideas,World History,9.5
+Life Skills,World History,6.0
+Europe,World History,22.5
+US History 4,World History,3.0
+Energy,World History,6.0
+Music,World History,10.0
+US History 5,World History,2.0
+Transportation,World History,8.5
+Intro to Psychology,World History,6.5
+Life Skills,Government (Civics),1.5
+Europe,Government (Civics),1.0
+US History 5,Government (Civics),0.5
+Transportation,Government (Civics),1.5
+US History 6,Government (Civics),1.0
+Life Skills,Economics,1.0
+Europe,Economics,9.5
+Transportation,Economics,2.0
+US History 6,Economics,1.0
+Inventions + Ideas,Bible,14.5
+Life Skills,Bible,21.5
+Europe,Bible,16.5
+US History 4,Bible,1.0
+Energy,Bible,5.0
+Music,Bible,6.5
+US History 5,Bible,1.0
+Transportation,Bible,6.5
+US History 6,Bible,1.0
+Intro to Psychology,Bible,10.5
+Life Skills,Physical Education,0.5
+Inventions + Ideas,Visual Arts,7.0
+Life Skills,Visual Arts,3.0
+Europe,Visual Arts,4.0
+US History 4,Visual Arts,1.0
+Energy,Visual Arts,7.5
+Music,Visual Arts,6.0
+Transportation,Visual Arts,3.5
+Intro to Psychology,Visual Arts,10.5
+Life Skills,Media Arts,1.5
+Energy,Media Arts,1.0
+Music,Media Arts,4.0
+Transportation,Media Arts,1.0
+Inventions + Ideas,Music,0.5
+Europe,Music,1.0
+US History 4,Music,0.5
+Energy,Music,0.5
+Music,Music,62.5
+Intro to Psychology,Music,1.0
+Life Skills,Culinary Arts,3.5
+Inventions + Ideas,Business + Marketing,1.5
+Life Skills,Business + Marketing,0.5
+Music,Business + Marketing,1.0
+US History 5,Business + Marketing,1.0
+Intro to Psychology,Business + Marketing,0.5
+Inventions + Ideas,Career + Technology,3.0
+Life Skills,Career + Technology,3.5
+Energy,Career + Technology,1.0
+Music,Career + Technology,3.0
+US History 5,Career + Technology,0.5
+Transportation,Career + Technology,2.0
+US History 6,Career + Technology,0.5
+Intro to Psychology,Career + Technology,2.0
+Inventions + Ideas,Home Economics,1.5
+Life Skills,Home Economics,10.0
+Energy,Home Economics,1.0
+Transportation,Home Economics,1.0
+Inventions + Ideas,Geography,1.5
+Life Skills,Geography,1.0
+Europe,Geography,21.0
+US History 4,Geography,3.0
+Energy,Geography,5.0
+Music,Geography,0.5
+US History 5,Geography,2.0
+Transportation,Geography,8.0
+US History 6,Geography,4.5
+Intro to Psychology,Geography,1.5
+Inventions + Ideas,Psychology,1.5
+Life Skills,Psychology,7.0
+Energy,Psychology,4.0
+Music,Psychology,3.0
+US History 5,Psychology,1.5
+Intro to Psychology,Psychology,34.0
+Inventions + Ideas,Sociology,0.5
+Life Skills,Sociology,3.5
+Energy,Sociology,1.5
+Music,Sociology,1.0
+Transportation,Sociology,2.5
+Inventions + Ideas,Ethics,1.0
+Life Skills,Ethics,1.0
+Energy,Ethics,1.5
+Transportation,Ethics,0.5
+Intro to Psychology,Ethics,1.0
+Life Skills,Criminology,0.5
+Energy,Current Events,3.0
+US History 6,Current Events,18.5
+Intro to Psychology,Creative Writing,7.5
+Energy,Debate/Public Speaking,2.0
+US History 6,Debate/Public Speaking,1.5
+Inventions + Ideas,"Engineering (architecture, robotics, materials, etc.)",8.0
+Energy,"Engineering (architecture, robotics, materials, etc.)",1.0
+Transportation,"Engineering (architecture, robotics, materials, etc.)",14.0
+US History 6,"Engineering (architecture, robotics, materials, etc.)",0.5
+Transportation,Agriculture,1.5
+Inventions + Ideas,Computer Science,1.0
+Life Skills,Computer Science,1.5
+Energy,Computer Science,1.5
+US History 6,Computer Science,0.5
+Inventions + Ideas,Health,1.5
+Life Skills,Health,4.0
+Europe,Health,1.0
+Energy,Health,14.0
+Music,Health,1.5
+US History 5,Health,2.5
+Transportation,Health,1.5
+US History 6,Health,0.5
+Intro to Psychology,Health,2.5
+Intro to Psychology,Statistics,0.5
+Life Skills,Personal Finance,5.0
+US History 6,Personal Finance,1.0
+Inventions + Ideas,Problem-solving/Logic,1.0
+Energy,Problem-solving/Logic,1.0
+Intro to Psychology,Problem-solving/Logic,4.0
+Earth Science,Chemistry,1.0
+Entrepreneurship,Chemistry,1.0
+Farming + Food,Chemistry,3.0
+NA Forest Animals,Chemistry,2.0
+Earth Science,Physics,1.0
+Entrepreneurship,Physics,2.5
+Dinosaurs,Physics,1.5
+Farming + Food,Physics,0.5
+Careers + Trades,Physics,1.5
+NA Forest Animals,Physics,2.5
+Earth Science,Astronomy,1.0
+Earth Science,Geology,13.0
+Africa,Geology,1.0
+Earth Science,Environmental Science,2.0
+Careers + Trades,Environmental Science,1.0
+Earth Science,Meteorology,15.0
+Careers + Trades,Meteorology,1.0
+Africa,Meteorology,1.0
+Dinosaurs,Paleontology,28.5
+Careers + Trades,Paleontology,0.5
+Human Body,Biology,0.5
+Farming + Food,Biology,2.5
+Entrepreneurship,Botany,0.5
+Farming + Food,Botany,4.0
+NA Forest Animals,Botany,2.0
+Farming + Food,Marine Biology,0.5
+Entrepreneurship,Anatomy + Physiology,4.0
+Dinosaurs,Anatomy + Physiology,1.0
+Human Body,Anatomy + Physiology,26.0
+Farming + Food,Anatomy + Physiology,0.5
+NA Forest Animals,Anatomy + Physiology,1.0
+Entrepreneurship,Zoology,1.0
+Dinosaurs,Zoology,1.5
+Farming + Food,Zoology,3.5
+Careers + Trades,Zoology,1.0
+NA Forest Animals,Zoology,31.0
+Africa,Zoology,14.0
+US Government,English + Composition,18.5
+Earth Science,English + Composition,28.0
+Entrepreneurship,English + Composition,39.0
+Dinosaurs,English + Composition,46.0
+Human Body,English + Composition,30.5
+Farming + Food,English + Composition,31.5
+Careers + Trades,English + Composition,20.0
+NA Forest Animals,English + Composition,19.0
+Africa,English + Composition,23.5
+US Government,American Literature,20.0
+Entrepreneurship,American Literature,21.0
+Human Body,American Literature,20.0
+Farming + Food,American Literature,20.0
+Careers + Trades,American Literature,20.0
+NA Forest Animals,Classical Literature,1.0
+US Government,US History,1.5
+Earth Science,US History,1.0
+Entrepreneurship,US History,2.0
+Farming + Food,US History,1.0
+NA Forest Animals,US History,3.5
+Earth Science,World History,11.0
+Entrepreneurship,World History,6.0
+Dinosaurs,World History,4.5
+Human Body,World History,10.0
+Farming + Food,World History,2.0
+Careers + Trades,World History,2.0
+NA Forest Animals,World History,2.5
+Africa,World History,25.0
+US Government,Government (Civics),19.0
+Entrepreneurship,Government (Civics),2.0
+Farming + Food,Government (Civics),1.0
+Careers + Trades,Government (Civics),3.0
+Earth Science,Economics,1.0
+Entrepreneurship,Economics,1.0
+Farming + Food,Economics,4.5
+Africa,Economics,3.5
+Earth Science,Bible,13.0
+Entrepreneurship,Bible,3.0
+Dinosaurs,Bible,30.0
+Human Body,Bible,8.5
+Farming + Food,Bible,10.5
+Careers + Trades,Bible,10.5
+NA Forest Animals,Bible,2.0
+Africa,Bible,16.5
+Human Body,Physical Education,14.0
+NA Forest Animals,Physical Education,1.0
+US Government,Visual Arts,0.5
+Earth Science,Visual Arts,4.5
+Entrepreneurship,Visual Arts,13.5
+Dinosaurs,Visual Arts,14.5
+Human Body,Visual Arts,4.0
+Farming + Food,Visual Arts,8.5
+Careers + Trades,Visual Arts,3.0
+NA Forest Animals,Visual Arts,13.0
+Africa,Visual Arts,9.0
+Entrepreneurship,Media Arts,2.0
+Careers + Trades,Media Arts,1.0
+NA Forest Animals,Media Arts,11.0
+Human Body,Music,0.5
+Africa,Music,1.0
+Entrepreneurship,Business + Marketing,32.0
+Careers + Trades,Business + Marketing,2.0
+Earth Science,Career + Technology,0.5
+Entrepreneurship,Career + Technology,0.5
+Dinosaurs,Career + Technology,2.0
+Human Body,Career + Technology,0.5
+Farming + Food,Career + Technology,2.5
+Careers + Trades,Career + Technology,29.0
+Entrepreneurship,Home Economics,2.0
+Human Body,Home Economics,0.5
+Farming + Food,Home Economics,4.5
+US Government,Geography,0.5
+Earth Science,Geography,11.0
+Entrepreneurship,Geography,3.0
+Dinosaurs,Geography,6.5
+Human Body,Geography,2.0
+Farming + Food,Geography,5.5
+Careers + Trades,Geography,2.0
+NA Forest Animals,Geography,19.0
+Africa,Geography,25.5
+Entrepreneurship,Psychology,0.5
+Dinosaurs,Psychology,3.0
+Human Body,Psychology,1.0
+Farming + Food,Psychology,2.5
+Careers + Trades,Psychology,4.5
+NA Forest Animals,Psychology,3.0
+Earth Science,Sociology,1.0
+Entrepreneurship,Sociology,3.5
+Dinosaurs,Sociology,3.0
+Human Body,Sociology,3.0
+Farming + Food,Sociology,1.0
+NA Forest Animals,Sociology,1.0
+Africa,Sociology,0.5
+Entrepreneurship,Ethics,9.5
+Dinosaurs,Ethics,0.5
+Human Body,Ethics,2.0
+Farming + Food,Ethics,1.5
+Careers + Trades,Ethics,1.0
+NA Forest Animals,Ethics,1.0
+Earth Science,Current Events,1.0
+Entrepreneurship,Current Events,2.0
+Africa,Current Events,1.0
+Careers + Trades,Journalism,1.0
+US Government,Debate/Public Speaking,1.0
+Dinosaurs,Debate/Public Speaking,1.0
+Careers + Trades,Debate/Public Speaking,0.5
+NA Forest Animals,Debate/Public Speaking,1.5
+Human Body,Foreign Language,1.0
+Dinosaurs,Forensics,2.0
+Careers + Trades,Forensics,1.5
+Entrepreneurship,"Engineering (architecture, robotics, materials, etc.)",1.0
+Careers + Trades,"Engineering (architecture, robotics, materials, etc.)",2.5
+NA Forest Animals,"Engineering (architecture, robotics, materials, etc.)",1.0
+Farming + Food,Agriculture,19.5
+Dinosaurs,Archeology,0.5
+Careers + Trades,Archeology,1.0
+Entrepreneurship,Computer Science,1.5
+Careers + Trades,Computer Science,1.0
+Careers + Trades,Veterinary Science,0.5
+Earth Science,Health,1.0
+Entrepreneurship,Health,2.0
+Human Body,Health,6.0
+Farming + Food,Health,7.0
+Careers + Trades,Health,1.0
+NA Forest Animals,Health,2.0
+Farming + Food,Statistics,1.0
+Careers + Trades,Statistics,1.5
+Farming + Food,Personal Finance,1.0
+Careers + Trades,Personal Finance,4.5
+Earth Science,Problem-solving/Logic,0.5
+Entrepreneurship,Problem-solving/Logic,1.0
+Farming + Food,Problem-solving/Logic,0.5
+Careers + Trades,Problem-solving/Logic,10.0
+NA Forest Animals,Problem-solving/Logic,1.0
+Entrepreneurship,Accounting,3.5
