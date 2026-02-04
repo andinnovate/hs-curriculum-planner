@@ -1,4 +1,10 @@
 import { useState } from 'react'
+import {
+  BreakdownPopup,
+  getUnitBreakdownRows,
+  getYearBreakdownRows,
+  getYearTotalHours,
+} from './components/BreakdownPopup'
 import { ConfigPanel } from './components/ConfigPanel'
 import { PlannerLayout } from './components/PlannerLayout'
 import { TallyBar } from './components/TallyBar'
@@ -7,14 +13,18 @@ import { useConfig } from './hooks/useConfig'
 import { useCurriculum } from './hooks/useCurriculum'
 import { useAssignments } from './hooks/useAssignments'
 import type { AssignmentState } from './types'
+import type { Year } from './types'
 
 const gatherroundPlan = gatherroundPlanJson as AssignmentState
 
+type DetailTarget = { type: 'unit'; unit: string } | { type: 'year'; year: Year } | null
+
 function App() {
   const { config, setHoursPerCredit, setMinCreditsForGraduation } = useConfig()
-  const { unitsWithHours, loading, error } = useCurriculum()
+  const { unitsWithHours, unitBreakdown, loading, error } = useCurriculum()
   const { assignments, setAssignment, removeAssignment, replaceAssignments } = useAssignments()
   const [confirmPrepopulate, setConfirmPrepopulate] = useState(false)
+  const [detailTarget, setDetailTarget] = useState<DetailTarget>(null)
 
   if (error) {
     return (
@@ -70,6 +80,7 @@ function App() {
             assignments={assignments}
             onSetAssignment={setAssignment}
             onRemoveAssignment={removeAssignment}
+            onShowUnitDetails={(unit) => setDetailTarget({ type: 'unit', unit })}
           />
         )}
       </main>
@@ -79,6 +90,23 @@ function App() {
           assignments={assignments}
           hoursPerCredit={config.hoursPerCredit}
           minCreditsForGraduation={config.minCreditsForGraduation}
+          onShowYearDetails={(year) => setDetailTarget({ type: 'year', year })}
+        />
+      )}
+      {detailTarget && (
+        <BreakdownPopup
+          title={detailTarget.type === 'unit' ? detailTarget.unit : `Year ${detailTarget.year} breakdown`}
+          rows={
+            detailTarget.type === 'unit'
+              ? getUnitBreakdownRows(detailTarget.unit, unitBreakdown)
+              : getYearBreakdownRows(detailTarget.year, assignments, unitBreakdown)
+          }
+          totalHours={
+            detailTarget.type === 'unit'
+              ? unitsWithHours.find((u) => u.unit === detailTarget.unit)?.totalHours ?? 0
+              : getYearTotalHours(detailTarget.year, assignments, unitsWithHours)
+          }
+          onClose={() => setDetailTarget(null)}
         />
       )}
     </div>

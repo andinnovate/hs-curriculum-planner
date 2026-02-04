@@ -19,6 +19,7 @@ interface TallyBarProps {
   assignments: AssignmentState
   hoursPerCredit: number
   minCreditsForGraduation: number
+  onShowYearDetails?: (year: Year) => void
 }
 
 export function TallyBar({
@@ -26,6 +27,7 @@ export function TallyBar({
   assignments,
   hoursPerCredit,
   minCreditsForGraduation,
+  onShowYearDetails,
 }: TallyBarProps) {
   const byYear = getHoursByYear(unitsWithHours, assignments)
   const totalHours = (byYear[1] ?? 0) + (byYear[2] ?? 0) + (byYear[3] ?? 0) + (byYear[4] ?? 0)
@@ -41,6 +43,17 @@ export function TallyBar({
           return (
             <span key={y} className="tally-year">
               Year {y}: {h.toFixed(1)} hrs ({c.toFixed(2)} cr)
+              {onShowYearDetails && (
+                <button
+                  type="button"
+                  className="tally-year-details"
+                  onClick={() => onShowYearDetails(y)}
+                  aria-label={`Show year ${y} breakdown`}
+                  title="Show category breakdown for this year"
+                >
+                  <span aria-hidden>ⓘ</span>
+                </button>
+              )}
             </span>
           )
         })}

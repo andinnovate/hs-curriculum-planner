@@ -5,9 +5,10 @@ import { UnitCard } from './UnitCard'
 interface UnitPoolProps {
   unitsWithHours: UnitWithHours[]
   assignments: AssignmentState
+  onShowUnitDetails: (unit: string) => void
 }
 
-export function UnitPool({ unitsWithHours, assignments }: UnitPoolProps) {
+export function UnitPool({ unitsWithHours, assignments, onShowUnitDetails }: UnitPoolProps) {
   const { setNodeRef, isOver } = useDroppable({ id: 'pool' })
 
   const unassigned = unitsWithHours.filter((u) => !(u.unit in assignments))
@@ -23,7 +24,7 @@ export function UnitPool({ unitsWithHours, assignments }: UnitPoolProps) {
       <ul className="unit-pool-list">
         {unassigned.map((u) => (
           <li key={u.unit}>
-            <UnitCard unitWithHours={u} />
+            <UnitCard unitWithHours={u} onShowDetails={onShowUnitDetails} />
           </li>
         ))}
       </ul>

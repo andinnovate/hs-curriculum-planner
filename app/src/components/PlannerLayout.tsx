@@ -15,6 +15,7 @@ interface PlannerLayoutProps {
   assignments: AssignmentState
   onSetAssignment: (unit: string, year: Year) => void
   onRemoveAssignment: (unit: string) => void
+  onShowUnitDetails: (unit: string) => void
 }
 
 export function PlannerLayout({
@@ -22,6 +23,7 @@ export function PlannerLayout({
   assignments,
   onSetAssignment,
   onRemoveAssignment,
+  onShowUnitDetails,
 }: PlannerLayoutProps) {
   const sensors = useSensors(
     useSensor(PointerSensor, {
@@ -47,7 +49,7 @@ export function PlannerLayout({
     <DndContext sensors={sensors} onDragEnd={handleDragEnd}>
       <div className="planner-layout">
         <aside className="planner-sidebar">
-          <UnitPool unitsWithHours={unitsWithHours} assignments={assignments} />
+          <UnitPool unitsWithHours={unitsWithHours} assignments={assignments} onShowUnitDetails={onShowUnitDetails} />
         </aside>
         <div className="planner-years">
           {( [1, 2, 3, 4] as const ).map((y) => (
@@ -57,6 +59,7 @@ export function PlannerLayout({
               unitsWithHours={unitsWithHours}
               assignments={assignments}
               onRemove={onRemoveAssignment}
+              onShowUnitDetails={onShowUnitDetails}
             />
           ))}
         </div>

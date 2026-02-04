@@ -8,9 +8,10 @@ interface YearColumnProps {
   unitsWithHours: UnitWithHours[]
   assignments: AssignmentState
   onRemove: (unit: string) => void
+  onShowUnitDetails: (unit: string) => void
 }
 
-export function YearColumn({ year, unitsWithHours, assignments, onRemove }: YearColumnProps) {
+export function YearColumn({ year, unitsWithHours, assignments, onRemove, onShowUnitDetails }: YearColumnProps) {
   const { setNodeRef, isOver } = useDroppable({ id: `year-${year}` })
 
   const unitsInYear = unitsWithHours.filter((u) => assignments[u.unit] === year)
@@ -25,7 +26,7 @@ export function YearColumn({ year, unitsWithHours, assignments, onRemove }: Year
       <ul className="year-column-list">
         {unitsInYear.map((u) => (
           <li key={u.unit} className="year-column-item">
-            <UnitCard unitWithHours={u} />
+            <UnitCard unitWithHours={u} onShowDetails={onShowUnitDetails} />
             <button
               type="button"
               className="year-column-remove"

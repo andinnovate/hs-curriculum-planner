@@ -5,6 +5,15 @@ export interface UnitWithHours {
   totalHours: number
 }
 
+export interface CategoryBreakdownRow {
+  category: string
+  subcategory: string
+  hours: number
+}
+
+/** Per-unit list of category/subcategory/hours rows from unit_subcategory_hours */
+export type UnitBreakdown = Record<string, CategoryBreakdownRow[]>
+
 export type AssignmentState = Record<string, Year>
 
 export interface PlannerConfig {
