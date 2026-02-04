@@ -73,6 +73,99 @@ body {
   border-color: #4caf50;
 }
 
+/* Auth */
+.auth-ui-loading {
+  color: #888;
+  font-size: 0.875rem;
+}
+
+.auth-ui-signed-in {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.auth-ui-email {
+  font-size: 0.875rem;
+  color: #555;
+  max-width: 180px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.auth-ui-sign-out {
+  padding: 0.35rem 0.6rem;
+  font-size: 0.875rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  background: #f8f8f8;
+  cursor: pointer;
+}
+
+.auth-ui-sign-out:hover {
+  background: #eee;
+}
+
+.auth-ui-form-wrap {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.auth-ui-form {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.35rem;
+}
+
+.auth-ui-input {
+  padding: 0.35rem 0.5rem;
+  font-size: 0.875rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  width: 140px;
+}
+
+.auth-ui-input::placeholder {
+  color: #999;
+}
+
+.auth-ui-buttons {
+  display: flex;
+  gap: 0.25rem;
+}
+
+.auth-ui-btn {
+  padding: 0.35rem 0.6rem;
+  font-size: 0.875rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  background: #f8f8f8;
+  cursor: pointer;
+}
+
+.auth-ui-btn:hover {
+  background: #eee;
+}
+
+.auth-ui-btn-signin {
+  color: #06c;
+  border-color: #06c;
+  background: #fff;
+}
+
+.auth-ui-btn-signin:hover {
+  background: #f0f7ff;
+}
+
+.auth-ui-error {
+  margin: 0;
+  font-size: 0.8rem;
+  color: #c00;
+}
+
 .app-main {
   flex: 1;
   padding: 1rem;
@@ -252,6 +345,10 @@ body {
   background: #eee;
 }
 
+.unit-card-locked .unit-card-drag {
+  cursor: default;
+}
+
 /* Year column */
 .year-column {
   border: 2px dashed #ccc;
@@ -267,9 +364,41 @@ body {
   background: #e8f5e9;
 }
 
+.year-column-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  margin-bottom: 0.5rem;
+}
+
 .year-column-title {
-  margin: 0 0 0.5rem;
+  margin: 0;
   font-size: 1rem;
+}
+
+.year-column-lock {
+  flex-shrink: 0;
+  padding: 0.2rem;
+  border: none;
+  background: none;
+  cursor: pointer;
+  font-size: 1rem;
+  line-height: 1;
+  border-radius: 4px;
+}
+
+.year-column-lock:hover {
+  background: #eee;
+}
+
+.year-column-locked {
+  opacity: 0.92;
+}
+
+.year-column-locked.year-column-over {
+  border-color: #ccc;
+  background: #f8fafc;
 }
 
 .year-column-list {

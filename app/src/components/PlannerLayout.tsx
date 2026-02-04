@@ -13,6 +13,8 @@ import { YearColumn } from './YearColumn'
 interface PlannerLayoutProps {
   unitsWithHours: UnitWithHours[]
   assignments: AssignmentState
+  lockedYears: Set<Year>
+  onToggleLock: (year: Year) => void
   onSetAssignment: (unit: string, year: Year) => void
   onRemoveAssignment: (unit: string) => void
   onShowUnitDetails: (unit: string) => void
@@ -21,6 +23,8 @@ interface PlannerLayoutProps {
 export function PlannerLayout({
   unitsWithHours,
   assignments,
+  lockedYears,
+  onToggleLock,
   onSetAssignment,
   onRemoveAssignment,
   onShowUnitDetails,
@@ -35,13 +39,15 @@ export function PlannerLayout({
     const { active, over } = event
     if (!over) return
     const unit = active.id as string
+    const currentYear = assignments[unit] as Year | undefined
+    if (currentYear !== undefined && lockedYears.has(currentYear)) return
     if (over.id === 'pool') {
       onRemoveAssignment(unit)
       return
     }
     if (typeof over.id === 'string' && over.id.startsWith('year-')) {
       const year = parseInt(over.id.replace('year-', ''), 10) as Year
-      if (year >= 1 && year <= 4) onSetAssignment(unit, year)
+      if (year >= 1 && year <= 4 && !lockedYears.has(year)) onSetAssignment(unit, year)
     }
   }
 
@@ -58,6 +64,8 @@ export function PlannerLayout({
               year={y}
               unitsWithHours={unitsWithHours}
               assignments={assignments}
+              isLocked={lockedYears.has(y)}
+              onToggleLock={onToggleLock}
               onRemove={onRemoveAssignment}
               onShowUnitDetails={onShowUnitDetails}
             />

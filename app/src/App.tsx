@@ -12,6 +12,9 @@ import gatherroundPlanJson from './data/gatherround-plan.json'
 import { useConfig } from './hooks/useConfig'
 import { useCurriculum } from './hooks/useCurriculum'
 import { useAssignments } from './hooks/useAssignments'
+import { useLockedYears } from './hooks/useLockedYears'
+import { useAuth } from './hooks/useAuth'
+import { AuthUI } from './components/AuthUI'
 import type { AssignmentState } from './types'
 import type { Year } from './types'
 
@@ -23,6 +26,8 @@ function App() {
   const { config, setHoursPerCredit, setMinCreditsForGraduation } = useConfig()
   const { unitsWithHours, unitBreakdown, loading, error } = useCurriculum()
   const { assignments, setAssignment, removeAssignment, replaceAssignments } = useAssignments()
+  const { lockedYears, toggleLock } = useLockedYears()
+  const auth = useAuth()
   const [confirmPrepopulate, setConfirmPrepopulate] = useState(false)
   const [detailTarget, setDetailTarget] = useState<DetailTarget>(null)
 
@@ -48,6 +53,15 @@ function App() {
       <header className="app-header">
         <h1>Homeschool 4-Year Planner</h1>
         <div className="app-header-actions">
+          <AuthUI
+            user={auth.user}
+            loading={auth.loading}
+            error={auth.error}
+            onSignIn={auth.signIn}
+            onSignUp={auth.signUp}
+            onSignOut={auth.signOut}
+            onClearError={auth.clearError}
+          />
           {confirmPrepopulate ? (
             <>
               <span className="app-prepopulate-confirm">Replace current plan?</span>
@@ -78,6 +92,8 @@ function App() {
           <PlannerLayout
             unitsWithHours={unitsWithHours}
             assignments={assignments}
+            lockedYears={lockedYears}
+            onToggleLock={toggleLock}
             onSetAssignment={setAssignment}
             onRemoveAssignment={removeAssignment}
             onShowUnitDetails={(unit) => setDetailTarget({ type: 'unit', unit })}

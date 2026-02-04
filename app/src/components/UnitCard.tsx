@@ -4,20 +4,23 @@ import type { UnitWithHours } from '../types'
 interface UnitCardProps {
   unitWithHours: UnitWithHours
   onShowDetails?: (unit: string) => void
+  isLocked?: boolean
 }
 
-export function UnitCard({ unitWithHours, onShowDetails }: UnitCardProps) {
+export function UnitCard({ unitWithHours, onShowDetails, isLocked }: UnitCardProps) {
   const { attributes, listeners, setNodeRef, isDragging } = useDraggable({
     id: unitWithHours.unit,
     data: { unit: unitWithHours.unit },
   })
 
+  const dragProps = isLocked ? {} : { ...listeners, ...attributes }
+
   return (
     <div
       ref={setNodeRef}
-      className={`unit-card ${isDragging ? 'unit-card-dragging' : ''}`}
+      className={`unit-card ${isDragging ? 'unit-card-dragging' : ''} ${isLocked ? 'unit-card-locked' : ''}`}
     >
-      <span className="unit-card-drag" {...listeners} {...attributes}>
+      <span className="unit-card-drag" {...dragProps}>
         <span className="unit-card-name">{unitWithHours.unit}</span>
         <span className="unit-card-hours">{unitWithHours.totalHours.toFixed(1)} hrs</span>
       </span>
