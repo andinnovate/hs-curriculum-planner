@@ -41,5 +41,9 @@ export function useAssignments() {
     })
   }, [])
 
-  return { assignments, setAssignment, removeAssignment }
+  const replaceAssignments = useCallback((state: AssignmentState) => {
+    setAssignments(state)
+  }, [])
+
+  return { assignments, setAssignment, removeAssignment, replaceAssignments }
 }
