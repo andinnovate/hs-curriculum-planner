@@ -1,0 +1,278 @@
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: system-ui, -apple-system, sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+#root {
+  min-height: 100vh;
+}
+
+/* App */
+.app {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.app-header {
+  padding: 0.75rem 1rem;
+  border-bottom: 1px solid #e0e0e0;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 1rem;
+}
+
+.app-header h1 {
+  margin: 0;
+  font-size: 1.25rem;
+}
+
+.app-main {
+  flex: 1;
+  padding: 1rem;
+  overflow: auto;
+}
+
+/* Config */
+.config-panel {
+  margin-left: auto;
+}
+
+.config-panel-toggle {
+  padding: 0.35rem 0.75rem;
+  font-size: 0.875rem;
+  cursor: pointer;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  background: #f8f8f8;
+}
+
+.config-panel-fields {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin-top: 0.5rem;
+}
+
+.config-panel-fields label {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.875rem;
+}
+
+.config-panel-fields input {
+  width: 5rem;
+  padding: 0.25rem;
+}
+
+/* Planner layout */
+.planner-layout {
+  display: flex;
+  gap: 1rem;
+  min-height: 400px;
+}
+
+.planner-sidebar {
+  flex: 0 0 260px;
+  min-width: 0;
+}
+
+.planner-years {
+  flex: 1;
+  min-width: 0;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1rem;
+}
+
+@media (max-width: 900px) {
+  .planner-years {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 600px) {
+  .planner-layout {
+    flex-direction: column;
+  }
+
+  .planner-sidebar {
+    flex: 0 0 auto;
+  }
+
+  .planner-years {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Unit pool */
+.unit-pool {
+  border: 2px dashed #ccc;
+  border-radius: 8px;
+  padding: 0.75rem;
+  background: #fafafa;
+  min-height: 200px;
+  transition: border-color 0.15s, background 0.15s;
+}
+
+.unit-pool-over {
+  border-color: #4a9;
+  background: #f0fff0;
+}
+
+.unit-pool-title {
+  margin: 0 0 0.25rem;
+  font-size: 1rem;
+}
+
+.unit-pool-hint {
+  margin: 0 0 0.5rem;
+  font-size: 0.75rem;
+  color: #666;
+}
+
+.unit-pool-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  max-height: 60vh;
+  overflow-y: auto;
+}
+
+/* Unit card */
+.unit-card {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.4rem 0.6rem;
+  background: #fff;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  cursor: grab;
+  font-size: 0.875rem;
+}
+
+.unit-card:active {
+  cursor: grabbing;
+}
+
+.unit-card-dragging {
+  opacity: 0.6;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+}
+
+.unit-card-name {
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.unit-card-hours {
+  flex-shrink: 0;
+  color: #666;
+  font-size: 0.8em;
+}
+
+/* Year column */
+.year-column {
+  border: 2px dashed #ccc;
+  border-radius: 8px;
+  padding: 0.75rem;
+  background: #f8fafc;
+  min-height: 180px;
+  transition: border-color 0.15s, background 0.15s;
+}
+
+.year-column-over {
+  border-color: #4a9;
+  background: #e8f5e9;
+}
+
+.year-column-title {
+  margin: 0 0 0.5rem;
+  font-size: 1rem;
+}
+
+.year-column-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  min-height: 120px;
+}
+
+.year-column-item {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+.year-column-item .unit-card {
+  flex: 1;
+  min-width: 0;
+}
+
+.year-column-remove {
+  flex-shrink: 0;
+  width: 1.5rem;
+  height: 1.5rem;
+  padding: 0;
+  border: none;
+  border-radius: 4px;
+  background: #eee;
+  color: #666;
+  font-size: 1.1rem;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.year-column-remove:hover {
+  background: #fcc;
+  color: #c00;
+}
+
+/* Tally bar */
+.tally-bar {
+  padding: 0.75rem 1rem;
+  border-top: 1px solid #e0e0e0;
+  background: #f5f5f5;
+  font-size: 0.875rem;
+}
+
+.tally-by-year {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin-bottom: 0.35rem;
+}
+
+.tally-year {
+  color: #555;
+}
+
+.tally-total {
+  font-weight: 600;
+}
+
+.tally-ok {
+  color: #2a7;
+}
+
+.tally-short {
+  color: #c60;
+}
