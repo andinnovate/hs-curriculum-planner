@@ -4,6 +4,7 @@
     "unit": "NAB (v2)",
     "type": "Required Reading",
     "options": ["American Literature", "British Literature"],
+    "hours": 20,
     "body": "(1 hour per day; choose your books; add to the appropriate category under Language Arts)\n\nAmerican Literature:\n- My Side of the Mountain by Jean Craighead\n- To Kill a Mockingbird by Harper Lee*\n*Contains sensitive subject matter.\n\nBritish Literature:\n- The Silver Chair: Chronicles of Narnia, Book 6by C.S. Lewis\n- The Eagle of the Ninth: The Roman Britain Trilogy, Book #1"
   },
   {
@@ -11,6 +12,7 @@
     "unit": "Unsolved Mysteries",
     "type": "Required Reading",
     "options": ["American Literature", "British Literature"],
+    "hours": 20,
     "body": "(1 hour per day; add to the appropriate category under Language Arts)\n\nAmerican Literature:\n- Left Behind series by Tim LaHaye and Jerry B. Jenkins\n- The Case for Christ Student Edition by Lee Strobel\n\nBritish Literature\n- The Extraordinary Cases of Sherlock Holmes by Sir Arthur Conan Doyle"
   },
   {
@@ -24,6 +26,7 @@
     "unit": "Ocean Life",
     "type": "Required Reading",
     "options": ["American Literature", "Classical Literature"],
+    "hours": 20,
     "body": "(1 hour per day; choose your books; add to the appropriate category under Language Arts)\n\nClassical Literature:\n20,000 Leagues Under the Sea by Jules Verne\n\nAmerican Literature:\nSoul Surfer: A True Story of Faith, Family, and Fighting to Get Back on the Board by Bethany Hamilton\n\nIsland of the Blue Dolphinsby Scott O'Dell"
   },
   {
@@ -31,6 +34,7 @@
     "unit": "Renaissance + Revival",
     "type": "Required Reading",
     "options": ["British Literature", "American Literature"],
+    "hours": 20,
     "body": "(1 hour per day; choose your book)\n\nBritish Literature\nAnimal Farmby George Orwell\nThe Essays by Francis Bacon\n\nAmerican Literature\nThe Giant: A Novel of Michelangelo's David by Laura Morelli"
   },
   {
@@ -38,7 +42,6 @@
     "unit": "Sports + PE",
     "type": "Required Reading",
     "options": ["American Literature"],
-    "hours": 20,
     "body": "(1 hour per day; choose your books; already added to American Literature)\n\n- Joni: An Unforgettable Story by Joni Eareckson Tada\n- Beneath the Surface: My Story by Michael Phelps\n- Heart of a Champion: True Stories of Character and Faith from Today's Most Inspiring Athletes by Steve Riach"
   },
   {
@@ -52,13 +55,14 @@
     "year": 1,
     "unit": "Indigenous Peoples",
     "type": "Required Reading",
-    "body": "(1 hour per day; choose your books)\n\n- Julie of the Wolves by Jean Craighead George\n- The Birchbark House by Louise Erdich\n- The Sign of the Beaver by Elizabeth George Speare\n- Pemmican Wars: A Girl Called Echo by Katherena Vermette, Scott B. Henderson, and Donovan Yaciuk"
+    "body": "(1 hour per day; choose your books; already added to American Literature)\n\n- Julie of the Wolves by Jean Craighead George\n- The Birchbark House by Louise Erdich\n- The Sign of the Beaver by Elizabeth George Speare\n- Pemmican Wars: A Girl Called Echo by Katherena Vermette, Scott B. Henderson, and Donovan Yaciuk"
   },
   {
     "year": 1,
     "unit": "Asia",
     "type": "Required Reading",
     "options": ["American Literature", "British Literature", "Classical Literature"],
+    "hours": 20,
     "body": "Choose your book, read 1 hour per day and assign 20 hours to appropriate category:\n\nClassical Literature:\n- The Hiding Place by Corrie Ten Boom\nAmerican Literature:\n- Sadako and the Thousand Paper Cranes by Pam Gelman\nBritish Literature:\n- God's Adventurer: Hudson Taylor by Phyllis Thompson"
   },
   {
