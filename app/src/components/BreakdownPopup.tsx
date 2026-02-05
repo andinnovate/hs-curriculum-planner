@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { Fragment, useState } from 'react'
 import type { AssignmentState, CategoryBreakdownRow, UnitBreakdown, UnitWithHours } from '../types'
 import type { UnitOptionChoice, UnitOptionGroup, UnitOptionalItem } from '../types'
 import type { Year } from '../types'
@@ -21,6 +21,12 @@ interface BreakdownPopupProps {
   setOptionGroupHours?: (unit: string, optionGroupId: string, hours: number) => void
   isOptionalItemIncluded?: (unit: string, itemId: string) => boolean
   setOptionalItemIncluded?: (unit: string, itemId: string, included: boolean) => void
+}
+
+/** Parse note text: normalize escaped \\n (or \\\\n etc.) to newlines and return lines for display */
+function parseNoteLines(note: string): string[] {
+  const normalized = note.replace(/\\+n/g, '\n')
+  return normalized.split('\n')
 }
 
 /** Key by (category, subcategory, source) so rows with different sources stay separate for display */
@@ -96,9 +102,19 @@ export function BreakdownPopup({
                 return (
                   <div key={group.id} className="breakdown-option-group">
                     <h5 className="breakdown-option-group-label">{group.label}</h5>
-                    {group.note && (
-                      <p className="breakdown-option-group-note">{group.note}</p>
-                    )}
+                    {group.note && (() => {
+                      const lines = parseNoteLines(group.note!)
+                      return (
+                        <div className="breakdown-option-group-note">
+                          {lines.map((line, i) => (
+                            <Fragment key={i}>
+                              {line}
+                              {i < lines.length - 1 && <br />}
+                            </Fragment>
+                          ))}
+                        </div>
+                      )
+                    })()}
                     {choices.length > 0 ? (
                       <>
                         <div className="breakdown-option-choices" role="group" aria-label={`Choose one: ${group.label}`}>
@@ -171,17 +187,9 @@ export function BreakdownPopup({
                         )}
                         {(chosenChoice?.recommended_books?.length ?? 0) > 0 && chosenChoice && (
                           <div className="breakdown-option-recommended-books">
-                            {(chosenChoice.recommended_books ?? []).map((book, i) => (
+                            {(chosenChoice.recommended_books ?? []).map((line, i) => (
                               <div key={i} className="breakdown-option-book">
-                                {book.description != null ? (
-                                  <pre className="breakdown-option-book-description">{book.description}</pre>
-                                ) : (
-                                  <span>
-                                    {book.title ?? ''}
-                                    {book.author ? ` by ${book.author}` : ''}
-                                    {book.contentNote ? ` (${book.contentNote})` : ''}
-                                  </span>
-                                )}
+                                <span>{line}</span>
                               </div>
                             ))}
                           </div>

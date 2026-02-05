@@ -18,15 +18,6 @@ export type UnitBreakdown = Record<string, CategoryBreakdownRow[]>
 
 export type AssignmentState = Record<string, Year>
 
-/** Recommended book for an option choice (Pattern A); seed may store description-only */
-export interface RecommendedBook {
-  title?: string
-  author?: string
-  contentNote?: string
-  /** Raw description from seed (e.g. bullet list of books) */
-  description?: string
-}
-
 /** Option group (e.g. "Required Reading" for a unit); choices are mutually exclusive */
 export interface UnitOptionGroup {
   id: string
@@ -44,7 +35,8 @@ export interface UnitOptionChoice {
   subcategory: string
   /** Null when not specified in curriculum (user can override in UI) */
   hours: number | null
-  recommended_books: RecommendedBook[]
+  /** Newline-separated lines stored as array of strings (e.g. ["- Book A", "- Book B"]) */
+  recommended_books: string[]
 }
 
 /** Optional item (Pattern B): e.g. lab work; user can include/exclude */

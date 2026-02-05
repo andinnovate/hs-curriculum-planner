@@ -42,23 +42,9 @@ interface OptionalItemRow {
   description: string
 }
 
-function parseRecommendedBooks(raw: unknown): UnitOptionChoice['recommended_books'] {
+function parseRecommendedBooks(raw: unknown): string[] {
   if (!Array.isArray(raw)) return []
-  return raw.map((item) => {
-    if (!item || typeof item !== 'object') return { title: String(item) }
-    const o = item as Record<string, unknown>
-    if (typeof o.description === 'string') {
-      return { description: o.description }
-    }
-    if (typeof o.title === 'string') {
-      return {
-        title: o.title,
-        author: typeof o.author === 'string' ? o.author : undefined,
-        contentNote: typeof o.contentNote === 'string' ? o.contentNote : undefined,
-      }
-    }
-    return { title: String(item) }
-  })
+  return raw.filter((item): item is string => typeof item === 'string')
 }
 
 export function useCurriculum(
