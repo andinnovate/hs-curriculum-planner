@@ -1,0 +1,519 @@
+[
+  {
+    "year": 1,
+    "unit": "NAB (v2)",
+    "type": "Required Reading",
+    "options": ["American Literature", "British Literature"],
+    "body": "(1 hour per day; choose your books; add to the appropriate category under Language Arts)\n\nAmerican Literature:\n- My Side of the Mountain by Jean Craighead\n- To Kill a Mockingbird by Harper Lee*\n*Contains sensitive subject matter.\n\nBritish Literature:\n- The Silver Chair: Chronicles of Narnia, Book 6by C.S. Lewis\n- The Eagle of the Ninth: The Roman Britain Trilogy, Book #1"
+  },
+  {
+    "year": 1,
+    "unit": "Unsolved Mysteries",
+    "type": "Required Reading",
+    "options": ["American Literature", "British Literature"],
+    "body": "(1 hour per day; add to the appropriate category under Language Arts)\n\nAmerican Literature:\n- Left Behind series by Tim LaHaye and Jerry B. Jenkins\n- The Case for Christ Student Edition by Lee Strobel\n\nBritish Literature\n- The Extraordinary Cases of Sherlock Holmes by Sir Arthur Conan Doyle"
+  },
+  {
+    "year": 1,
+    "unit": "Ancient Civilizations",
+    "type": "Required Reading",
+    "body": "(1 hour per day; already added to Classical Literature)\n\nThe Odyssey by Homer"
+  },
+  {
+    "year": 1,
+    "unit": "Ocean Life",
+    "type": "Required Reading",
+    "options": ["American Literature", "Classical Literature"],
+    "body": "(1 hour per day; choose your books; add to the appropriate category under Language Arts)\n\nClassical Literature:\n20,000 Leagues Under the Sea by Jules Verne\n\nAmerican Literature:\nSoul Surfer: A True Story of Faith, Family, and Fighting to Get Back on the Board by Bethany Hamilton\n\nIsland of the Blue Dolphinsby Scott O'Dell"
+  },
+  {
+    "year": 1,
+    "unit": "Renaissance + Revival",
+    "type": "Required Reading",
+    "options": ["British Literature", "American Literature"],
+    "body": "(1 hour per day; choose your book)\n\nBritish Literature\nAnimal Farmby George Orwell\nThe Essays by Francis Bacon\n\nAmerican Literature\nThe Giant: A Novel of Michelangelo's David by Laura Morelli"
+  },
+  {
+    "year": 1,
+    "unit": "Sports + PE",
+    "type": "Required Reading",
+    "options": ["American Literature"],
+    "hours": 20,
+    "body": "(1 hour per day; choose your books; already added to American Literature)\n\n- Joni: An Unforgettable Story by Joni Eareckson Tada\n- Beneath the Surface: My Story by Michael Phelps\n- Heart of a Champion: True Stories of Character and Faith from Today's Most Inspiring Athletes by Steve Riach"
+  },
+  {
+    "year": 1,
+    "unit": "Botany",
+    "type": "Required Reading",
+    "hours": 10,
+    "body": "The Secret Garden by Frances Hodgson Burnett\n\nComplete a book report or essay\n\n(hours have been added to final total)"
+  },
+  { // ?
+    "year": 1,
+    "unit": "Indigenous Peoples",
+    "type": "Required Reading",
+    "body": "(1 hour per day; choose your books)\n\n- Julie of the Wolves by Jean Craighead George\n- The Birchbark House by Louise Erdich\n- The Sign of the Beaver by Elizabeth George Speare\n- Pemmican Wars: A Girl Called Echo by Katherena Vermette, Scott B. Henderson, and Donovan Yaciuk"
+  },
+  {
+    "year": 1,
+    "unit": "Asia",
+    "type": "Required Reading",
+    "options": ["American Literature", "British Literature", "Classical Literature"],
+    "body": "Choose your book, read 1 hour per day and assign 20 hours to appropriate category:\n\nClassical Literature:\n- The Hiding Place by Corrie Ten Boom\nAmerican Literature:\n- Sadako and the Thousand Paper Cranes by Pam Gelman\nBritish Literature:\n- God's Adventurer: Hudson Taylor by Phyllis Thompson"
+  },
+  {
+    "year": 1,
+    "unit": "Ancient Civilizations",
+    "type": "Optional Chemistry Lab",
+    "body": "Study the mummification process of an apple or other fruit and complete a lab report.\n\nAdd 10 hours for Chemistry"
+  },
+  {
+    "year": 1,
+    "unit": "Botany",
+    "type": "Optional Biology Lab",
+    "body": "Germination + Plant Growth Experiment: study the process under different conditions and complete lab report\n\nAdd 10 hours for Botany"
+  },
+  {
+    "year": 1,
+    "unit": "Renaissance + Revival",
+    "type": "Optional LA Addition",
+    "body": "Add seatwork for an additional 1 hour per lesson in \nEnglish + Composition"
+  },
+  {
+    "year": 1,
+    "unit": "Sports + PE",
+    "type": "Optional Physics Lab",
+    "options": ["kinetic energy experiment", "friction experiment"],
+    "hours": 10,
+    "body": "Perform another experiment to demonstrate kinetic energy\nComplete lab report\nAdd 10 hours to Physics\n\nPerform another friction experiment\nComplete lab report\nAdd 10 hours to Physics"
+  },
+  {
+    "year": 1,
+    "unit": "Unsolved Mysteries",
+    "type": "Optional LA Addition",
+    "body": "Add seatwork for an additional 1 hour per lesson in \nEnglish + Composition"
+  },
+  {
+    "year": 1,
+    "unit": "Ocean Life",
+    "type": "Optional Labs",
+    "options": [["Water quality sampling + testing", "Marine Biology"], ["Dissection + study of a fish or squid", "Marine Biology"], ["Salinity + Density Experiment", "Chemistry"]],
+    "hours": 10,
+    "body": "Water quality sampling + testing\nComplete lab report\nAdd 10 hours for Biology or Marine Biology\n\nDissection + study of a fish or squid\nComplete lab report\nAdd 10 hours for Marine Biology\n\nSalinity + Density Experiment\nComplete lab report\nAdd 10 hours for Chemistry"
+  },
+  {
+    "year": 1,
+    "unit": "NAB (v2)",
+    "type": "Optional Biology Lab",
+    "options": ["Dissect owl pellets"],
+    "hours": 10,
+    "body": "Dissect owl pellets, observe and categorize the bones, and complete a lab report.\n\nAdd 10 hours for Biology"
+  },
+  {
+    "year": 1,
+    "unit": "Sports + PE",
+    "type": "Optional LA Addition",
+    "body": "Add seatwork for an additional 1 hour per lesson in \nEnglish + Composition"
+  },
+  {
+    "year": 1,
+    "unit": "NAB (v2)",
+    "type": "Optional LA Addition",
+    "body": "Add seatwork for an additional 1 hour per lesson in \nEnglish + Composition"
+  },
+  {
+    "year": 1,
+    "unit": "Sports + PE",
+    "type": "Optional PE Addition",
+    "hours": 65,
+    "body": "Add 65 hours to Physical Education if using the Family Fitness Plan"
+  },
+  {
+    "year": 1,
+    "unit": "Ocean Life",
+    "type": "Optional LA Addition",
+    "body": "Add seatwork for an additional 1 hour per lesson in \nEnglish + Composition"
+  },
+  { // ?
+    "year": 2,
+    "unit": "Chemistry",
+    "type": "Chemistry",
+    "body": "Hours"
+  },
+  // {
+  //   "year": 2,
+  //   "unit": "Chemistry",
+  //   "type": "Required Reading",
+  //   "body": "The Disappearing Spoon by Sam Kean\n\nComplete a book report or essay\n\n(hours have been added to final total)"
+  // },
+  {
+    "year": 2,
+    "unit": "Artists",
+    "type": "Required Reading",
+    "options": ["American Literature", "British Literature", "Classical Literature"],
+    "body": "(1 hour per day; add 20 hours to the appropriate category)\nAmerican Literature:\n-A Collection of Poems by Robert Frost by Robert Frost\n-Me, Myself, and Bob by Phil Vischer\n-Hinds Feet on High Places by Hannah Hurnard \n\nBritish Literature\n-Macbeth by William Shakespeare \n-The Screwtape Letters by C.S. Lewis\n-Mere Christianity by C.S. Lewis\n-The Chronicles of Narnia by C.S. Lewis\n\nClassical Literature\n-Pilgrim's Progress by John Bunyan"
+  },
+  { // ?
+    "year": 2,
+    "unit": "US History 1",
+    "type": "Required Reading",
+    "body": "(1 hour per day)\n\n- Pocahontas by Joseph Bruchac\n- The King's Fifth by Scott O'Dell\n- The First Frontier: The Forgotten History of Struggle, Savagery, and Endurance in Early America by Scott Weidensaul"
+  },
+  {
+    "year": 2,
+    "unit": "Rocks + Minerals",
+    "type": "Required Reading",
+    "body": "(1 hour per day)\n\n- Trapped: How the World Rescued 33 Miners from 2,000 Feet Below the Chilean Desert by Marc Aronson\n- Where the Mountain Meets the Moon by Grace Lin\n- One Giant Leap: The Untold Story of How We Flew to the Moon by Charles Fishman"
+  },
+  { // ?
+    "year": 2,
+    "unit": "US History 2",
+    "type": "Required Reading",
+    "body": "(1 hour per day; choose your books)\n\n- Chains by Laurie Halse Anderson\n- Johnny Tremain by Esther Hoskins Forbes\n- Star-Spangled: The Story of a Flag, a Battle, and the American Anthem by Tim Grove"
+  },
+  { // ?
+    "year": 2,
+    "unit": "Astronomy",
+    "type": "Required Reading",
+    "body": "(1 hour per day) \n\n- Hidden Figures by Margot Lee Shetterly \n- My Remarkable Journey: A Memoir by Katherine Johnson"
+  },
+  { // ?
+    "year": 2,
+    "unit": "US History 3",
+    "type": "Required Reading",
+    "body": "(1 hour per day; choose your books)\n\n- Across Five Aprils by Irene Hunt\n- The Birchbark House by Louise Erdich\n- Walden by Henry David Thoreau\n- Young Lincoln by Jan Jacobi"
+  },
+  { // ?
+    "year": 2,
+    "unit": "South America",
+    "type": "Required Reading",
+    "body": "(1 hour per day; hours added to American Lit)\n\n- The Case for Christ by Lee Strobel\n- The End of the Spear by Steve Saint\n- Pelé: The Autobiography by Pelé"
+  },
+{ // ?
+    "year": 2,
+    "unit": "Living off the Land",
+    "type": "Required Reading",
+    "body": "(1 hour per day; choose your books)\n\n- Hattie Big Skyby Kirby Larson\n- Prairie Lotus by Linda Sue Park\n- Pioneer Girl: The Annotated Autobiography by Laura Ingalls Wilder\n- Stories from the Old Squire's Farm: A Collection of Short Stories of Life in Rural New England by C. Stephens"
+  },
+  {
+    "year": 2,
+    "unit": "Chemistry",
+    "type": "Optional Lab Addition",
+    "options": ["Experiment Book + Observation Journal"],
+    "hours": 20,
+    "body": "Add 20 hours for Chemistry Labs if using the Experiment Book + Observation Journal"
+  },
+  {
+    "year": 2,
+    "unit": "Astronomy",
+    "type": "Optional Physics Labs",
+    "options": ["egg drop experiment", "microgravity experiment"],
+    "hours": 10,
+    "body": "Perform the egg drop experiment in Lesson 10\nComplete lab report\nAdd 10 hours for Physics\n\nPerform a second microgravity experiment\nComplete lab report\nAdd 10 hours for Physics"
+  },
+  {
+    "year": 2,
+    "unit": "Rocks + Minerals",
+    "type": "Optional LA Addition",
+    "body": "Add seatwork for an additional 1 hour per lesson in \nEnglish + Composition"
+  },
+  {
+    "year": 2,
+    "unit": "Living off the Land",
+    "type": "Optional Labs",
+    "options": [["Filter contaminated water experiment","Biology"], ["Acoustic sound absorption techniques experiment","Physics"], ["Complete a seed germination experiment","Biology"], ["Perform multiple variations of carbonation lab from L12","Chemistry"]],
+    "hours": 10,
+    "body": "Filter contaminated water experiment\nComplete lab report\nAdd 10 hours for Biology\n\nAcoustic sound absorption techniques experiment\nComplete lab report\nAdd 10 hours for Physics\n\nComplete a seed germination experiment\nComplete lab report\nAdd 10 hours for Biology\n\nPerform multiple variations of carbonation lab from L12 \nComplete lab report\nAdd 10 hours for Chemistry"
+  },
+  {
+    "year": 2,
+    "unit": "Chemistry",
+    "type": "Optional LA Addition",
+    "body": "Add seatwork for an additional 1 hour per lesson in \nEnglish + Composition"
+  },
+  {
+    "year": 2,
+    "unit": "Rocks + Minerals",
+    "type": "Optional Chemistry/ Physics Lab",
+    "options": [["rock candy recipe experiment","Chemistry"], ["conduction experiment","Physics"], ["growing crystals experiment","Chemistry"]],
+    "hours": 10,
+    "body": "Design another rock candy recipe and modify variables\nComplete lab report\nAdd 10 hours for Chemistry\n\nPerform more than one conduction experiment from the list on the resources page\nComplete lab report\nAdd 10 hours for Physics\n\nResearch another method for growing a specific type of crystals and try it\nComplete lab report\nAdd 10 hours for Chemistry"
+  },
+  {
+    "year": 2,
+    "unit": "Astronomy",
+    "type": "Optional LA Addition",
+    "body": "Add seatwork for an additional 1 hour per lesson in \nEnglish + Composition"
+  },
+  {
+    "year": 2,
+    "unit": "Living off the Land",
+    "type": "Optional LA Addition",
+    "body": "Add seatwork for an additional 1 hour per lesson in \nEnglish + Composition"
+  },
+  {
+    "year": 3,
+    "unit": "Inventions + Ideas",
+    "type": "Required Reading",
+    "options": ["American Literature", "British Literature"],
+    "body": "(1 hour per day; add 20 hours to the appropriate category)\n\nAmerican Literature:\n- The Wright Brothers by David McCullough\n- The Invention of Hugo Cabret by Brian Selznick\n- The Giver by Lois Lowry\n- Ender's Game by Orson Scott Card\n\nBritish Literature:\n- Frankensteinby Mary Shelley"
+  },
+  {
+    "year": 3,
+    "unit": "Life Skills",
+    "type": "Required Reading", 
+    "options": ["British Literature", "American Literature"],
+    "body": "(1 hour per day; add 20 hours to the appropriate category)\n\nBritish Literature:\n- The Screwtape Letters by C.S. Lewis\nAmerican Literature:\n- To Kill a Mockingbird by Harper Lee\n- Wonder by R.J. Palacio"
+  },
+  {
+    "year": 3,
+    "unit": "Europe",
+    "type": "Required Reading",
+    "options": ["Classical Literature"],
+    "body": "(1 hour per day; 20 hours added to Classic Lit)\n\n- The Hiding Place by Corrie Ten Boom\n- The Diary of a Young Girl by Anne Frank\n- God's Smuggler by Brother Andrew\n- Fairy Tales by Hans Christian Andersen"
+  },
+  {
+    "year": 3,
+    "unit": "US History 4",
+    "type": "Required Reading",
+    "options": ["American Literature", "British Literature"],
+    "body": "(1 hour per day; add 20 hours to the appropriate category)\n\nAmerican Literature:\n- The Adventures of Tom Sawyer by Mark Twain\n- A Farewell to Arms: The Hemingway Library Edition by Ernest Hemingway\n- The Grapes of Wrath by John Steinbeck\n- Unbroken: A World War II Story of Survival, Resilience, and Redemption by Lauren Hillenbrand\n\nBritish Literature:\n- The Boy in the Striped Pajamas by John Boyne"
+  },
+  {// ?
+    "year": 3,
+    "unit": "Energy",
+    "type": "Required Reading",
+    "body": "- The Boy Who Harnessed the Wind by William Kamkwamba\n\nComplete a book report or essay\n\n(hours have been added to final total)"
+  },
+  {
+    "year": 3,
+    "unit": "Music",
+    "type": "Required Reading",
+    "options": ["American Literature", "Classical Literature", "British Literature"],
+    "body": "(1 hour per day; add 20 hours to the appropriate category)\n\nAmerican Literature:\n- Live Like a Jesus Freak: Spend Today as if it Were Your Last by dc Talk\n\nClassical Literature:\n- The Wizard of Oz by L. Frank Baum\n- Little Women by Louisa May Alcott\n\nBritish Literature:\n- Reflections on the Psalms by C.S. Lewis"
+  },
+  {
+    "year": 3,
+    "unit": "US History 5",
+    "type": "Required Reading",
+    "options": ["American Literature", "Classical Literature"],
+    "body": "(1 hour per day; choose your books)\n\nAmerican Literature:\n- Truman by David McCullough\n- Roll of Thunder, Hear My Cry by Mildred D. Taylor\n- The Selected Poems of Wendell Berryby Wendell Berry"
+  },
+  {
+    "year": 3,
+    "unit": "Transportation",
+    "type": "Required Reading",
+    "options": ["American Literature", "Classical Literature"],
+    "body": "(1 hour per day; add 20 hours to the appropriate category)\n\nAmerican Literature:\n- Flying to the Moon: An Astronaut's Story by Michael Collins\n\nClassical Literature:\n- Around the World in 80 Days by Jules Verne\n- Robinson Crusoe by Daniel Defoe"
+  },
+  { // ?
+    "year": 3,
+    "unit": "US History 6",
+    "type": "Required Reading",
+    "body": "(1 hour per day; choose your books)\n\n- Let's Roll! Ordinary People, Extraordinary Change by Lisa Beamer\n- How the Internet Happened: From Netscape to iPhone by David McCullough"
+  },
+  {
+    "year": 3,
+    "unit": "Intro to Psychology",
+    "type": "Required Reading",
+    "options": ["American Literature", "British Literature"],
+    "body": "(1 hour per day; choose your books)\n\nAmerican Literature:\n- Bridge to Terabithia by Katherine Paterson\n- Endurance: My Year in Space, A Lifetime of Discovery by Scott Kelly\n- Unplanned: The Dramatic True Story of a Former Planned Parenthood Leader's Eye-Opening Journey Across the Life Line by Abby Johnson\n\nBritish Literature:\n- The King's War by Mark Logue + Peter Conradi\n- The Strange Case of Dr. Jekyll and Mr. Hyde by Robert Louis Stevenson\n- Alice's Adventures in Wonderland and Through the Looking Glass by Lewis Carroll"
+  },
+  {
+    "year": 3,
+    "unit": "Europe",
+    "type": "Optional Physics Lab",
+    "options": ["Newton's three laws of motion experiment"],
+    "hours": 10,
+    "body": "Perform experiments to demonstrate Newton's three laws of motion\nComplete lab report\nAdd 10 hours to Physics"
+  },
+  {
+    "year": 3,
+    "unit": "Transportation",
+    "type": "Optional Physics Lab",
+    "options": ["Archimedes' principle experiment", "surface tension experiment", "variables affecting force experiment"],
+    "body": "Perform additional experiment to understand Archimedes' principle\nComplete lab report\nAdd 10 hours to Physics\n\nPerform additional surface tension experiment\nComplete lab report\nAdd 10 hours to Physics\n\nPerform an experiment to demonstrate variables affecting force \nComplete lab report\nAdd 10 hours to Physics"
+  },
+  {
+    "year": 3,
+    "unit": "Intro to Psychology",
+    "type": "Optional Labs",
+    "options": [["noise filtering/sleep experiment", "Life Science"]],
+    "body": "Perform a noise filtering/sleep experiment \nComplete lab report\nAdd 10 hours to Life Science"
+  },
+  {
+    "year": 3,
+    "unit": "Energy",
+    "type": "Optional Physics/Earth Science Labs",
+    "options": [["CO2 experiment", "Physics"], ["Water cycle lab", "Earth Science"]],
+    "hours": 10,
+    "body": "Repeat CO2 experiment (L13) by changing amounts of the mixture twice\nComplete lab report\nAdd 10 hours for Pysics\n\nWater cycle lab\nComplete lab report\nAdd 10 hours for Earth Science"
+  },
+  {
+    "year": 3,
+    "unit": "Intro to Psychology",
+    "type": "Optional LA Addition",
+    "body": "Add seatwork for an additional 1 hour per lesson in \nEnglish + Composition"
+  },
+  {
+    "year": 3,
+    "unit": "Life Skills",
+    "type": "Optional LA Addition",
+    "body": "Add seatwork for an additional 1 hour per lesson in \nEnglish + Composition"
+  },
+  {
+    "year": 3,
+    "unit": "Music",
+    "type": "Optional LA Addition",
+    "body": "Add seatwork for an additional 1 hour per lesson in \nEnglish + Composition"
+  },
+  {
+    "year": 3,
+    "unit": "Inventions + Ideas",
+    "type": "Optional Lab Addition",
+    "options": [["magnet experiments", "Physics"], ["flight experiments", "Physics"], ["inertia experiment", "Physics"]],
+    "hours": 10,
+    "body": "Perform 2 or 3 more magnet experiments\nComplete lab report\nAdd 10 hours to Physics\n\nPerform more than one flight experiment from Lesson 3\nComplete lab report\nAdd 10 hours to Physics\n\nPerform an inertia experiment\nComplete lab report\nAdd 10 hours to Physics"
+  },
+  {
+    "year": 3,
+    "unit": "Music",
+    "type": "Optional Physics Lab",
+    "options": [["sound vibration experiment", "Physics"]],
+    "hours": 10,
+    "body": "Perform additional sound vibration experiment(s)\nComplete a lab report\nAdd 10 hours to Physics"
+  },
+  {
+    "year": 3,
+    "unit": "Energy",
+    "type": "Optional LA Addition",
+    "body": "Add seatwork for an additional 1 hour per lesson in \nEnglish + Composition"
+  },
+  { // ?
+    "year": 4,
+    "unit": "Earth Science",
+    "type": "Earth Science",
+    "body": "Hours"
+  },
+  { // ?
+    "year": 4,
+    "unit": "US Government",
+    "type": "Required Reading",
+    "body": "(1 hour per day)\n\n- 1776 by David McCullough\n- This is Our Constitution: What It Is and Why It Matters by Khizr Khan\n- My Brother Sam is Dead by James Lincoln Collier"
+  },
+  {
+    "year": 4,
+    "unit": "Earth Science",
+    "type": "Required Reading",
+    "options": ["American Literature", "Classical Literature"],
+    "body": "(1 hour per day; add 20 hours to the appropriate category)\n\nAmerican Literature:\n- The Long Winter by Laura Ingalls Wilder\n- The Wonderful Wizard of Ozby L. Frank Baum\n- No Summit Out of Sight by Jordan Romero\n\nClassical Literature:\n- Journey to the Center of the Earth by Jules Verne"
+  },
+  { // ?
+    "year": 4,
+    "unit": "Entrepreneurship",
+    "type": "Required Reading",
+    "body": "(1 hour per day; hours added to American Lit category)\n\n- The Coolest Startups in America by Doreen Bloch\n- The Everything Store: Jeff Bezos and the Age of Amazon by Brad Stone\n- The Disney Story: Chronicling the Man, the Mouse, and the Parks by Aaron H. Goldberg\n- Chocolate by Hershey: A Story about Milton S. Hershey by Betty M. Burford"
+  },
+  {
+    "year": 4,
+    "unit": "Dinosaurs",
+    "type": "Required Reading",
+    "options": ["British Literature", "American Literature"],
+    "body": "(1 hour per day; add 20 hours to appropriate category)\n\nBritish Literature:\n- The Fossil Woman: A Life of Mary Anning by Tom Sharpe\n- The Lost World by Sir Arthur Conan Doyle\n\nAmerican Literature:\n- How to Build a Dinosaur by Jack Horner"
+  },
+  { // ?
+    "year": 4,
+    "unit": "Human Body",
+    "type": "Required Reading",
+    "body": "(1 hour per day; added 20 hours to American Lit)\n\n- Pollyanna by Eleanor H. Porter\n- Rules by Cynthia Lord\n- The Story of My Life by Hellen Keller + Candace Ward\n- The Young Unicorns by Madeline L'Engle"
+  },
+  { // ?
+    "year": 4,
+    "unit": "Farming + Food",
+    "type": "Required Reading",
+    "body": "(1 hour per day; hours added to American Literature)\n\n- The Keeper of the Bees by Gene Stratton-Porter\n- The Yearlingby Marjorie Kinnan Rawlings\n- Bonhoeffer: Pastor, Martyr, Prophet, Spy by Eric Metaxas"
+  },
+  { // ?
+    "year": 4,
+    "unit": "Careers + Trades",
+    "type": "Required Reading",
+    "body": ""
+  },
+  {
+    "year": 4,
+    "unit": "NA Forest Animals",
+    "type": "Required Reading",
+    "options": ["American Literature", "British Literature", "Classical Literature"],
+    "body": "(1 hour per day; choose your books and assign 20 hours to appropriate category)\n\nAmerican Literature:\n- Julie of the Wolves by Jean Craighead George\n- The Call of the Wild by Jack London\n- Of Courage Undaunted: Across the Continent with Lewis and Clark by James Daugherty\n- Where the Red Fern Grows by Wilson Rawls\n\nBritish Literature:\n- The Taming of the Shrew by William Shakespeare\n\nClassical Literature:\n- Just So Stories by Rudyard Kipling"
+  },
+  { // ?
+    "year": 4,
+    "unit": "Africa",
+    "type": "Required Reading",
+    "body": "(1 hour per day; choose your books)\n\n- Another Man's War by Sam Childers\n- A Long Walk to Water by Linda Sue Park\n- David Livingstone: Africa's Trailblazer by Janet Benge + Geoff Benge\n- Long Walk to Freedom: The Autobiography of Nelson Mandela by Nelson Mandela"
+  },
+  {
+    "year": 4,
+    "unit": "Entrepreneurship",
+    "type": "Optional LA Addition",
+    "body": "Add seatwork for an additional 1 hour per lesson in \nEnglish + Composition"
+  },
+  // {
+  //   "year": 4,
+  //   "unit": "Human Body",
+  //   "type": "Required PE Add-on:",
+  //   "body": "Exercise 30 minutes per day\n10 hours already added to Physical Education"
+  // },
+  {
+    "year": 4,
+    "unit": "Farming + Food",
+    "type": "Optional Physical Science Lab",
+    "options": [["oxidation experiment","Chemistry"]],
+    "hours": 10,
+    "body": "Perform an additional oxidation experiment\nComplete lab report\nAdd 10 hours to Chemistry"
+  },
+  {
+    "year": 4,
+    "unit": "NA Forest Animals",
+    "type": "Optional Physics Lab",
+    "options": [["egg drop experiment","Physics"]],
+    "hours": 10,
+    "body": "Perform egg drop experiment + test variables\nComplete lab report\nAdd 10 hours to Physics"
+  },
+  {
+    "year": 4,
+    "unit": "Dinosaurs",
+    "type": "Optional Labs",
+    "options": [["flight experiment","Physics"]],
+    "hours": 10,
+    "body": "Perform an experiment demonstrating flight by using different techniques for folding paper airplanes\nComplete lab report\nAdd 10 hours to Physics"
+  },
+  {
+    "year": 4,
+    "unit": "Earth Science",
+    "type": "Optional Physics Lab",
+    "options": [["test states of matter experiment","Physics"]],
+    "hours": 10,
+    "body": "Perform experiment to test states of matter\nComplete lab report\nAdd 10 hours for Physics"
+  },
+  {
+    "year": 4,
+    "unit": "Human Body",
+    "type": "Optional Life Science Lab",
+    "options": [["cow heart dissection","Life Science"], ["taste test lab","Life Science"]],
+    "hours": 10,
+    "body": "Perform a cow heart dissection\nComplete lab report\nAdd 10 hours to Life Science lab\n\nExpand the taste test lab in L10 \nComplete lab repoert\nAdd 10 hours to Life Science lab"
+  },
+  {
+    "year": 4,
+    "unit": "NA Forest Animals",
+    "type": "Optional LA Addition",
+    "body": "Add seatwork for an additional 1 hour per lesson in \nEnglish + Composition"
+  },
+  {
+    "year": 4,
+    "unit": "Dinosaurs",
+    "type": "Optional LA Addition",
+    "body": "Add seatwork for an additional 1 hour per lesson in \nEnglish + Composition"
+  }
+]

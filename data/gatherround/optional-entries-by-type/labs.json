@@ -1,0 +1,276 @@
+[
+  {
+    "year": 1,
+    "unit": "Ancient Civilizations",
+    "type": "Optional Chemistry Lab",
+    "body": "Study the mummification process of an apple or other fruit and complete a lab report.\n\nAdd 10 hours for Chemistry"
+  },
+  {
+    "year": 1,
+    "unit": "Botany",
+    "type": "Optional Biology Lab",
+    "body": "Germination + Plant Growth Experiment: study the process under different conditions and complete lab report\n\nAdd 10 hours for Botany"
+  },
+  {
+    "year": 1,
+    "unit": "Sports + PE",
+    "type": "Optional Physics Lab",
+    "options": [
+      "kinetic energy experiment",
+      "friction experiment"
+    ],
+    "hours": 10,
+    "body": "Perform another experiment to demonstrate kinetic energy\nComplete lab report\nAdd 10 hours to Physics\n\nPerform another friction experiment\nComplete lab report\nAdd 10 hours to Physics"
+  },
+  {
+    "year": 1,
+    "unit": "Ocean Life",
+    "type": "Optional Labs",
+    "options": [
+      [
+        "Water quality sampling + testing",
+        "Marine Biology"
+      ],
+      [
+        "Dissection + study of a fish or squid",
+        "Marine Biology"
+      ],
+      [
+        "Salinity + Density Experiment",
+        "Chemistry"
+      ]
+    ],
+    "hours": 10,
+    "body": "Water quality sampling + testing\nComplete lab report\nAdd 10 hours for Biology or Marine Biology\n\nDissection + study of a fish or squid\nComplete lab report\nAdd 10 hours for Marine Biology\n\nSalinity + Density Experiment\nComplete lab report\nAdd 10 hours for Chemistry"
+  },
+  {
+    "year": 1,
+    "unit": "NAB (v2)",
+    "type": "Optional Biology Lab",
+    "options": [
+      "Dissect owl pellets"
+    ],
+    "hours": 10,
+    "body": "Dissect owl pellets, observe and categorize the bones, and complete a lab report.\n\nAdd 10 hours for Biology"
+  },
+  {
+    "year": 2,
+    "unit": "Chemistry",
+    "type": "Optional Lab Addition",
+    "options": [
+      "Experiment Book + Observation Journal"
+    ],
+    "hours": 20,
+    "body": "Add 20 hours for Chemistry Labs if using the Experiment Book + Observation Journal"
+  },
+  {
+    "year": 2,
+    "unit": "Astronomy",
+    "type": "Optional Physics Labs",
+    "options": [
+      "egg drop experiment",
+      "microgravity experiment"
+    ],
+    "hours": 10,
+    "body": "Perform the egg drop experiment in Lesson 10\nComplete lab report\nAdd 10 hours for Physics\n\nPerform a second microgravity experiment\nComplete lab report\nAdd 10 hours for Physics"
+  },
+  {
+    "year": 2,
+    "unit": "Living off the Land",
+    "type": "Optional Labs",
+    "options": [
+      [
+        "Filter contaminated water experiment",
+        "Biology"
+      ],
+      [
+        "Acoustic sound absorption techniques experiment",
+        "Physics"
+      ],
+      [
+        "Complete a seed germination experiment",
+        "Biology"
+      ],
+      [
+        "Perform multiple variations of carbonation lab from L12",
+        "Chemistry"
+      ]
+    ],
+    "hours": 10,
+    "body": "Filter contaminated water experiment\nComplete lab report\nAdd 10 hours for Biology\n\nAcoustic sound absorption techniques experiment\nComplete lab report\nAdd 10 hours for Physics\n\nComplete a seed germination experiment\nComplete lab report\nAdd 10 hours for Biology\n\nPerform multiple variations of carbonation lab from L12 \nComplete lab report\nAdd 10 hours for Chemistry"
+  },
+  {
+    "year": 2,
+    "unit": "Rocks + Minerals",
+    "type": "Optional Chemistry/ Physics Lab",
+    "options": [
+      [
+        "rock candy recipe experiment",
+        "Chemistry"
+      ],
+      [
+        "conduction experiment",
+        "Physics"
+      ],
+      [
+        "growing crystals experiment",
+        "Chemistry"
+      ]
+    ],
+    "hours": 10,
+    "body": "Design another rock candy recipe and modify variables\nComplete lab report\nAdd 10 hours for Chemistry\n\nPerform more than one conduction experiment from the list on the resources page\nComplete lab report\nAdd 10 hours for Physics\n\nResearch another method for growing a specific type of crystals and try it\nComplete lab report\nAdd 10 hours for Chemistry"
+  },
+  {
+    "year": 3,
+    "unit": "Europe",
+    "type": "Optional Physics Lab",
+    "options": [
+      "Newton's three laws of motion experiment"
+    ],
+    "hours": 10,
+    "body": "Perform experiments to demonstrate Newton's three laws of motion\nComplete lab report\nAdd 10 hours to Physics"
+  },
+  {
+    "year": 3,
+    "unit": "Transportation",
+    "type": "Optional Physics Lab",
+    "options": [
+      "Archimedes' principle experiment",
+      "surface tension experiment",
+      "variables affecting force experiment"
+    ],
+    "body": "Perform additional experiment to understand Archimedes' principle\nComplete lab report\nAdd 10 hours to Physics\n\nPerform additional surface tension experiment\nComplete lab report\nAdd 10 hours to Physics\n\nPerform an experiment to demonstrate variables affecting force \nComplete lab report\nAdd 10 hours to Physics"
+  },
+  {
+    "year": 3,
+    "unit": "Intro to Psychology",
+    "type": "Optional Labs",
+    "options": [
+      [
+        "noise filtering/sleep experiment",
+        "Life Science"
+      ]
+    ],
+    "body": "Perform a noise filtering/sleep experiment \nComplete lab report\nAdd 10 hours to Life Science"
+  },
+  {
+    "year": 3,
+    "unit": "Energy",
+    "type": "Optional Physics/Earth Science Labs",
+    "options": [
+      [
+        "CO2 experiment",
+        "Physics"
+      ],
+      [
+        "Water cycle lab",
+        "Earth Science"
+      ]
+    ],
+    "hours": 10,
+    "body": "Repeat CO2 experiment (L13) by changing amounts of the mixture twice\nComplete lab report\nAdd 10 hours for Pysics\n\nWater cycle lab\nComplete lab report\nAdd 10 hours for Earth Science"
+  },
+  {
+    "year": 3,
+    "unit": "Inventions + Ideas",
+    "type": "Optional Lab Addition",
+    "options": [
+      [
+        "magnet experiments",
+        "Physics"
+      ],
+      [
+        "flight experiments",
+        "Physics"
+      ],
+      [
+        "inertia experiment",
+        "Physics"
+      ]
+    ],
+    "hours": 10,
+    "body": "Perform 2 or 3 more magnet experiments\nComplete lab report\nAdd 10 hours to Physics\n\nPerform more than one flight experiment from Lesson 3\nComplete lab report\nAdd 10 hours to Physics\n\nPerform an inertia experiment\nComplete lab report\nAdd 10 hours to Physics"
+  },
+  {
+    "year": 3,
+    "unit": "Music",
+    "type": "Optional Physics Lab",
+    "options": [
+      [
+        "sound vibration experiment",
+        "Physics"
+      ]
+    ],
+    "hours": 10,
+    "body": "Perform additional sound vibration experiment(s)\nComplete a lab report\nAdd 10 hours to Physics"
+  },
+  {
+    "year": 4,
+    "unit": "Farming + Food",
+    "type": "Optional Physical Science Lab",
+    "options": [
+      [
+        "oxidation experiment",
+        "Chemistry"
+      ]
+    ],
+    "hours": 10,
+    "body": "Perform an additional oxidation experiment\nComplete lab report\nAdd 10 hours to Chemistry"
+  },
+  {
+    "year": 4,
+    "unit": "NA Forest Animals",
+    "type": "Optional Physics Lab",
+    "options": [
+      [
+        "egg drop experiment",
+        "Physics"
+      ]
+    ],
+    "hours": 10,
+    "body": "Perform egg drop experiment + test variables\nComplete lab report\nAdd 10 hours to Physics"
+  },
+  {
+    "year": 4,
+    "unit": "Dinosaurs",
+    "type": "Optional Labs",
+    "options": [
+      [
+        "flight experiment",
+        "Physics"
+      ]
+    ],
+    "hours": 10,
+    "body": "Perform an experiment demonstrating flight by using different techniques for folding paper airplanes\nComplete lab report\nAdd 10 hours to Physics"
+  },
+  {
+    "year": 4,
+    "unit": "Earth Science",
+    "type": "Optional Physics Lab",
+    "options": [
+      [
+        "test states of matter experiment",
+        "Physics"
+      ]
+    ],
+    "hours": 10,
+    "body": "Perform experiment to test states of matter\nComplete lab report\nAdd 10 hours for Physics"
+  },
+  {
+    "year": 4,
+    "unit": "Human Body",
+    "type": "Optional Life Science Lab",
+    "options": [
+      [
+        "cow heart dissection",
+        "Life Science"
+      ],
+      [
+        "taste test lab",
+        "Life Science"
+      ]
+    ],
+    "hours": 10,
+    "body": "Perform a cow heart dissection\nComplete lab report\nAdd 10 hours to Life Science lab\n\nExpand the taste test lab in L10 \nComplete lab repoert\nAdd 10 hours to Life Science lab"
+  }
+]

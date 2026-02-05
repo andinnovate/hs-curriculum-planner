@@ -1,0 +1,45 @@
+[
+  {
+    "year": 1,
+    "unit": "Sports + PE",
+    "type": "Optional PE Addition",
+    "hours": 65,
+    "body": "Add 65 hours to Physical Education if using the Family Fitness Plan"
+  },
+  {
+    "year": 2,
+    "unit": "Chemistry",
+    "type": "Chemistry",
+    "body": "Hours"
+  },
+  {
+    "year": 4,
+    "unit": "Earth Science",
+    "type": "Earth Science",
+    "body": "Hours"
+  },
+  {
+    "year": 1,
+    "unit": "Ancient Civilizations",
+    "type": "Required Reading",
+    "body": "(1 hour per day; already added to Classical Literature)\n\nThe Odyssey by Homer"
+  },
+  {
+    "year": 1,
+    "unit": "Botany",
+    "type": "Required Reading",
+    "body": "The Secret Garden by Frances Hodgson Burnett\n\nComplete a book report or essay\n\n(hours have been added to final total)"
+  },
+  {
+    "year": 2,
+    "unit": "Chemistry",
+    "type": "Required Reading",
+    "body": "The Disappearing Spoon by Sam Kean\n\nComplete a book report or essay\n\n(hours have been added to final total)"
+  },
+  {
+    "year": 4,
+    "unit": "Human Body",
+    "type": "Required PE Add-on:",
+    "body": "Exercise 30 minutes per day\n10 hours already added to Physical Education"
+  }
+]

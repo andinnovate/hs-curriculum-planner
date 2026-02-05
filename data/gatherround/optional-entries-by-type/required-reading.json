@@ -7,6 +7,7 @@
       ["American Literature","- My Side of the Mountain by Jean Craighead\n- To Kill a Mockingbird by Harper Lee*\n*Contains sensitive subject matter."],
       ["British Literature","- The Silver Chair: Chronicles of Narnia, Book 6by C.S. Lewis\n- The Eagle of the Ninth: The Roman Britain Trilogy, Book #1"]
     ],
+    "hours": 20,
     "body": "(1 hour per day; choose your books; add to the appropriate category under Language Arts)"
   },
   {
@@ -17,6 +18,7 @@
       ["American Literature","- Left Behind series by Tim LaHaye and Jerry B. Jenkins\n- The Case for Christ Student Edition by Lee Strobel"],
       ["British Literature","- The Extraordinary Cases of Sherlock Holmes by Sir Arthur Conan Doyle"]
     ],
+    "hours": 20,
     "body": "(1 hour per day; add to the appropriate category under Language Arts)"
   },
   {
@@ -27,6 +29,7 @@
       ["American Literature","- Soul Surfer: A True Story of Faith, Family, and Fighting to Get Back on the Board by Bethany Hamilton\n- Island of the Blue Dolphinsby Scott O'Dell"],
       ["Classical Literature","- 20,000 Leagues Under the Sea by Jules Verne"]
     ],
+    "hours": 20,
     "body": "(1 hour per day; choose your books; add to the appropriate category under Language Arts)"
   },
   {
@@ -60,6 +63,7 @@
       ["British Literature","- God's Adventurer: Hudson Taylor by Phyllis Thompson"],
       ["Classical Literature","- The Hiding Place by Corrie Ten Boom"]
     ],
+    "hours": 20,
     "body": "Choose your book, read 1 hour per day and assign 20 hours to appropriate category:"
   },
   {
