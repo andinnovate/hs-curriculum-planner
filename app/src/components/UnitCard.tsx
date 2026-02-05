@@ -7,20 +7,23 @@ interface UnitCardProps {
   isLocked?: boolean
   /** When true, unit has an option group with no selection; show details icon as red (attention needed) */
   needsAttention?: boolean
+  /** When true, dim this card (e.g. part of a multi-selection being dragged) */
+  isPartOfActiveDrag?: boolean
 }
 
-export function UnitCard({ unitWithHours, onShowDetails, isLocked, needsAttention }: UnitCardProps) {
+export function UnitCard({ unitWithHours, onShowDetails, isLocked, needsAttention, isPartOfActiveDrag }: UnitCardProps) {
   const { attributes, listeners, setNodeRef, isDragging } = useDraggable({
     id: unitWithHours.unit,
     data: { unit: unitWithHours.unit },
   })
 
   const dragProps = isLocked ? {} : { ...listeners, ...attributes }
+  const dimmed = isDragging || isPartOfActiveDrag
 
   return (
     <div
       ref={setNodeRef}
-      className={`unit-card ${isDragging ? 'unit-card-dragging' : ''} ${isLocked ? 'unit-card-locked' : ''}`}
+      className={`unit-card ${dimmed ? 'unit-card-dragging' : ''} ${isLocked ? 'unit-card-locked' : ''}`}
     >
       <span className="unit-card-drag" {...dragProps}>
         <span className="unit-card-name">{unitWithHours.unit}</span>

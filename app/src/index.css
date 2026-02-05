@@ -260,15 +260,132 @@ body {
   background: #f0fff0;
 }
 
+.unit-pool--collapsed {
+  min-height: 0;
+  padding: 0.5rem 0.75rem;
+}
+
+.unit-pool-reveal {
+  display: block;
+  width: 100%;
+  padding: 0.5rem 0.75rem;
+  border: none;
+  border-radius: 4px;
+  background: transparent;
+  font-size: 0.8125rem;
+  color: #666;
+  text-align: left;
+  cursor: pointer;
+  transition: background 0.15s, color 0.15s;
+}
+
+.unit-pool-reveal:hover {
+  background: #f0f0f0;
+  color: #333;
+}
+
+.unit-pool--collapsed.unit-pool-over .unit-pool-reveal {
+  background: #f0fff0;
+  color: #2d6a4f;
+}
+
+.unit-pool-collapse {
+  display: block;
+  margin-top: 0.5rem;
+  padding: 0.25rem 0.5rem;
+  border: none;
+  border-radius: 4px;
+  background: #eee;
+  font-size: 0.75rem;
+  color: #666;
+  cursor: pointer;
+}
+
+.unit-pool-collapse:hover {
+  background: #e0e0e0;
+  color: #333;
+}
+
+.unit-pool-header-row {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 0.25rem;
+}
+
 .unit-pool-title {
-  margin: 0 0 0.25rem;
+  margin: 0;
   font-size: 1rem;
+  flex: 1;
+}
+
+.unit-pool-edit-toggle {
+  flex-shrink: 0;
+  padding: 0.25rem;
+  border: none;
+  border-radius: 4px;
+  background: transparent;
+  color: #666;
+  cursor: pointer;
+  line-height: 1;
+}
+
+.unit-pool-edit-toggle:hover {
+  background: #eee;
+  color: #333;
+}
+
+.unit-pool-edit-toggle--active {
+  background: #e3f2fd;
+  color: #1565c0;
+}
+
+.unit-pool-edit-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .unit-pool-hint {
   margin: 0 0 0.5rem;
   font-size: 0.75rem;
   color: #666;
+}
+
+.unit-pool-assign-bar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 0.5rem;
+  padding: 0.4rem 0;
+  border-bottom: 1px solid #eee;
+}
+
+.unit-pool-assign-label {
+  font-size: 0.8125rem;
+  color: #555;
+}
+
+.unit-pool-assign-buttons {
+  display: flex;
+  gap: 0.25rem;
+}
+
+.unit-pool-assign-year-btn {
+  padding: 0.25rem 0.5rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  background: #fff;
+  font-size: 0.75rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.unit-pool-assign-year-btn:hover {
+  border-color: #4a9;
+  background: #f0fff0;
+  color: #2d6a4f;
 }
 
 .unit-pool-list {
@@ -280,6 +397,27 @@ body {
   gap: 0.35rem;
   max-height: 60vh;
   overflow-y: auto;
+}
+
+.unit-pool-list-item {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+}
+
+.unit-pool-check-wrap {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+}
+
+.unit-pool-check {
+  width: 1.1rem;
+  height: 1.1rem;
+  margin: 0;
+  cursor: pointer;
+  accent-color: #1565c0;
 }
 
 /* Unit card */
@@ -310,8 +448,17 @@ body {
 }
 
 .unit-card-dragging {
-  opacity: 0.6;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+  opacity: 0.35;
+}
+
+.unit-card-overlay {
+  cursor: grabbing;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.2);
+  opacity: 1;
+}
+
+.unit-card-overlay-multi .unit-card-name {
+  font-weight: 600;
 }
 
 .unit-card-name {
@@ -376,14 +523,31 @@ body {
 .year-column-header {
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  gap: 0.5rem;
+  flex-wrap: wrap;
+  gap: 0.35rem;
   margin-bottom: 0.5rem;
 }
 
 .year-column-title {
   margin: 0;
   font-size: 1rem;
+  flex: 1;
+  min-width: 0;
+}
+
+.year-column-assign-here {
+  padding: 0.2rem 0.5rem;
+  border: 1px solid #4a9;
+  border-radius: 4px;
+  background: #e8f5e9;
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: #2e7d32;
+  cursor: pointer;
+}
+
+.year-column-assign-here:hover {
+  background: #c8e6c9;
 }
 
 .year-column-lock {
@@ -395,6 +559,26 @@ body {
   font-size: 1rem;
   line-height: 1;
   border-radius: 4px;
+  color: inherit;
+}
+
+.year-column-lock-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.year-column-lock-icon svg {
+  display: block;
+  vertical-align: middle;
+}
+
+.year-column-lock-icon--unlocked {
+  color: #059669;
+}
+
+.year-column-lock-icon--unlocked svg {
+  stroke-width: 2.25;
 }
 
 .year-column-lock:hover {
