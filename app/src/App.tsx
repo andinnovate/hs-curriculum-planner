@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useMemo, useState } from 'react'
 import {
   BreakdownPopup,
   getUnitBreakdownRows,
@@ -11,6 +11,7 @@ import { TallyBar } from './components/TallyBar'
 import gatherroundPlanJson from './data/gatherround-plan.json'
 import { useConfig } from './hooks/useConfig'
 import { useCurriculum } from './hooks/useCurriculum'
+import { useOptionChoices } from './hooks/useOptionChoices'
 import { useAssignments } from './hooks/useAssignments'
 import { useLockedYears } from './hooks/useLockedYears'
 import { useAuth } from './hooks/useAuth'
@@ -24,7 +25,33 @@ type DetailTarget = { type: 'unit'; unit: string } | { type: 'year'; year: Year 
 
 function App() {
   const { config, setHoursPerCredit, setMinCreditsForGraduation } = useConfig()
-  const { unitsWithHours, unitBreakdown, loading, error } = useCurriculum()
+  const {
+    optionChoices,
+    includedOptionalItems,
+    optionGroupHoursOverride,
+    setChoice,
+    clearChoice,
+    getChoice,
+    getOptionGroupHours,
+    setOptionGroupHours,
+    isOptionalItemIncluded,
+    setOptionalItemIncluded,
+  } = useOptionChoices()
+  const {
+    unitsWithHours,
+    unitBreakdown,
+    optionGroups,
+    optionChoicesByGroupId,
+    optionalItemsByUnit,
+    unitsWithUnselectedOptionGroups,
+    loading,
+    error,
+  } = useCurriculum(optionChoices, includedOptionalItems, optionGroupHoursOverride)
+
+  const unitsNeedingAttention = useMemo(
+    () => new Set(unitsWithUnselectedOptionGroups),
+    [unitsWithUnselectedOptionGroups]
+  )
   const { assignments, setAssignment, removeAssignment, replaceAssignments } = useAssignments()
   const { lockedYears, toggleLock } = useLockedYears()
   const auth = useAuth()
@@ -97,6 +124,7 @@ function App() {
             onSetAssignment={setAssignment}
             onRemoveAssignment={removeAssignment}
             onShowUnitDetails={(unit) => setDetailTarget({ type: 'unit', unit })}
+            unitsNeedingAttention={unitsNeedingAttention}
           />
         )}
       </main>
@@ -123,6 +151,17 @@ function App() {
               : getYearTotalHours(detailTarget.year, assignments, unitsWithHours)
           }
           onClose={() => setDetailTarget(null)}
+          unit={detailTarget.type === 'unit' ? detailTarget.unit : undefined}
+          optionGroups={detailTarget.type === 'unit' ? optionGroups.filter((g) => g.unit === detailTarget.unit) : undefined}
+          optionChoicesByGroupId={detailTarget.type === 'unit' ? optionChoicesByGroupId : undefined}
+          optionalItems={detailTarget.type === 'unit' ? (optionalItemsByUnit[detailTarget.unit] ?? []) : undefined}
+          getChoice={detailTarget.type === 'unit' ? getChoice : undefined}
+          setChoice={detailTarget.type === 'unit' ? setChoice : undefined}
+          clearChoice={detailTarget.type === 'unit' ? clearChoice : undefined}
+          getOptionGroupHours={detailTarget.type === 'unit' ? getOptionGroupHours : undefined}
+          setOptionGroupHours={detailTarget.type === 'unit' ? setOptionGroupHours : undefined}
+          isOptionalItemIncluded={detailTarget.type === 'unit' ? isOptionalItemIncluded : undefined}
+          setOptionalItemIncluded={detailTarget.type === 'unit' ? setOptionalItemIncluded : undefined}
         />
       )}
     </div>

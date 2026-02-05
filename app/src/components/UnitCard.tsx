@@ -5,9 +5,11 @@ interface UnitCardProps {
   unitWithHours: UnitWithHours
   onShowDetails?: (unit: string) => void
   isLocked?: boolean
+  /** When true, unit has an option group with no selection; show details icon as red (attention needed) */
+  needsAttention?: boolean
 }
 
-export function UnitCard({ unitWithHours, onShowDetails, isLocked }: UnitCardProps) {
+export function UnitCard({ unitWithHours, onShowDetails, isLocked, needsAttention }: UnitCardProps) {
   const { attributes, listeners, setNodeRef, isDragging } = useDraggable({
     id: unitWithHours.unit,
     data: { unit: unitWithHours.unit },
@@ -27,13 +29,13 @@ export function UnitCard({ unitWithHours, onShowDetails, isLocked }: UnitCardPro
       {onShowDetails && (
         <button
           type="button"
-          className="unit-card-details"
+          className={`unit-card-details${needsAttention ? ' unit-card-details-attention' : ''}`}
           onClick={(e) => {
             e.stopPropagation()
             onShowDetails(unitWithHours.unit)
           }}
-          aria-label={`Show details for ${unitWithHours.unit}`}
-          title="Show category breakdown"
+          aria-label={needsAttention ? `Show details for ${unitWithHours.unit} (choice needed)` : `Show details for ${unitWithHours.unit}`}
+          title={needsAttention ? 'Category breakdown — option choice needed' : 'Show category breakdown'}
         >
           <span aria-hidden>ⓘ</span>
         </button>

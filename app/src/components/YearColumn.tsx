@@ -11,6 +11,7 @@ interface YearColumnProps {
   onToggleLock: (year: Year) => void
   onRemove: (unit: string) => void
   onShowUnitDetails: (unit: string) => void
+  unitsNeedingAttention?: Set<string>
 }
 
 export function YearColumn({
@@ -21,6 +22,7 @@ export function YearColumn({
   onToggleLock,
   onRemove,
   onShowUnitDetails,
+  unitsNeedingAttention,
 }: YearColumnProps) {
   const { setNodeRef, isOver } = useDroppable({ id: `year-${year}` })
 
@@ -47,7 +49,12 @@ export function YearColumn({
       <ul className="year-column-list">
         {unitsInYear.map((u) => (
           <li key={u.unit} className="year-column-item">
-            <UnitCard unitWithHours={u} onShowDetails={onShowUnitDetails} isLocked={isLocked} />
+            <UnitCard
+              unitWithHours={u}
+              onShowDetails={onShowUnitDetails}
+              isLocked={isLocked}
+              needsAttention={unitsNeedingAttention?.has(u.unit)}
+            />
             {!isLocked && (
               <button
                 type="button"

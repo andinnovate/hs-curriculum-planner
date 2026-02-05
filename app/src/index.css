@@ -345,6 +345,15 @@ body {
   background: #eee;
 }
 
+.unit-card-details-attention {
+  color: #c00;
+}
+
+.unit-card-details-attention:hover {
+  color: #e00;
+  background: #fee;
+}
+
 .unit-card-locked .unit-card-drag {
   cursor: default;
 }
@@ -542,6 +551,147 @@ body {
 .breakdown-popover-body {
   padding: 1rem;
   overflow: auto;
+}
+
+.breakdown-option-groups {
+  margin-bottom: 1rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid #eee;
+}
+
+.breakdown-option-group {
+  margin-bottom: 0.75rem;
+}
+
+.breakdown-option-group-label,
+.breakdown-optional-items-label {
+  margin: 0 0 0.35rem;
+  font-size: 0.875rem;
+  font-weight: 600;
+}
+
+.breakdown-option-group-note {
+  margin: 0 0 0.5rem;
+  font-size: 0.8125rem;
+  color: #555;
+  white-space: pre-wrap;
+}
+
+.breakdown-option-group-note-only {
+  margin: 0;
+  font-size: 0.8125rem;
+  color: #777;
+  font-style: italic;
+}
+
+.breakdown-option-choices {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  font-size: 0.875rem;
+}
+
+.breakdown-option-choice {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  cursor: pointer;
+}
+
+.breakdown-option-group-hours {
+  margin-top: 0.35rem;
+  font-size: 0.875rem;
+  color: #555;
+}
+
+.breakdown-option-hours-display {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+}
+
+.breakdown-option-hours-edit-link {
+  padding: 0;
+  font-size: inherit;
+  color: #06c;
+  background: none;
+  border: none;
+  cursor: pointer;
+  text-decoration: underline;
+}
+
+.breakdown-option-hours-edit-link:hover {
+  color: #04a;
+}
+
+.breakdown-option-hours-edit input {
+  width: 4rem;
+  padding: 0.2rem 0.35rem;
+  font-size: inherit;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.breakdown-option-hours-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+}
+
+.breakdown-option-recommended-books {
+  margin-top: 0.5rem;
+  margin-left: 0.5rem;
+  font-size: 0.8125rem;
+  color: #555;
+}
+
+.breakdown-option-book {
+  margin-bottom: 0.25rem;
+}
+
+.breakdown-option-book-description {
+  margin: 0;
+  font-family: inherit;
+  font-size: inherit;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+
+.breakdown-recommended-books {
+  margin-top: 0.5rem;
+  margin-left: 1.25rem;
+  font-size: 0.8125rem;
+  color: #555;
+}
+
+.breakdown-recommended-label {
+  font-weight: 500;
+}
+
+.breakdown-optional-items {
+  margin-bottom: 1rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid #eee;
+}
+
+.breakdown-optional-item {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.875rem;
+  margin-bottom: 0.35rem;
+  cursor: pointer;
+}
+
+.breakdown-optional-item-desc {
+  flex: 1;
+  min-width: 0;
+}
+
+.breakdown-optional-item-meta {
+  color: #666;
+  font-size: 0.8125rem;
 }
 
 .breakdown-table {

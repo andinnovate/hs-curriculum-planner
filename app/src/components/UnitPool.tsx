@@ -6,9 +6,10 @@ interface UnitPoolProps {
   unitsWithHours: UnitWithHours[]
   assignments: AssignmentState
   onShowUnitDetails: (unit: string) => void
+  unitsNeedingAttention?: Set<string>
 }
 
-export function UnitPool({ unitsWithHours, assignments, onShowUnitDetails }: UnitPoolProps) {
+export function UnitPool({ unitsWithHours, assignments, onShowUnitDetails, unitsNeedingAttention }: UnitPoolProps) {
   const { setNodeRef, isOver } = useDroppable({ id: 'pool' })
 
   const unassigned = unitsWithHours.filter((u) => !(u.unit in assignments))
@@ -24,7 +25,11 @@ export function UnitPool({ unitsWithHours, assignments, onShowUnitDetails }: Uni
       <ul className="unit-pool-list">
         {unassigned.map((u) => (
           <li key={u.unit}>
-            <UnitCard unitWithHours={u} onShowDetails={onShowUnitDetails} />
+            <UnitCard
+              unitWithHours={u}
+              onShowDetails={onShowUnitDetails}
+              needsAttention={unitsNeedingAttention?.has(u.unit)}
+            />
           </li>
         ))}
       </ul>
