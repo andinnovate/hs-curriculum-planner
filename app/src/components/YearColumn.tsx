@@ -1,11 +1,13 @@
 import { useDroppable } from '@dnd-kit/core'
-import type { AssignmentState, UnitWithHours } from '../types'
+import type { AssignmentState, UnitBreakdown, UnitWithHours } from '../types'
 import type { Year } from '../types'
 import { UnitCard } from './UnitCard'
 
 interface YearColumnProps {
   year: Year
   unitsWithHours: UnitWithHours[]
+  unitBreakdown: UnitBreakdown
+  maxUnitHours: number
   assignments: AssignmentState
   isLocked: boolean
   onToggleLock: (year: Year) => void
@@ -19,6 +21,8 @@ interface YearColumnProps {
 export function YearColumn({
   year,
   unitsWithHours,
+  unitBreakdown,
+  maxUnitHours,
   assignments,
   isLocked,
   onToggleLock,
@@ -79,6 +83,8 @@ export function YearColumn({
           <li key={u.unit} className="year-column-item">
             <UnitCard
               unitWithHours={u}
+              breakdownRows={unitBreakdown[u.unit] ?? []}
+              scaleMaxHours={maxUnitHours}
               onShowDetails={onShowUnitDetails}
               isLocked={isLocked}
               needsAttention={unitsNeedingAttention?.has(u.unit)}

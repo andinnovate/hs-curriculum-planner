@@ -1,7 +1,8 @@
-import { Fragment, useState } from 'react'
+import { Fragment, useMemo, useState } from 'react'
 import type { AssignmentState, CategoryBreakdownRow, UnitBreakdown, UnitWithHours } from '../types'
 import type { UnitOptionChoice, UnitOptionGroup, UnitOptionalItem } from '../types'
 import type { Year } from '../types'
+import { getCategoryColor, rollupCategory } from './CategoryBar'
 
 interface BreakdownPopupProps {
   title: string
@@ -71,6 +72,10 @@ export function BreakdownPopup({
   setOptionalItemIncluded,
 }: BreakdownPopupProps) {
   const grouped = groupByCategory(rows)
+  const breakdownTotal = useMemo(() => {
+    if (totalHours > 0) return totalHours
+    return grouped.reduce((sum, g) => sum + g.total, 0)
+  }, [grouped, totalHours])
   const showUnitOptions = unit && (optionGroups.length > 0 || optionalItems.length > 0)
   const [editingHoursGroupId, setEditingHoursGroupId] = useState<string | null>(null)
   const [editingHoursValue, setEditingHoursValue] = useState('')
@@ -238,7 +243,18 @@ export function BreakdownPopup({
                   <tr key={`${g.category}-${s.subcategory}-${s.source ?? ''}`}>
                     {i === 0 && (
                       <td rowSpan={g.subcategories.length} className="breakdown-category">
-                        {g.category}
+                        <div className="breakdown-category-label">
+                          <span className="breakdown-category-name">{g.category}</span>
+                          <span className="breakdown-category-bar">
+                            <span
+                              className="breakdown-category-bar-fill"
+                              style={{
+                                width: `${breakdownTotal > 0 ? Math.min(100, Math.max(0, (g.total / breakdownTotal) * 100)) : 0}%`,
+                                backgroundColor: getCategoryColor(rollupCategory(g.category)),
+                              }}
+                            />
+                          </span>
+                        </div>
                       </td>
                     )}
                     <td>

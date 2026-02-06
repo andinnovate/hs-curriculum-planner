@@ -15,6 +15,8 @@ describe('YearColumn', () => {
       <YearColumn
         year={1}
         unitsWithHours={units}
+        unitBreakdown={{}}
+        maxUnitHours={120}
         assignments={{ Algebra: 1 }}
         isLocked={false}
         onToggleLock={() => {}}
@@ -33,6 +35,8 @@ describe('YearColumn', () => {
       <YearColumn
         year={2}
         unitsWithHours={units}
+        unitBreakdown={{}}
+        maxUnitHours={120}
         assignments={{ Biology: 2 }}
         isLocked={true}
         onToggleLock={() => {}}
@@ -50,6 +54,8 @@ describe('YearColumn', () => {
       <YearColumn
         year={2}
         unitsWithHours={units}
+        unitBreakdown={{}}
+        maxUnitHours={120}
         assignments={{ Biology: 2 }}
         isLocked={false}
         onToggleLock={() => {}}

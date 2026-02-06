@@ -525,9 +525,9 @@ body {
   flex: 1;
   min-width: 0;
   display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: 0.5rem;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 0.35rem;
   cursor: grab;
 }
 
@@ -557,10 +557,21 @@ body {
   white-space: nowrap;
 }
 
+.unit-card-text {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 0.5rem;
+}
+
 .unit-card-hours {
   flex-shrink: 0;
   color: #666;
   font-size: 0.8em;
+}
+
+.unit-card-bar {
+  width: 100%;
 }
 
 .unit-card-details {
@@ -591,6 +602,35 @@ body {
 
 .unit-card-locked .unit-card-drag {
   cursor: default;
+}
+
+.category-bar {
+  display: flex;
+  width: 100%;
+  overflow: hidden;
+  border-radius: 999px;
+  background: #eef2f7;
+  box-shadow: inset 0 0 0 1px rgba(0,0,0,0.05);
+  align-self: flex-start;
+  margin-right: auto;
+}
+
+.category-bar--xs {
+  height: 6px;
+}
+
+.category-bar--sm {
+  height: 8px;
+}
+
+.category-bar--md {
+  height: 10px;
+}
+
+.category-bar-segment {
+  display: block;
+  height: 100%;
+  transition: width 0.2s ease-out;
 }
 
 /* Year column */
@@ -740,6 +780,14 @@ body {
 .tally-year {
   color: #555;
   display: inline-flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.3rem;
+  min-width: 180px;
+}
+
+.tally-year-info {
+  display: inline-flex;
   align-items: center;
   gap: 0.25rem;
 }
@@ -760,8 +808,20 @@ body {
   background: #eee;
 }
 
+.tally-year-bar {
+  width: 100%;
+  max-width: 240px;
+}
+
 .tally-total {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
   font-weight: 600;
+}
+
+.tally-total-bar {
+  width: min(420px, 100%);
 }
 
 .tally-ok {
@@ -1063,6 +1123,30 @@ body {
 
 .breakdown-category {
   font-weight: 500;
+}
+
+.breakdown-category-label {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.breakdown-category-name {
+  line-height: 1.2;
+}
+
+.breakdown-category-bar {
+  width: 100%;
+  height: 6px;
+  background: #eef2f7;
+  border-radius: 999px;
+  overflow: hidden;
+  box-shadow: inset 0 0 0 1px rgba(0,0,0,0.05);
+}
+
+.breakdown-category-bar-fill {
+  display: block;
+  height: 100%;
 }
 
 .breakdown-total {

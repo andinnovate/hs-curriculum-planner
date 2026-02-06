@@ -305,6 +305,7 @@ function App() {
         ) : (
           <PlannerLayout
             unitsWithHours={unitsWithHours}
+            unitBreakdown={unitBreakdown}
             assignments={assignments}
             lockedYears={lockedYears}
             onToggleLock={toggleLock}
@@ -318,6 +319,7 @@ function App() {
       {!loading && (
         <TallyBar
           unitsWithHours={unitsWithHours}
+          unitBreakdown={unitBreakdown}
           assignments={assignments}
           hoursPerCredit={config.hoursPerCredit}
           minCreditsForGraduation={config.minCreditsForGraduation}

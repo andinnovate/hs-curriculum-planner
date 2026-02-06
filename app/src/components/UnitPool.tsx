@@ -1,11 +1,13 @@
 import { useState } from 'react'
 import { useDroppable } from '@dnd-kit/core'
-import type { AssignmentState, UnitWithHours } from '../types'
+import type { AssignmentState, UnitBreakdown, UnitWithHours } from '../types'
 import type { Year } from '../types'
 import { UnitCard } from './UnitCard'
 
 interface UnitPoolProps {
   unitsWithHours: UnitWithHours[]
+  unitBreakdown: UnitBreakdown
+  maxUnitHours: number
   assignments: AssignmentState
   onShowUnitDetails: (unit: string) => void
   unitsNeedingAttention?: Set<string>
@@ -20,6 +22,8 @@ interface UnitPoolProps {
 
 export function UnitPool({
   unitsWithHours,
+  unitBreakdown,
+  maxUnitHours,
   assignments,
   onShowUnitDetails,
   unitsNeedingAttention,
@@ -104,6 +108,8 @@ export function UnitPool({
             )}
             <UnitCard
               unitWithHours={u}
+              breakdownRows={unitBreakdown[u.unit] ?? []}
+              scaleMaxHours={maxUnitHours}
               onShowDetails={onShowUnitDetails}
               needsAttention={unitsNeedingAttention?.has(u.unit)}
               isPartOfActiveDrag={isMultiDrag && selectedUnitIds.has(u.unit)}

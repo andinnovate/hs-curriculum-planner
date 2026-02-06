@@ -1,4 +1,4 @@
-import { useCallback, useState } from 'react'
+import { useCallback, useMemo, useState } from 'react'
 import {
   DndContext,
   DragOverlay,
@@ -8,13 +8,14 @@ import {
   useSensor,
   useSensors,
 } from '@dnd-kit/core'
-import type { AssignmentState, UnitWithHours } from '../types'
+import type { AssignmentState, UnitBreakdown, UnitWithHours } from '../types'
 import type { Year } from '../types'
 import { UnitPool } from './UnitPool'
 import { YearColumn } from './YearColumn'
 
 interface PlannerLayoutProps {
   unitsWithHours: UnitWithHours[]
+  unitBreakdown: UnitBreakdown
   assignments: AssignmentState
   lockedYears: Set<Year>
   onToggleLock: (year: Year) => void
@@ -26,6 +27,7 @@ interface PlannerLayoutProps {
 
 export function PlannerLayout({
   unitsWithHours,
+  unitBreakdown,
   assignments,
   lockedYears,
   onToggleLock,
@@ -95,6 +97,10 @@ export function PlannerLayout({
     activeId && selectedUnitIds.has(activeId) && selectedUnitIds.size > 1
       ? selectedUnitIds
       : null
+  const maxUnitHours = useMemo(
+    () => unitsWithHours.reduce((max, u) => Math.max(max, u.totalHours), 0),
+    [unitsWithHours]
+  )
 
   return (
     <DndContext sensors={sensors} onDragStart={handleDragStart} onDragEnd={handleDragEnd}>
@@ -102,6 +108,8 @@ export function PlannerLayout({
         <aside className="planner-sidebar">
           <UnitPool
             unitsWithHours={unitsWithHours}
+            unitBreakdown={unitBreakdown}
+            maxUnitHours={maxUnitHours}
             assignments={assignments}
             onShowUnitDetails={onShowUnitDetails}
             unitsNeedingAttention={unitsNeedingAttention}
@@ -119,6 +127,8 @@ export function PlannerLayout({
               key={y}
               year={y}
               unitsWithHours={unitsWithHours}
+              unitBreakdown={unitBreakdown}
+              maxUnitHours={maxUnitHours}
               assignments={assignments}
               isLocked={lockedYears.has(y)}
               onToggleLock={onToggleLock}
@@ -136,14 +146,18 @@ export function PlannerLayout({
           activeSelectionForOverlay ? (
             <div className="unit-card unit-card-overlay unit-card-overlay-multi">
               <span className="unit-card-drag">
-                <span className="unit-card-name">{activeSelectionForOverlay.size} units</span>
+                <span className="unit-card-text">
+                  <span className="unit-card-name">{activeSelectionForOverlay.size} units</span>
+                </span>
               </span>
             </div>
           ) : (
             <div className="unit-card unit-card-overlay">
               <span className="unit-card-drag">
-                <span className="unit-card-name">{activeUnit.unit}</span>
-                <span className="unit-card-hours">{activeUnit.totalHours.toFixed(1)} hrs</span>
+                <span className="unit-card-text">
+                  <span className="unit-card-name">{activeUnit.unit}</span>
+                  <span className="unit-card-hours">{activeUnit.totalHours.toFixed(1)} hrs</span>
+                </span>
               </span>
             </div>
           )

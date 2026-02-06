@@ -1,5 +1,6 @@
-import type { AssignmentState, UnitWithHours } from '../types'
+import type { AssignmentState, CategoryBreakdownRow, UnitBreakdown, UnitWithHours } from '../types'
 import type { Year } from '../types'
+import { CategoryBar } from './CategoryBar'
 
 function getHoursByYear(
   unitsWithHours: UnitWithHours[],
@@ -14,8 +15,32 @@ function getHoursByYear(
   return byYear
 }
 
+function getBreakdownRowsForYear(
+  year: Year,
+  assignments: AssignmentState,
+  unitBreakdown: UnitBreakdown
+): CategoryBreakdownRow[] {
+  const rows: CategoryBreakdownRow[] = []
+  for (const [unit, y] of Object.entries(assignments)) {
+    if (y === year) rows.push(...(unitBreakdown[unit] ?? []))
+  }
+  return rows
+}
+
+function getBreakdownRowsForTotal(
+  assignments: AssignmentState,
+  unitBreakdown: UnitBreakdown
+): CategoryBreakdownRow[] {
+  const rows: CategoryBreakdownRow[] = []
+  for (const [unit] of Object.entries(assignments)) {
+    rows.push(...(unitBreakdown[unit] ?? []))
+  }
+  return rows
+}
+
 interface TallyBarProps {
   unitsWithHours: UnitWithHours[]
+  unitBreakdown: UnitBreakdown
   assignments: AssignmentState
   hoursPerCredit: number
   minCreditsForGraduation: number
@@ -24,6 +49,7 @@ interface TallyBarProps {
 
 export function TallyBar({
   unitsWithHours,
+  unitBreakdown,
   assignments,
   hoursPerCredit,
   minCreditsForGraduation,
@@ -33,6 +59,8 @@ export function TallyBar({
   const totalHours = (byYear[1] ?? 0) + (byYear[2] ?? 0) + (byYear[3] ?? 0) + (byYear[4] ?? 0)
   const totalCredits = hoursPerCredit > 0 ? totalHours / hoursPerCredit : 0
   const meetsMin = totalCredits >= minCreditsForGraduation
+  const totalRows = getBreakdownRowsForTotal(assignments, unitBreakdown)
+  const maxYearHours = Math.max(byYear[1] ?? 0, byYear[2] ?? 0, byYear[3] ?? 0, byYear[4] ?? 0, 0)
 
   return (
     <footer className="tally-bar">
@@ -40,20 +68,31 @@ export function TallyBar({
         {([1, 2, 3, 4] as const).map((y) => {
           const h = byYear[y] ?? 0
           const c = hoursPerCredit > 0 ? h / hoursPerCredit : 0
+          const rows = getBreakdownRowsForYear(y, assignments, unitBreakdown)
           return (
             <span key={y} className="tally-year">
-              Year {y}: {h.toFixed(1)} hrs ({c.toFixed(2)} cr)
-              {onShowYearDetails && (
-                <button
-                  type="button"
-                  className="tally-year-details"
-                  onClick={() => onShowYearDetails(y)}
-                  aria-label={`Show year ${y} breakdown`}
-                  title="Show category breakdown for this year"
-                >
-                  <span aria-hidden>ⓘ</span>
-                </button>
-              )}
+              <span className="tally-year-info">
+                <span>Year {y}: {h.toFixed(1)} hrs ({c.toFixed(2)} cr)</span>
+                {onShowYearDetails && (
+                  <button
+                    type="button"
+                    className="tally-year-details"
+                    onClick={() => onShowYearDetails(y)}
+                    aria-label={`Show year ${y} breakdown`}
+                    title="Show category breakdown for this year"
+                  >
+                    <span aria-hidden>ⓘ</span>
+                  </button>
+                )}
+              </span>
+              <CategoryBar
+                rows={rows}
+                totalHours={h}
+                scaleMaxHours={maxYearHours}
+                size="sm"
+                className="tally-year-bar"
+                ariaLabel={`Year ${y} category breakdown`}
+              />
             </span>
           )
         })}
@@ -66,6 +105,14 @@ export function TallyBar({
         ) : (
           <span className="tally-short"> (need {Math.max(0, minCreditsForGraduation - totalCredits).toFixed(2)} more)</span>
         )}
+        <CategoryBar
+          rows={totalRows}
+          totalHours={totalHours}
+          scaleMaxHours={maxYearHours}
+          size="md"
+          className="tally-total-bar"
+          ariaLabel="Overall category breakdown"
+        />
       </div>
     </footer>
   )

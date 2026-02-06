@@ -14,6 +14,7 @@ describe('TallyBar', () => {
     render(
       <TallyBar
         unitsWithHours={units}
+        unitBreakdown={{}}
         assignments={{ Algebra: 1, Biology: 2 }}
         hoursPerCredit={100}
         minCreditsForGraduation={5}
@@ -31,6 +32,7 @@ describe('TallyBar', () => {
     render(
       <TallyBar
         unitsWithHours={units}
+        unitBreakdown={{}}
         assignments={{ Chemistry: 4 }}
         hoursPerCredit={80}
         minCreditsForGraduation={1}

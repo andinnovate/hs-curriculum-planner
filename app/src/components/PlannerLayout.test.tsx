@@ -14,6 +14,7 @@ describe('PlannerLayout', () => {
     render(
       <PlannerLayout
         unitsWithHours={units}
+        unitBreakdown={{}}
         assignments={{}}
         lockedYears={new Set()}
         onToggleLock={() => {}}

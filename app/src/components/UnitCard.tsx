@@ -1,8 +1,11 @@
 import { useDraggable } from '@dnd-kit/core'
-import type { UnitWithHours } from '../types'
+import type { CategoryBreakdownRow, UnitWithHours } from '../types'
+import { CategoryBar } from './CategoryBar'
 
 interface UnitCardProps {
   unitWithHours: UnitWithHours
+  breakdownRows?: CategoryBreakdownRow[]
+  scaleMaxHours?: number
   onShowDetails?: (unit: string) => void
   isLocked?: boolean
   /** When true, unit has an option group with no selection; show details icon as red (attention needed) */
@@ -11,7 +14,7 @@ interface UnitCardProps {
   isPartOfActiveDrag?: boolean
 }
 
-export function UnitCard({ unitWithHours, onShowDetails, isLocked, needsAttention, isPartOfActiveDrag }: UnitCardProps) {
+export function UnitCard({ unitWithHours, breakdownRows, scaleMaxHours, onShowDetails, isLocked, needsAttention, isPartOfActiveDrag }: UnitCardProps) {
   const { attributes, listeners, setNodeRef, isDragging } = useDraggable({
     id: unitWithHours.unit,
     data: { unit: unitWithHours.unit },
@@ -26,8 +29,20 @@ export function UnitCard({ unitWithHours, onShowDetails, isLocked, needsAttentio
       className={`unit-card ${dimmed ? 'unit-card-dragging' : ''} ${isLocked ? 'unit-card-locked' : ''}`}
     >
       <span className="unit-card-drag" {...dragProps}>
-        <span className="unit-card-name">{unitWithHours.unit}</span>
-        <span className="unit-card-hours">{unitWithHours.totalHours.toFixed(1)} hrs</span>
+        <span className="unit-card-text">
+          <span className="unit-card-name">{unitWithHours.unit}</span>
+          <span className="unit-card-hours">{unitWithHours.totalHours.toFixed(1)} hrs</span>
+        </span>
+        {breakdownRows && breakdownRows.length > 0 && (
+          <CategoryBar
+            rows={breakdownRows}
+            totalHours={unitWithHours.totalHours}
+            scaleMaxHours={scaleMaxHours}
+            size="xs"
+            className="unit-card-bar"
+            ariaLabel={`Category breakdown for ${unitWithHours.unit}`}
+          />
+        )}
       </span>
       {onShowDetails && (
         <button
