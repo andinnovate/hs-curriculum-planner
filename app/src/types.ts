@@ -80,4 +80,5 @@ export interface PlanMeta {
   name: string
   updatedAt: string
   lastSyncedAt?: string | null
+  deletedAt?: string | null
 }

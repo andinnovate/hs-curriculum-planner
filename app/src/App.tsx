@@ -6,6 +6,7 @@ import {
   getYearTotalHours,
 } from './components/BreakdownPopup'
 import { ConfigPanel } from './components/ConfigPanel'
+import { ManagePlansPanel } from './components/ManagePlansPanel'
 import { PlanComparePopup } from './components/PlanComparePopup'
 import { PlannerLayout } from './components/PlannerLayout'
 import { TallyBar } from './components/TallyBar'
@@ -37,6 +38,7 @@ function buildPlanSignature(data: PlanData) {
 function App() {
   const {
     plans,
+    activePlans,
     currentPlanId,
     currentPlan,
     setCurrentPlanId,
@@ -44,6 +46,8 @@ function App() {
     touchPlan,
     createPlanFromData,
     markPlansSynced,
+    deletePlan,
+    purgeDeletedPlans,
     mergeRemotePlans,
   } = usePlans()
   const { config, setHoursPerCredit, setMinCreditsForGraduation, replaceConfig } = useConfig(currentPlanId)
@@ -82,8 +86,8 @@ function App() {
   const auth = useAuth()
   const [confirmPrepopulate, setConfirmPrepopulate] = useState(false)
   const [detailTarget, setDetailTarget] = useState<DetailTarget>(null)
-  const [comparePlanId, setComparePlanId] = useState('')
-  const [showCompare, setShowCompare] = useState(false)
+  const [manageOpen, setManageOpen] = useState(false)
+  const [comparePlans, setComparePlans] = useState<{ sourceId: string; targetId: string } | null>(null)
   const suppressTouchRef = useRef(false)
   const planSwitchRef = useRef(false)
 
@@ -124,6 +128,7 @@ function App() {
     plans,
     mergeRemotePlans,
     markPlansSynced,
+    purgeDeletedPlans,
     applyCurrentPlanData,
   })
 
@@ -162,17 +167,6 @@ function App() {
     }
   }, [currentPlanId, planSignature, touchPlan])
 
-  const otherPlans = useMemo(() => plans.filter((plan) => plan.id !== currentPlanId), [plans, currentPlanId])
-
-  useEffect(() => {
-    if (otherPlans.length === 0) {
-      setComparePlanId('')
-      return
-    }
-    if (comparePlanId && otherPlans.some((plan) => plan.id === comparePlanId)) return
-    setComparePlanId(otherPlans[0].id)
-  }, [comparePlanId, otherPlans])
-
   if (error) {
     return (
       <div style={{ padding: '1rem', color: 'crimson' }}>
@@ -190,23 +184,35 @@ function App() {
     }
   }
 
-  const handleRenamePlan = () => {
-    if (!currentPlan) return
-    const nextName = window.prompt('Rename plan', currentPlan.name)
-    if (!nextName) return
-    renamePlan(currentPlan.id, nextName)
-  }
-
-  const handleCopyPlan = () => {
-    if (!currentPlan) return
-    const suggestedName = `${currentPlan.name} Copy`
+  const handleCopyPlan = (planId: string) => {
+    const sourcePlan = activePlans.find((plan) => plan.id === planId)
+    if (!sourcePlan) return
+    const suggestedName = `${sourcePlan.name} Copy`
     const nextName = window.prompt('Name the copied plan', suggestedName)
     if (!nextName) return
-    createPlanFromData(nextName, currentPlanData)
+    const data = readPlanDataFromStorage(planId)
+    createPlanFromData(nextName, data)
   }
 
-  const comparePlan = comparePlanId ? plans.find((plan) => plan.id === comparePlanId) : null
-  const comparePlanData = comparePlanId ? readPlanDataFromStorage(comparePlanId) : null
+  const handleRenamePlanById = (planId: string) => {
+    const sourcePlan = activePlans.find((plan) => plan.id === planId)
+    if (!sourcePlan) return
+    const nextName = window.prompt('Rename plan', sourcePlan.name)
+    if (!nextName) return
+    renamePlan(planId, nextName)
+  }
+
+  const handleDeletePlan = (planId: string) => {
+    const plan = activePlans.find((p) => p.id === planId)
+    if (!plan) return
+    const ok = window.confirm(`Delete "${plan.name}"? This will remove it from this device and sync later.`)
+    if (!ok) return
+    deletePlan(planId)
+  }
+
+  const compareSource = comparePlans?.sourceId ? activePlans.find((plan) => plan.id === comparePlans.sourceId) : null
+  const compareTarget = comparePlans?.targetId ? activePlans.find((plan) => plan.id === comparePlans.targetId) : null
+  const comparePlanData = comparePlans ? readPlanDataFromStorage(comparePlans.targetId) : null
 
   return (
     <div className="app">
@@ -251,44 +257,8 @@ function App() {
               <span className="app-plan-name">{currentPlan?.name ?? 'Untitled Plan'}</span>
             </div>
             <div className="app-plan-actions">
-              <button type="button" className="app-plan-link" onClick={handleRenamePlan}>
-                Rename
-              </button>
-              <button type="button" className="app-plan-link" onClick={handleCopyPlan}>
-                Copy
-              </button>
-              <label className="app-plan-select">
-                Change to:
-                <select value={currentPlanId} onChange={(e) => setCurrentPlanId(e.target.value)}>
-                  {plans.map((plan) => (
-                    <option key={plan.id} value={plan.id}>
-                      {plan.name}
-                    </option>
-                  ))}
-                </select>
-              </label>
-              <label className="app-plan-select">
-                Compare:
-                <select
-                  value={comparePlanId}
-                  onChange={(e) => setComparePlanId(e.target.value)}
-                  disabled={otherPlans.length === 0}
-                >
-                  {otherPlans.length === 0 && <option value="">No other plans</option>}
-                  {otherPlans.map((plan) => (
-                    <option key={plan.id} value={plan.id}>
-                      {plan.name}
-                    </option>
-                  ))}
-                </select>
-              </label>
-              <button
-                type="button"
-                className="app-plan-link"
-                disabled={!comparePlanId}
-                onClick={() => setShowCompare(true)}
-              >
-                Compare
+              <button type="button" className="app-plan-manage" onClick={() => setManageOpen(true)}>
+                Manage plans
               </button>
             </div>
             <div className={`app-sync-status app-sync-status--${syncStatus}`}>
@@ -351,13 +321,28 @@ function App() {
           setOptionalItemIncluded={detailTarget.type === 'unit' ? setOptionalItemIncluded : undefined}
         />
       )}
-      {showCompare && comparePlan && comparePlanData && (
+      {comparePlans && compareSource && compareTarget && comparePlanData && (
         <PlanComparePopup
-          currentPlanName={currentPlan?.name ?? 'Current plan'}
-          otherPlanName={comparePlan.name}
-          currentData={currentPlanData}
+          currentPlanName={compareSource.name}
+          otherPlanName={compareTarget.name}
+          currentData={readPlanDataFromStorage(compareSource.id)}
           otherData={comparePlanData}
-          onClose={() => setShowCompare(false)}
+          onClose={() => setComparePlans(null)}
+        />
+      )}
+      {manageOpen && auth.user && (
+        <ManagePlansPanel
+          plans={activePlans}
+          currentPlanId={currentPlanId}
+          onClose={() => setManageOpen(false)}
+          onRename={handleRenamePlanById}
+          onCopy={handleCopyPlan}
+          onDelete={handleDeletePlan}
+          onSelectPlan={setCurrentPlanId}
+          onCompare={(sourceId, targetId) => {
+            setComparePlans({ sourceId, targetId })
+            setManageOpen(false)
+          }}
         />
       )}
     </div>

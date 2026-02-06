@@ -12,11 +12,13 @@ type UsePlanSyncOptions = {
   plans: PlanMeta[]
   mergeRemotePlans: (remotePlans: RemotePlan[], options?: { onApplyCurrentPlanData?: (data: PlanData) => void }) => void
   markPlansSynced: (planIds: string[], syncedAt: string) => void
+  purgeDeletedPlans: (planIds: string[]) => void
   applyCurrentPlanData: (data: PlanData) => void
   syncIntervalMs?: number
 }
 
 function isPlanDirty(plan: PlanMeta) {
+  if (plan.deletedAt) return true
   if (!plan.lastSyncedAt) return true
   const updated = Date.parse(plan.updatedAt)
   const synced = Date.parse(plan.lastSyncedAt)
@@ -29,6 +31,7 @@ export function usePlanSync({
   plans,
   mergeRemotePlans,
   markPlansSynced,
+  purgeDeletedPlans,
   applyCurrentPlanData,
   syncIntervalMs = 12000,
 }: UsePlanSyncOptions): SyncStatus {
@@ -72,26 +75,46 @@ export function usePlanSync({
     syncingRef.current = true
     setSyncStatus('pending')
     try {
-      const payload = dirtyPlans.map((plan) => ({
-        id: plan.id,
-        user_id: activeUser.id,
-        name: plan.name,
-        data: readPlanDataFromStorage(plan.id),
-      }))
-      const { error } = await supabase.from('planner_plans').upsert(payload, { onConflict: 'id' })
-      if (error) {
-        setSyncStatus('offline')
-        return
+      const deletedPlans = dirtyPlans.filter((plan) => plan.deletedAt)
+      const upsertPlans = dirtyPlans.filter((plan) => !plan.deletedAt)
+
+      if (upsertPlans.length > 0) {
+        const payload = upsertPlans.map((plan) => ({
+          id: plan.id,
+          user_id: activeUser.id,
+          name: plan.name,
+          data: readPlanDataFromStorage(plan.id),
+        }))
+        const { error } = await supabase.from('planner_plans').upsert(payload, { onConflict: 'id' })
+        if (error) {
+          setSyncStatus('offline')
+          return
+        }
+        const syncedAt = new Date().toISOString()
+        markPlansSynced(
+          upsertPlans.map((plan) => plan.id),
+          syncedAt
+        )
       }
-      const syncedAt = new Date().toISOString()
-      markPlansSynced(
-        dirtyPlans.map((plan) => plan.id),
-        syncedAt
-      )
+
+      if (deletedPlans.length > 0) {
+        const { error: deleteError } = await supabase
+          .from('planner_plans')
+          .delete()
+          .in(
+            'id',
+            deletedPlans.map((plan) => plan.id)
+          )
+        if (deleteError) {
+          setSyncStatus('offline')
+          return
+        }
+        purgeDeletedPlans(deletedPlans.map((plan) => plan.id))
+      }
     } finally {
       syncingRef.current = false
     }
-  }, [isOnline, markPlansSynced])
+  }, [isOnline, markPlansSynced, purgeDeletedPlans])
 
   useEffect(() => {
     if (!user || !isOnline) {

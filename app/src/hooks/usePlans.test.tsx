@@ -19,7 +19,7 @@ describe('usePlans', () => {
   it('initializes with a default plan and can rename it', () => {
     const { result } = renderHook(() => usePlans())
 
-    expect(result.current.plans.length).toBe(1)
+    expect(result.current.activePlans.length).toBe(1)
     const id = result.current.currentPlanId
 
     act(() => {
@@ -36,7 +36,29 @@ describe('usePlans', () => {
       result.current.createPlanFromData('Copy Plan', emptyData)
     })
 
-    expect(result.current.plans.length).toBe(2)
+    expect(result.current.activePlans.length).toBe(2)
     expect(result.current.currentPlan?.name).toBe('Copy Plan')
+  })
+
+  it('marks plans deleted and prevents deleting the final plan', () => {
+    const { result } = renderHook(() => usePlans())
+
+    act(() => {
+      result.current.createPlanFromData('Plan B', emptyData)
+    })
+
+    const planIds = result.current.activePlans.map((plan) => plan.id)
+
+    act(() => {
+      result.current.deletePlan(planIds[0])
+    })
+
+    expect(result.current.activePlans.length).toBe(1)
+
+    act(() => {
+      result.current.deletePlan(result.current.activePlans[0].id)
+    })
+
+    expect(result.current.activePlans.length).toBe(1)
   })
 })

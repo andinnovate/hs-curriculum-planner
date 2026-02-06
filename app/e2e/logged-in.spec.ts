@@ -7,5 +7,6 @@ test('shows plan controls when logged in (mocked)', async ({ page }) => {
 
   await expect(page.getByText('planner@example.com')).toBeVisible()
   await expect(page.getByText(/Plan:/i)).toBeVisible()
+  await expect(page.getByRole('button', { name: /manage plans/i })).toBeVisible()
   await expect(page.getByText(/Sync:/i)).toBeVisible()
 })

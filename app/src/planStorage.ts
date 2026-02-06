@@ -219,6 +219,18 @@ export function writePlanDataToStorage(planId: string, data: PlanData) {
   saveConfig(planId, data.config)
 }
 
+export function clearPlanDataFromStorage(planId: string) {
+  const keys = [
+    getPlanStorageKey(planId, 'assignments'),
+    getPlanStorageKey(planId, 'option-choices'),
+    getPlanStorageKey(planId, 'included-optional-items'),
+    getPlanStorageKey(planId, 'option-group-hours'),
+    getPlanStorageKey(planId, 'locked-years'),
+    getPlanStorageKey(planId, 'config'),
+  ]
+  keys.forEach((key) => localStorage.removeItem(key))
+}
+
 export function migrateLegacyPlan(planId: string) {
   const legacyAssignments = localStorage.getItem(LEGACY_KEYS.assignments)
   const legacyOptionChoices = localStorage.getItem(LEGACY_KEYS.optionChoices)
