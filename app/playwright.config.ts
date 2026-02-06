@@ -1,7 +1,7 @@
 import { defineConfig } from '@playwright/test'
 
 process.env.FORCE_COLOR = '0'
-process.env.NO_COLOR = '1'
+delete process.env.NO_COLOR
 
 export default defineConfig({
   testDir: './e2e',
@@ -19,7 +19,6 @@ export default defineConfig({
     reuseExistingServer: !process.env.CI,
     env: {
       FORCE_COLOR: '0',
-      NO_COLOR: '1',
     },
   },
 })
