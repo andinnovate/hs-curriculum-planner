@@ -24,6 +24,7 @@ describe('usePlanSync', () => {
         plans: [],
         mergeRemotePlans: () => {},
         markPlansSynced: () => {},
+        purgeDeletedPlans: () => {},
         applyCurrentPlanData: () => {},
       })
     )
@@ -48,6 +49,7 @@ describe('usePlanSync', () => {
         plans,
         mergeRemotePlans: () => {},
         markPlansSynced: () => {},
+        purgeDeletedPlans: () => {},
         applyCurrentPlanData: () => {},
         syncIntervalMs: 60_000,
       })

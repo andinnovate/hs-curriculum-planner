@@ -3,6 +3,7 @@ import type { PlanData, PlanMeta } from '../types'
 import {
   DEFAULT_PLAN_NAME,
   PLAN_LIST_KEY,
+  clearPlanDataFromStorage,
   migrateLegacyPlan,
   normalizePlanData,
   writePlanDataToStorage,
@@ -38,6 +39,7 @@ function normalizePlanMeta(raw: Partial<PlanMeta>, fallbackUpdatedAt: string): P
     name: String(raw.name ?? DEFAULT_PLAN_NAME),
     updatedAt: safeDate(raw.updatedAt, fallbackUpdatedAt),
     lastSyncedAt: raw.lastSyncedAt ?? null,
+    deletedAt: raw.deletedAt ?? null,
   }
 }
 
@@ -62,22 +64,27 @@ function loadPlansState(): PlansState {
     }
     const parsed = JSON.parse(raw) as Partial<PlansState>
     const parsedPlans = Array.isArray(parsed.plans) ? parsed.plans : []
-    const normalizedPlans = parsedPlans.map((plan) => normalizePlanMeta(plan, fallbackUpdatedAt))
-    const plans = normalizedPlans.length
-      ? normalizedPlans
-      : [
-          {
-            id: createPlanId(),
-            name: DEFAULT_PLAN_NAME,
-            updatedAt: fallbackUpdatedAt,
-            lastSyncedAt: null,
-          },
-        ]
+    let normalizedPlans = parsedPlans.map((plan) => normalizePlanMeta(plan, fallbackUpdatedAt))
+    const activePlans = normalizedPlans.filter((plan) => !plan.deletedAt)
+    if (normalizedPlans.length === 0 || activePlans.length === 0) {
+      const planId = createPlanId()
+      normalizedPlans = [
+        ...normalizedPlans,
+        {
+          id: planId,
+          name: DEFAULT_PLAN_NAME,
+          updatedAt: fallbackUpdatedAt,
+          lastSyncedAt: null,
+          deletedAt: null,
+        },
+      ]
+    }
+    const activePlanIds = new Set(normalizedPlans.filter((plan) => !plan.deletedAt).map((plan) => plan.id))
     const currentPlanId =
-      parsed.currentPlanId && plans.some((plan) => plan.id === parsed.currentPlanId)
+      parsed.currentPlanId && activePlanIds.has(parsed.currentPlanId)
         ? parsed.currentPlanId
-        : plans[0].id
-    return { currentPlanId, plans }
+        : normalizedPlans.find((plan) => !plan.deletedAt)?.id ?? normalizedPlans[0].id
+    return { currentPlanId, plans: normalizedPlans }
   } catch {
     const planId = createPlanId()
     migrateLegacyPlan(planId)
@@ -89,6 +96,7 @@ function loadPlansState(): PlansState {
           name: DEFAULT_PLAN_NAME,
           updatedAt: fallbackUpdatedAt,
           lastSyncedAt: null,
+          deletedAt: null,
         },
       ],
     }
@@ -103,16 +111,17 @@ export function usePlans() {
   }, [plansState])
 
   const plans = plansState.plans
+  const activePlans = useMemo(() => plans.filter((plan) => !plan.deletedAt), [plans])
   const currentPlanId = plansState.currentPlanId
 
   const currentPlan = useMemo(
-    () => plans.find((plan) => plan.id === currentPlanId) ?? plans[0],
-    [plans, currentPlanId]
+    () => activePlans.find((plan) => plan.id === currentPlanId) ?? activePlans[0],
+    [activePlans, currentPlanId]
   )
 
   const setCurrentPlanId = useCallback((planId: string) => {
     setPlansState((prev) => {
-      if (!prev.plans.some((plan) => plan.id === planId)) return prev
+      if (!prev.plans.some((plan) => plan.id === planId && !plan.deletedAt)) return prev
       return { ...prev, currentPlanId: planId }
     })
   }, [])
@@ -124,7 +133,7 @@ export function usePlans() {
     setPlansState((prev) => ({
       ...prev,
       plans: prev.plans.map((plan) =>
-        plan.id === planId ? { ...plan, name: trimmed, updatedAt } : plan
+        plan.id === planId && !plan.deletedAt ? { ...plan, name: trimmed, updatedAt } : plan
       ),
     }))
   }, [])
@@ -133,7 +142,9 @@ export function usePlans() {
     const updatedAt = new Date().toISOString()
     setPlansState((prev) => ({
       ...prev,
-      plans: prev.plans.map((plan) => (plan.id === planId ? { ...plan, updatedAt } : plan)),
+      plans: prev.plans.map((plan) =>
+        plan.id === planId && !plan.deletedAt ? { ...plan, updatedAt } : plan
+      ),
     }))
   }, [])
 
@@ -147,7 +158,7 @@ export function usePlans() {
       currentPlanId: planId,
       plans: [
         ...prev.plans,
-        { id: planId, name: planName, updatedAt, lastSyncedAt: null },
+        { id: planId, name: planName, updatedAt, lastSyncedAt: null, deletedAt: null },
       ],
     }))
     return planId
@@ -158,9 +169,37 @@ export function usePlans() {
     setPlansState((prev) => ({
       ...prev,
       plans: prev.plans.map((plan) =>
-        planIds.includes(plan.id) ? { ...plan, lastSyncedAt: syncedAt } : plan
+        planIds.includes(plan.id) && !plan.deletedAt ? { ...plan, lastSyncedAt: syncedAt } : plan
       ),
     }))
+  }, [])
+
+  const deletePlan = useCallback(
+    (planId: string) => {
+      setPlansState((prev) => {
+        const active = prev.plans.filter((plan) => !plan.deletedAt)
+        if (active.length <= 1) return prev
+        const nextPlans = prev.plans.map((plan) =>
+          plan.id === planId ? { ...plan, deletedAt: new Date().toISOString() } : plan
+        )
+        const remaining = nextPlans.filter((plan) => !plan.deletedAt)
+        const nextCurrent = remaining.find((plan) => plan.id === prev.currentPlanId)?.id ?? remaining[0]?.id
+        return { currentPlanId: nextCurrent ?? prev.currentPlanId, plans: nextPlans }
+      })
+      clearPlanDataFromStorage(planId)
+    },
+    []
+  )
+
+  const purgeDeletedPlans = useCallback((planIds: string[]) => {
+    if (planIds.length === 0) return
+    setPlansState((prev) => {
+      const nextPlans = prev.plans.filter((plan) => !planIds.includes(plan.id))
+      const remaining = nextPlans.filter((plan) => !plan.deletedAt)
+      const nextCurrent =
+        remaining.find((plan) => plan.id === prev.currentPlanId)?.id ?? remaining[0]?.id ?? prev.currentPlanId
+      return { currentPlanId: nextCurrent, plans: nextPlans }
+    })
   }, [])
 
   const mergeRemotePlans = useCallback(
@@ -176,6 +215,9 @@ export function usePlans() {
           const remoteUpdatedAt = safeDate(remote.updated_at, new Date().toISOString())
           const normalizedData = normalizePlanData(remote.data)
           const local = planById.get(remote.id)
+          if (local?.deletedAt) {
+            continue
+          }
           if (!local) {
             nextPlans = [
               ...nextPlans,
@@ -184,6 +226,7 @@ export function usePlans() {
                 name: remote.name || DEFAULT_PLAN_NAME,
                 updatedAt: remoteUpdatedAt,
                 lastSyncedAt: remoteUpdatedAt,
+                deletedAt: null,
               },
             ]
             storageWrites.push({ id: remote.id, data: normalizedData })
@@ -199,6 +242,7 @@ export function usePlans() {
                     name: remote.name || plan.name,
                     updatedAt: remoteUpdatedAt,
                     lastSyncedAt: remoteUpdatedAt,
+                    deletedAt: null,
                   }
                 : plan
             )
@@ -208,8 +252,9 @@ export function usePlans() {
             }
           }
         }
-        if (!nextPlans.some((plan) => plan.id === prev.currentPlanId) && nextPlans.length > 0) {
-          activePlanId = nextPlans[0].id
+        const remaining = nextPlans.filter((plan) => !plan.deletedAt)
+        if (!remaining.some((plan) => plan.id === prev.currentPlanId) && remaining.length > 0) {
+          activePlanId = remaining[0].id
           return { currentPlanId: activePlanId, plans: nextPlans }
         }
         return { ...prev, plans: nextPlans }
@@ -228,6 +273,7 @@ export function usePlans() {
 
   return {
     plans,
+    activePlans,
     currentPlanId,
     currentPlan,
     setCurrentPlanId,
@@ -235,6 +281,8 @@ export function usePlans() {
     touchPlan,
     createPlanFromData,
     markPlansSynced,
+    deletePlan,
+    purgeDeletedPlans,
     mergeRemotePlans,
   }
 }
