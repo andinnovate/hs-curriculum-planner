@@ -91,6 +91,8 @@ interface CategoryBarProps {
   size?: 'xs' | 'sm' | 'md'
   className?: string
   ariaLabel?: string
+  onCategoryHover?: (category: string | null) => void
+  activeCategory?: string | null
   style?: React.CSSProperties
 }
 
@@ -101,6 +103,8 @@ export function CategoryBar({
   size = 'sm',
   className,
   ariaLabel,
+  onCategoryHover,
+  activeCategory,
   style,
 }: CategoryBarProps) {
   const totals = sumCategoryHours(rows)
@@ -118,7 +122,9 @@ export function CategoryBar({
       color: getCategoryColor(category),
     }))
 
-  const classes = ['category-bar', `category-bar--${size}`, className].filter(Boolean).join(' ')
+  const classes = ['category-bar', `category-bar--${size}`, onCategoryHover ? 'category-bar--interactive' : '', className]
+    .filter(Boolean)
+    .join(' ')
   const scaleBase = scaleMaxHours != null && scaleMaxHours > 0 ? scaleMaxHours : total
   const scale = Math.min(1, total / scaleBase)
   const scaledStyle = scaleMaxHours != null
@@ -126,13 +132,24 @@ export function CategoryBar({
     : style
 
   return (
-    <div className={classes} role="img" aria-label={ariaLabel} style={scaledStyle}>
+    <div
+      className={classes}
+      role="img"
+      aria-label={ariaLabel}
+      style={scaledStyle}
+      onMouseLeave={onCategoryHover ? () => onCategoryHover(null) : undefined}
+    >
       {segments.map((segment) => (
         <span
           key={segment.category}
           className="category-bar-segment"
-          style={{ width: `${segment.width}%`, backgroundColor: segment.color }}
+          style={{
+            width: `${segment.width}%`,
+            backgroundColor: segment.color,
+            opacity: activeCategory ? (segment.category === activeCategory ? 1 : 0.35) : 1,
+          }}
           title={`${segment.category}: ${segment.hours.toFixed(1)} hrs`}
+          onMouseEnter={onCategoryHover ? () => onCategoryHover(segment.category) : undefined}
         />
       ))}
     </div>

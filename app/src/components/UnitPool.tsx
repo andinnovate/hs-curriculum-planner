@@ -8,6 +8,8 @@ interface UnitPoolProps {
   unitsWithHours: UnitWithHours[]
   unitBreakdown: UnitBreakdown
   maxUnitHours: number
+  highlightCategory?: string | null
+  highlightYear?: Year | null
   assignments: AssignmentState
   onShowUnitDetails: (unit: string) => void
   unitsNeedingAttention?: Set<string>
@@ -24,6 +26,8 @@ export function UnitPool({
   unitsWithHours,
   unitBreakdown,
   maxUnitHours,
+  highlightCategory,
+  highlightYear,
   assignments,
   onShowUnitDetails,
   unitsNeedingAttention,
@@ -110,6 +114,9 @@ export function UnitPool({
               unitWithHours={u}
               breakdownRows={unitBreakdown[u.unit] ?? []}
               scaleMaxHours={maxUnitHours}
+              highlightCategory={highlightCategory}
+              highlightYear={highlightYear}
+              unitYear={assignments[u.unit] ?? null}
               onShowDetails={onShowUnitDetails}
               needsAttention={unitsNeedingAttention?.has(u.unit)}
               isPartOfActiveDrag={isMultiDrag && selectedUnitIds.has(u.unit)}

@@ -45,6 +45,10 @@ interface TallyBarProps {
   hoursPerCredit: number
   minCreditsForGraduation: number
   onShowYearDetails?: (year: Year) => void
+  onTotalCategoryHover?: (category: string | null) => void
+  activeTotalCategory?: string | null
+  onYearCategoryHover?: (year: Year, category: string | null) => void
+  activeYearCategoryByYear?: Partial<Record<Year, string | null>>
 }
 
 export function TallyBar({
@@ -54,6 +58,10 @@ export function TallyBar({
   hoursPerCredit,
   minCreditsForGraduation,
   onShowYearDetails,
+  onTotalCategoryHover,
+  activeTotalCategory,
+  onYearCategoryHover,
+  activeYearCategoryByYear,
 }: TallyBarProps) {
   const byYear = getHoursByYear(unitsWithHours, assignments)
   const totalHours = (byYear[1] ?? 0) + (byYear[2] ?? 0) + (byYear[3] ?? 0) + (byYear[4] ?? 0)
@@ -69,6 +77,7 @@ export function TallyBar({
           const h = byYear[y] ?? 0
           const c = hoursPerCredit > 0 ? h / hoursPerCredit : 0
           const rows = getBreakdownRowsForYear(y, assignments, unitBreakdown)
+          const activeYearCategory = activeYearCategoryByYear?.[y] ?? null
           return (
             <span key={y} className="tally-year">
               <span className="tally-year-info">
@@ -92,27 +101,39 @@ export function TallyBar({
                 size="sm"
                 className="tally-year-bar"
                 ariaLabel={`Year ${y} category breakdown`}
+                onCategoryHover={onYearCategoryHover ? (category) => onYearCategoryHover(y, category) : undefined}
+                activeCategory={activeYearCategory}
               />
             </span>
           )
         })}
       </div>
       <div className="tally-total">
-        Total: {totalHours.toFixed(1)} hrs ({totalCredits.toFixed(2)} credits).
-        Minimum for graduation: {minCreditsForGraduation} credits.
-        {meetsMin ? (
-          <span className="tally-ok" aria-label="Meets minimum"> ✓</span>
-        ) : (
-          <span className="tally-short"> (need {Math.max(0, minCreditsForGraduation - totalCredits).toFixed(2)} more)</span>
-        )}
+        <span className="tally-total-line">
+          Total: {totalHours.toFixed(1)} hrs ({totalCredits.toFixed(2)} credits).
+        </span>
+        <span className="tally-total-line tally-total-min">
+          Minimum for graduation: {minCreditsForGraduation}{' '}
+          <span className="tally-total-min-suffix">
+            credits.
+            {meetsMin ? (
+              <span className="tally-ok" aria-label="Meets minimum"> ✓</span>
+            ) : (
+              <span className="tally-short"> (need {Math.max(0, minCreditsForGraduation - totalCredits).toFixed(2)} more)</span>
+            )}
+          </span>
+        </span>
         <CategoryBar
           rows={totalRows}
           totalHours={totalHours}
           scaleMaxHours={maxYearHours}
           size="md"
           className="tally-total-bar"
-          ariaLabel="Overall category breakdown"
+          ariaLabel="Four-year total category breakdown"
+          onCategoryHover={onTotalCategoryHover}
+          activeCategory={activeTotalCategory}
         />
+        <span className="tally-total-bar-label">Four-year total by category</span>
       </div>
     </footer>
   )

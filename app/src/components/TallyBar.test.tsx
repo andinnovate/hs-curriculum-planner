@@ -18,6 +18,7 @@ describe('TallyBar', () => {
         assignments={{ Algebra: 1, Biology: 2 }}
         hoursPerCredit={100}
         minCreditsForGraduation={5}
+        onYearCategoryHover={() => {}}
       />
     )
 
@@ -37,6 +38,7 @@ describe('TallyBar', () => {
         hoursPerCredit={80}
         minCreditsForGraduation={1}
         onShowYearDetails={onShowYearDetails}
+        onYearCategoryHover={() => {}}
       />
     )
 

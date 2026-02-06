@@ -23,6 +23,8 @@ interface PlannerLayoutProps {
   onRemoveAssignment: (unit: string) => void
   onShowUnitDetails: (unit: string) => void
   unitsNeedingAttention?: Set<string>
+  highlightCategory?: string | null
+  highlightYear?: Year | null
 }
 
 export function PlannerLayout({
@@ -35,6 +37,8 @@ export function PlannerLayout({
   onRemoveAssignment,
   onShowUnitDetails,
   unitsNeedingAttention,
+  highlightCategory,
+  highlightYear,
 }: PlannerLayoutProps) {
   const [activeId, setActiveId] = useState<string | null>(null)
   const [selectionMode, setSelectionMode] = useState(false)
@@ -110,6 +114,8 @@ export function PlannerLayout({
             unitsWithHours={unitsWithHours}
             unitBreakdown={unitBreakdown}
             maxUnitHours={maxUnitHours}
+            highlightCategory={highlightCategory}
+            highlightYear={highlightYear}
             assignments={assignments}
             onShowUnitDetails={onShowUnitDetails}
             unitsNeedingAttention={unitsNeedingAttention}
@@ -129,6 +135,8 @@ export function PlannerLayout({
               unitsWithHours={unitsWithHours}
               unitBreakdown={unitBreakdown}
               maxUnitHours={maxUnitHours}
+              highlightCategory={highlightCategory}
+              highlightYear={highlightYear}
               assignments={assignments}
               isLocked={lockedYears.has(y)}
               onToggleLock={onToggleLock}

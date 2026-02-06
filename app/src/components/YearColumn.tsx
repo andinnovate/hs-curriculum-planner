@@ -8,6 +8,8 @@ interface YearColumnProps {
   unitsWithHours: UnitWithHours[]
   unitBreakdown: UnitBreakdown
   maxUnitHours: number
+  highlightCategory?: string | null
+  highlightYear?: Year | null
   assignments: AssignmentState
   isLocked: boolean
   onToggleLock: (year: Year) => void
@@ -23,6 +25,8 @@ export function YearColumn({
   unitsWithHours,
   unitBreakdown,
   maxUnitHours,
+  highlightCategory,
+  highlightYear,
   assignments,
   isLocked,
   onToggleLock,
@@ -85,6 +89,9 @@ export function YearColumn({
               unitWithHours={u}
               breakdownRows={unitBreakdown[u.unit] ?? []}
               scaleMaxHours={maxUnitHours}
+              highlightCategory={highlightCategory}
+              highlightYear={highlightYear}
+              unitYear={year}
               onShowDetails={onShowUnitDetails}
               isLocked={isLocked}
               needsAttention={unitsNeedingAttention?.has(u.unit)}

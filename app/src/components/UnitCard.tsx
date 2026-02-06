@@ -1,11 +1,14 @@
 import { useDraggable } from '@dnd-kit/core'
-import type { CategoryBreakdownRow, UnitWithHours } from '../types'
-import { CategoryBar } from './CategoryBar'
+import type { CategoryBreakdownRow, UnitWithHours, Year } from '../types'
+import { CategoryBar, rollupCategory } from './CategoryBar'
 
 interface UnitCardProps {
   unitWithHours: UnitWithHours
   breakdownRows?: CategoryBreakdownRow[]
   scaleMaxHours?: number
+  highlightCategory?: string | null
+  highlightYear?: Year | null
+  unitYear?: Year | null
   onShowDetails?: (unit: string) => void
   isLocked?: boolean
   /** When true, unit has an option group with no selection; show details icon as red (attention needed) */
@@ -14,7 +17,18 @@ interface UnitCardProps {
   isPartOfActiveDrag?: boolean
 }
 
-export function UnitCard({ unitWithHours, breakdownRows, scaleMaxHours, onShowDetails, isLocked, needsAttention, isPartOfActiveDrag }: UnitCardProps) {
+export function UnitCard({
+  unitWithHours,
+  breakdownRows,
+  scaleMaxHours,
+  highlightCategory,
+  highlightYear,
+  unitYear,
+  onShowDetails,
+  isLocked,
+  needsAttention,
+  isPartOfActiveDrag,
+}: UnitCardProps) {
   const { attributes, listeners, setNodeRef, isDragging } = useDraggable({
     id: unitWithHours.unit,
     data: { unit: unitWithHours.unit },
@@ -22,11 +36,26 @@ export function UnitCard({ unitWithHours, breakdownRows, scaleMaxHours, onShowDe
 
   const dragProps = isLocked ? {} : { ...listeners, ...attributes }
   const dimmed = isDragging || isPartOfActiveDrag
+  const hasBreakdown = (breakdownRows?.length ?? 0) > 0
+  const matchesYear = highlightYear == null || unitYear === highlightYear
+  const contributesToHighlight = Boolean(
+    highlightCategory &&
+      hasBreakdown &&
+      matchesYear &&
+      breakdownRows?.some((row) => row.hours > 0 && rollupCategory(row.category) === highlightCategory)
+  )
+  const shouldFilterOut = Boolean(highlightCategory && hasBreakdown && matchesYear && !contributesToHighlight)
 
   return (
     <div
       ref={setNodeRef}
-      className={`unit-card ${dimmed ? 'unit-card-dragging' : ''} ${isLocked ? 'unit-card-locked' : ''}`}
+      className={[
+        'unit-card',
+        dimmed ? 'unit-card-dragging' : '',
+        isLocked ? 'unit-card-locked' : '',
+        shouldFilterOut ? 'unit-card-filtered' : '',
+        contributesToHighlight ? 'unit-card-highlighted' : '',
+      ].filter(Boolean).join(' ')}
     >
       <span className="unit-card-drag" {...dragProps}>
         <span className="unit-card-text">

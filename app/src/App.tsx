@@ -88,6 +88,10 @@ function App() {
   const [detailTarget, setDetailTarget] = useState<DetailTarget>(null)
   const [manageOpen, setManageOpen] = useState(false)
   const [comparePlans, setComparePlans] = useState<{ sourceId: string; targetId: string } | null>(null)
+  const [hoverFilter, setHoverFilter] = useState<{ category: string | null; year: Year | null }>({
+    category: null,
+    year: null,
+  })
   const suppressTouchRef = useRef(false)
   const planSwitchRef = useRef(false)
 
@@ -283,6 +287,8 @@ function App() {
             onRemoveAssignment={removeAssignment}
             onShowUnitDetails={(unit) => setDetailTarget({ type: 'unit', unit })}
             unitsNeedingAttention={unitsNeedingAttention}
+            highlightCategory={hoverFilter.category}
+            highlightYear={hoverFilter.year}
           />
         )}
       </main>
@@ -294,6 +300,15 @@ function App() {
           hoursPerCredit={config.hoursPerCredit}
           minCreditsForGraduation={config.minCreditsForGraduation}
           onShowYearDetails={(year) => setDetailTarget({ type: 'year', year })}
+          onTotalCategoryHover={(category) => setHoverFilter(category ? { category, year: null } : { category: null, year: null })}
+          onYearCategoryHover={(year, category) => setHoverFilter(category ? { category, year } : { category: null, year: null })}
+          activeTotalCategory={hoverFilter.year == null ? hoverFilter.category : null}
+          activeYearCategoryByYear={{
+            1: hoverFilter.year === 1 ? hoverFilter.category : null,
+            2: hoverFilter.year === 2 ? hoverFilter.category : null,
+            3: hoverFilter.year === 3 ? hoverFilter.category : null,
+            4: hoverFilter.year === 4 ? hoverFilter.category : null,
+          }}
         />
       )}
       {detailTarget && (
