@@ -1,33 +1,20 @@
 import { useCallback, useEffect, useState } from 'react'
 import type { PlannerConfig } from '../types'
-import { DEFAULT_HOURS_PER_CREDIT, DEFAULT_MIN_CREDITS } from '../types'
+import { loadConfig, saveConfig } from '../planStorage'
 
-const STORAGE_KEY = 'curric-planner-config'
-
-function loadConfig(): PlannerConfig {
-  try {
-    const raw = localStorage.getItem(STORAGE_KEY)
-    if (!raw) return { hoursPerCredit: DEFAULT_HOURS_PER_CREDIT, minCreditsForGraduation: DEFAULT_MIN_CREDITS }
-    const parsed = JSON.parse(raw) as { hoursPerCredit?: number; minCreditsForGraduation?: number }
-    return {
-      hoursPerCredit: Number(parsed.hoursPerCredit) || DEFAULT_HOURS_PER_CREDIT,
-      minCreditsForGraduation: Number(parsed.minCreditsForGraduation) || DEFAULT_MIN_CREDITS,
-    }
-  } catch {
-    return { hoursPerCredit: DEFAULT_HOURS_PER_CREDIT, minCreditsForGraduation: DEFAULT_MIN_CREDITS }
-  }
-}
-
-function saveConfig(config: PlannerConfig) {
-  localStorage.setItem(STORAGE_KEY, JSON.stringify(config))
-}
-
-export function useConfig() {
-  const [config, setConfig] = useState<PlannerConfig>(loadConfig)
+export function useConfig(planId: string) {
+  const [config, setConfig] = useState<PlannerConfig>(() => loadConfig(planId))
+  const [loadedPlanId, setLoadedPlanId] = useState(planId)
 
   useEffect(() => {
-    saveConfig(config)
-  }, [config])
+    setConfig(loadConfig(planId))
+    setLoadedPlanId(planId)
+  }, [planId])
+
+  useEffect(() => {
+    if (loadedPlanId !== planId) return
+    saveConfig(planId, config)
+  }, [config, loadedPlanId, planId])
 
   const setHoursPerCredit = useCallback((value: number) => {
     setConfig((prev) => ({ ...prev, hoursPerCredit: value }))
@@ -37,5 +24,9 @@ export function useConfig() {
     setConfig((prev) => ({ ...prev, minCreditsForGraduation: value }))
   }, [])
 
-  return { config, setHoursPerCredit, setMinCreditsForGraduation }
+  const replaceConfig = useCallback((next: PlannerConfig) => {
+    setConfig(next)
+  }, [])
+
+  return { config, setHoursPerCredit, setMinCreditsForGraduation, replaceConfig }
 }

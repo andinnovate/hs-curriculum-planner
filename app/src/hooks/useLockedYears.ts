@@ -1,29 +1,20 @@
 import { useCallback, useEffect, useState } from 'react'
 import type { Year } from '../types'
+import { loadLockedYears, saveLockedYears } from '../planStorage'
 
-const STORAGE_KEY = 'curric-planner-locked-years'
-
-function loadLockedYears(): Set<Year> {
-  try {
-    const raw = localStorage.getItem(STORAGE_KEY)
-    if (!raw) return new Set()
-    const arr = JSON.parse(raw) as number[]
-    return new Set(arr.filter((y): y is Year => y >= 1 && y <= 4))
-  } catch {
-    return new Set()
-  }
-}
-
-function saveLockedYears(set: Set<Year>) {
-  localStorage.setItem(STORAGE_KEY, JSON.stringify(Array.from(set)))
-}
-
-export function useLockedYears() {
-  const [lockedYears, setLockedYears] = useState<Set<Year>>(loadLockedYears)
+export function useLockedYears(planId: string) {
+  const [lockedYears, setLockedYears] = useState<Set<Year>>(() => loadLockedYears(planId))
+  const [loadedPlanId, setLoadedPlanId] = useState(planId)
 
   useEffect(() => {
-    saveLockedYears(lockedYears)
-  }, [lockedYears])
+    setLockedYears(loadLockedYears(planId))
+    setLoadedPlanId(planId)
+  }, [planId])
+
+  useEffect(() => {
+    if (loadedPlanId !== planId) return
+    saveLockedYears(planId, lockedYears)
+  }, [loadedPlanId, lockedYears, planId])
 
   const toggleLock = useCallback((year: Year) => {
     setLockedYears((prev) => {
@@ -34,5 +25,9 @@ export function useLockedYears() {
     })
   }, [])
 
-  return { lockedYears, toggleLock }
+  const replaceLockedYears = useCallback((next: Set<Year> | Year[]) => {
+    setLockedYears(next instanceof Set ? new Set(next) : new Set(next))
+  }, [])
+
+  return { lockedYears, toggleLock, replaceLockedYears }
 }

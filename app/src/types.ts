@@ -65,3 +65,19 @@ export interface PlannerConfig {
 
 export const DEFAULT_HOURS_PER_CREDIT = 120
 export const DEFAULT_MIN_CREDITS = 25
+
+export interface PlanData {
+  assignments: AssignmentState
+  optionChoices: OptionChoiceState
+  includedOptionalItems: OptionalItemInclusionState
+  optionGroupHoursOverride: OptionGroupHoursOverrideState
+  lockedYears: Year[]
+  config: PlannerConfig
+}
+
+export interface PlanMeta {
+  id: string
+  name: string
+  updatedAt: string
+  lastSyncedAt?: string | null
+}

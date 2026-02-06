@@ -73,6 +73,94 @@ body {
   border-color: #4caf50;
 }
 
+.app-plan-bar {
+  flex: 1 1 100%;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.75rem;
+  padding-top: 0.25rem;
+  border-top: 1px solid #eee;
+}
+
+.app-plan-note {
+  flex: 1 1 100%;
+  padding-top: 0.25rem;
+  border-top: 1px solid #eee;
+  font-size: 0.875rem;
+  color: #666;
+}
+
+.app-plan-info {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-size: 0.9rem;
+}
+
+.app-plan-label {
+  color: #666;
+}
+
+.app-plan-name {
+  font-weight: 600;
+}
+
+.app-plan-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.875rem;
+}
+
+.app-plan-link {
+  padding: 0;
+  font-size: 0.875rem;
+  color: #06c;
+  background: none;
+  border: none;
+  cursor: pointer;
+  text-decoration: underline;
+}
+
+.app-plan-link:disabled {
+  color: #aaa;
+  cursor: not-allowed;
+  text-decoration: none;
+}
+
+.app-plan-select {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+  font-size: 0.875rem;
+  color: #555;
+}
+
+.app-plan-select select {
+  font-size: 0.85rem;
+  padding: 0.2rem 0.4rem;
+}
+
+.app-sync-status {
+  margin-left: auto;
+  font-size: 0.8rem;
+  color: #666;
+}
+
+.app-sync-status--synced {
+  color: #2a7;
+}
+
+.app-sync-status--pending {
+  color: #c60;
+}
+
+.app-sync-status--offline {
+  color: #888;
+}
+
 /* Auth */
 .auth-ui-loading {
   color: #888;
@@ -735,6 +823,80 @@ body {
 .breakdown-popover-body {
   padding: 1rem;
   overflow: auto;
+}
+
+.plan-compare-popover {
+  width: min(900px, 92vw);
+}
+
+.plan-compare-body {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.plan-compare-heading {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-weight: 600;
+}
+
+.plan-compare-name {
+  color: #222;
+}
+
+.plan-compare-separator {
+  color: #999;
+  font-weight: 400;
+}
+
+.plan-compare-summary {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 0.5rem;
+  padding: 0.6rem;
+  border: 1px solid #eee;
+  border-radius: 6px;
+  background: #fafafa;
+  font-size: 0.85rem;
+}
+
+.plan-compare-config,
+.plan-compare-section {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.plan-compare-subtitle {
+  margin: 0 0 0.35rem;
+  font-size: 0.9rem;
+}
+
+.plan-compare-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.85rem;
+}
+
+.plan-compare-table th,
+.plan-compare-table td {
+  border-bottom: 1px solid #eee;
+  padding: 0.35rem 0.5rem;
+  text-align: left;
+}
+
+.plan-compare-note {
+  margin: 0.5rem 0 0;
+  font-size: 0.75rem;
+  color: #666;
+}
+
+.plan-compare-empty {
+  margin: 0;
+  font-size: 0.85rem;
+  color: #666;
 }
 
 .breakdown-option-groups {

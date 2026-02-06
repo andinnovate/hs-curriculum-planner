@@ -4,73 +4,46 @@ import type {
   OptionGroupHoursOverrideState,
   OptionalItemInclusionState,
 } from '../types'
+import {
+  loadIncludedOptionalItems,
+  loadOptionChoices,
+  loadOptionGroupHoursOverride,
+  saveIncludedOptionalItems,
+  saveOptionChoices,
+  saveOptionGroupHoursOverride,
+} from '../planStorage'
 
-const STORAGE_KEY_CHOICES = 'curric-planner-option-choices'
-const STORAGE_KEY_INCLUDED = 'curric-planner-included-optional-items'
-const STORAGE_KEY_OPTION_GROUP_HOURS = 'curric-planner-option-group-hours'
-
-function loadOptionChoices(): OptionChoiceState {
-  try {
-    const raw = localStorage.getItem(STORAGE_KEY_CHOICES)
-    if (!raw) return {}
-    return JSON.parse(raw) as OptionChoiceState
-  } catch {
-    return {}
-  }
-}
-
-function loadIncludedOptionalItems(): OptionalItemInclusionState {
-  try {
-    const raw = localStorage.getItem(STORAGE_KEY_INCLUDED)
-    if (!raw) return {}
-    return JSON.parse(raw) as OptionalItemInclusionState
-  } catch {
-    return {}
-  }
-}
-
-function saveOptionChoices(state: OptionChoiceState) {
-  localStorage.setItem(STORAGE_KEY_CHOICES, JSON.stringify(state))
-}
-
-function saveIncludedOptionalItems(state: OptionalItemInclusionState) {
-  localStorage.setItem(STORAGE_KEY_INCLUDED, JSON.stringify(state))
-}
-
-function loadOptionGroupHoursOverride(): OptionGroupHoursOverrideState {
-  try {
-    const raw = localStorage.getItem(STORAGE_KEY_OPTION_GROUP_HOURS)
-    if (!raw) return {}
-    return JSON.parse(raw) as OptionGroupHoursOverrideState
-  } catch {
-    return {}
-  }
-}
-
-function saveOptionGroupHoursOverride(state: OptionGroupHoursOverrideState) {
-  localStorage.setItem(STORAGE_KEY_OPTION_GROUP_HOURS, JSON.stringify(state))
-}
-
-export function useOptionChoices() {
-  const [optionChoices, setOptionChoices] = useState<OptionChoiceState>(loadOptionChoices)
-  const [includedOptionalItems, setIncludedOptionalItems] = useState<OptionalItemInclusionState>(
-    loadIncludedOptionalItems
+export function useOptionChoices(planId: string) {
+  const [optionChoices, setOptionChoices] = useState<OptionChoiceState>(() => loadOptionChoices(planId))
+  const [includedOptionalItems, setIncludedOptionalItems] = useState<OptionalItemInclusionState>(() =>
+    loadIncludedOptionalItems(planId)
   )
-  const [optionGroupHoursOverride, setOptionGroupHoursOverride] = useState<OptionGroupHoursOverrideState>(
-    loadOptionGroupHoursOverride
+  const [optionGroupHoursOverride, setOptionGroupHoursOverride] = useState<OptionGroupHoursOverrideState>(() =>
+    loadOptionGroupHoursOverride(planId)
   )
+  const [loadedPlanId, setLoadedPlanId] = useState(planId)
 
   useEffect(() => {
-    saveOptionChoices(optionChoices)
-  }, [optionChoices])
+    setOptionChoices(loadOptionChoices(planId))
+    setIncludedOptionalItems(loadIncludedOptionalItems(planId))
+    setOptionGroupHoursOverride(loadOptionGroupHoursOverride(planId))
+    setLoadedPlanId(planId)
+  }, [planId])
 
   useEffect(() => {
-    saveIncludedOptionalItems(includedOptionalItems)
-  }, [includedOptionalItems])
+    if (loadedPlanId !== planId) return
+    saveOptionChoices(planId, optionChoices)
+  }, [optionChoices, loadedPlanId, planId])
 
   useEffect(() => {
-    saveOptionGroupHoursOverride(optionGroupHoursOverride)
-  }, [optionGroupHoursOverride])
+    if (loadedPlanId !== planId) return
+    saveIncludedOptionalItems(planId, includedOptionalItems)
+  }, [includedOptionalItems, loadedPlanId, planId])
+
+  useEffect(() => {
+    if (loadedPlanId !== planId) return
+    saveOptionGroupHoursOverride(planId, optionGroupHoursOverride)
+  }, [loadedPlanId, optionGroupHoursOverride, planId])
 
   const getOptionGroupHours = useCallback(
     (unit: string, optionGroupId: string, defaultHours: number | null): number | null => {
@@ -139,6 +112,18 @@ export function useOptionChoices() {
     []
   )
 
+  const replaceOptionChoices = useCallback((next: OptionChoiceState) => {
+    setOptionChoices(next)
+  }, [])
+
+  const replaceIncludedOptionalItems = useCallback((next: OptionalItemInclusionState) => {
+    setIncludedOptionalItems(next)
+  }, [])
+
+  const replaceOptionGroupHoursOverride = useCallback((next: OptionGroupHoursOverrideState) => {
+    setOptionGroupHoursOverride(next)
+  }, [])
+
   return {
     optionChoices,
     setChoice,
@@ -150,5 +135,8 @@ export function useOptionChoices() {
     includedOptionalItems,
     isOptionalItemIncluded,
     setOptionalItemIncluded,
+    replaceOptionChoices,
+    replaceIncludedOptionalItems,
+    replaceOptionGroupHoursOverride,
   }
 }
