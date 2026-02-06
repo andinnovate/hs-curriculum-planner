@@ -17,6 +17,7 @@ Primarily aimed at homeschooling families that use the Gather 'Round curriculum.
 - **Build:** `npm run build` in `app/`
 - **Dev server:** `npm run dev` in `app/` (Vite)
 - **Env:** Copy `app/.env.example` to `app/.env` and set `VITE_SUPABASE_URL` and `VITE_SUPABASE_ANON_KEY`
+- **Testing:** See “Testing” below
 
 ## High-level overview
 
@@ -27,6 +28,28 @@ Primarily aimed at homeschooling families that use the Gather 'Round curriculum.
 - **Persistence:** Year assignments, locked years, option choices, optional inclusions, and config (hours-per-credit, min credits for graduation) are stored in the browser (e.g. `localStorage`) so plans are device-local unless you add sync later.
 - **Auth:** Supabase Auth is wired for sign-in/sign-up (e.g. for future per-user plans or sync); the UI shows AuthUI in the header.
 - **Data pipeline:** The `data/` and `scripts/` trees hold source curriculum (e.g. Gather Round CSVs/JSON) and Python scripts that parse them and generate Supabase seed SQL under `supabase/migrations/`.
+
+## Testing
+
+Run these from `app/`.
+
+- **Unit/component tests:** `npm run test`
+- **Watch unit tests:** `npm run test:watch`
+- **Browser (Playwright):** `npm run test:e2e`
+- **Playwright UI runner:** `npm run test:e2e:ui`
+- **First-time Playwright setup:** `npx playwright install`
+
+Playwright uses `http://127.0.0.1:4173` and starts the Vite dev server automatically. Logged-in browser tests will require valid `VITE_SUPABASE_URL` and `VITE_SUPABASE_ANON_KEY`.
+
+### Mocked auth in Playwright
+
+For logged-in flows without a real Supabase user, use the helper in `app/e2e/auth.ts`:
+
+```ts
+await injectSupabaseSession(page, { email: 'planner@example.com' })
+```
+
+This seeds localStorage with a non-expired session so `useAuth()` treats the browser as authenticated without hitting Supabase.
 
 ## Repository layout
 

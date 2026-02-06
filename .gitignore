@@ -11,6 +11,10 @@ env/
 .env.local
 .env.*.local
 
+# Test artifacts
+app/playwright-report/
+app/test-results/
+
 # OS
 .DS_Store
 Thumbs.db
