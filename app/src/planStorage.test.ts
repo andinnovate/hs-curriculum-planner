@@ -37,8 +37,8 @@ describe('planStorage', () => {
 
   it('normalizes invalid data and fills defaults', () => {
     const normalized = normalizePlanData({
-      assignments: { Algebra: 5, Biology: 2 },
-      lockedYears: [0, 2, 7],
+      assignments: { Algebra: 5, Biology: 2 } as unknown as PlanData['assignments'],
+      lockedYears: [0, 2, 7] as unknown as PlanData['lockedYears'],
       config: { hoursPerCredit: Number.NaN, minCreditsForGraduation: 0 },
     })
 

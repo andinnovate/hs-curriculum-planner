@@ -3,7 +3,7 @@ import { describe, expect, it, vi } from 'vitest'
 import { useCurriculum } from './useCurriculum'
 import type { OptionChoiceState, OptionalItemInclusionState, OptionGroupHoursOverrideState } from '../types'
 
-const tableData = {
+const tableData: Record<string, unknown[]> = {
   unit_subcategory_hours: [
     { unit: 'Algebra', category: 'Math', subcategory: 'Core', hours: 100 },
   ],
@@ -17,14 +17,14 @@ const tableData = {
   unit_optional_items: [
     { id: 'opt-1', unit: 'Algebra', category: 'Math', subcategory: 'Lab', hours: 4, description: 'Optional lab' },
   ],
-} as const
+}
 
 vi.mock('../supabase', () => ({
   supabase: {
     from: (table: string) => ({
       select: () =>
         Promise.resolve({
-          data: (tableData as Record<string, unknown[]>)[table] ?? [],
+          data: tableData[table] ?? [],
           error: null,
         }),
     }),
