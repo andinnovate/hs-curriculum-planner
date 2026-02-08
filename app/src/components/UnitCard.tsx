@@ -1,6 +1,7 @@
 import { useDraggable } from '@dnd-kit/core'
 import type { CategoryBreakdownRow, UnitWithHours, Year } from '../types'
-import { CategoryBar, rollupCategory } from './CategoryBar'
+import { CategoryBar } from './CategoryBar'
+import { rollupCategory } from './categoryUtils'
 
 interface UnitCardProps {
   unitWithHours: UnitWithHours
@@ -9,6 +10,8 @@ interface UnitCardProps {
   highlightCategory?: string | null
   highlightYear?: Year | null
   unitYear?: Year | null
+  providerLogoUrl?: string | null
+  providerName?: string | null
   onShowDetails?: (unit: string) => void
   isLocked?: boolean
   /** When true, unit has an option group with no selection; show details icon as red (attention needed) */
@@ -24,6 +27,8 @@ export function UnitCard({
   highlightCategory,
   highlightYear,
   unitYear,
+  providerLogoUrl,
+  providerName,
   onShowDetails,
   isLocked,
   needsAttention,
@@ -60,7 +65,17 @@ export function UnitCard({
       <span className="unit-card-drag" {...dragProps}>
         <span className="unit-card-text">
           <span className="unit-card-name">{unitWithHours.unit}</span>
-          <span className="unit-card-hours">{unitWithHours.totalHours.toFixed(1)} hrs</span>
+          <span className="unit-card-meta">
+            <span className="unit-card-hours">{unitWithHours.totalHours.toFixed(1)} hrs</span>
+            {providerLogoUrl && (
+              <img
+                src={providerLogoUrl}
+                alt={providerName ? `${providerName} logo` : 'Curriculum logo'}
+                className="unit-card-provider"
+                title={providerName ?? undefined}
+              />
+            )}
+          </span>
         </span>
         {breakdownRows && breakdownRows.length > 0 && (
           <CategoryBar

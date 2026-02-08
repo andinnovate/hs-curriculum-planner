@@ -20,6 +20,7 @@ describe('planStorage', () => {
       optionChoices: { Algebra: { choiceA: 'Track 1' } },
       includedOptionalItems: { Algebra: { lab: true } },
       optionGroupHoursOverride: { Algebra: { choiceA: 12 } },
+      curriculumUnits: [{ curriculumId: 'gatherround', unit: 'Algebra' }],
       lockedYears: [2, 4],
       config: { hoursPerCredit: 100, minCreditsForGraduation: 30 },
     }
@@ -31,6 +32,7 @@ describe('planStorage', () => {
     expect(read.optionChoices).toEqual(data.optionChoices)
     expect(read.includedOptionalItems).toEqual(data.includedOptionalItems)
     expect(read.optionGroupHoursOverride).toEqual(data.optionGroupHoursOverride)
+    expect(read.curriculumUnits).toEqual(data.curriculumUnits)
     expect([...read.lockedYears].sort()).toEqual([...data.lockedYears].sort())
     expect(read.config).toEqual(data.config)
   })
@@ -39,10 +41,16 @@ describe('planStorage', () => {
     const normalized = normalizePlanData({
       assignments: { Algebra: 5, Biology: 2 } as unknown as PlanData['assignments'],
       lockedYears: [0, 2, 7] as unknown as PlanData['lockedYears'],
+      curriculumUnits: [
+        { curriculumId: 'gatherround', unit: 'Biology' },
+        { curriculumId: '', unit: 'Bad' },
+        { curriculumId: 'gatherround', unit: 'Biology' },
+      ] as PlanData['curriculumUnits'],
       config: { hoursPerCredit: Number.NaN, minCreditsForGraduation: 0 },
     })
 
     expect(normalized.assignments).toEqual({ Biology: 2 })
+    expect(normalized.curriculumUnits).toEqual([{ curriculumId: 'gatherround', unit: 'Biology' }])
     expect(normalized.lockedYears).toEqual([2])
     expect(normalized.config).toEqual({
       hoursPerCredit: DEFAULT_HOURS_PER_CREDIT,

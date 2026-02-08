@@ -19,6 +19,7 @@ function renderPanel(overrides?: Partial<ComponentProps<typeof ManagePlansPanel>
     onDelete: vi.fn(),
     onSelectPlan: vi.fn(),
     onCompare: vi.fn(),
+    onAddBlankPlan: vi.fn(),
     ...overrides,
   }
   return { ...render(<ManagePlansPanel {...props} />), props }
@@ -80,5 +81,12 @@ describe('ManagePlansPanel', () => {
     const list = container.querySelector('.manage-plans-list') as HTMLUListElement
     fireEvent.scroll(list)
     expect(screen.queryByRole('menu')).toBeNull()
+  })
+
+  it('adds a blank plan from the footer link', () => {
+    const { props } = renderPanel()
+
+    fireEvent.click(screen.getByRole('button', { name: /add a blank plan/i }))
+    expect(props.onAddBlankPlan).toHaveBeenCalled()
   })
 })

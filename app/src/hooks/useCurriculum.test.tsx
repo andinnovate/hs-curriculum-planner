@@ -5,28 +5,30 @@ import type { OptionChoiceState, OptionalItemInclusionState, OptionGroupHoursOve
 
 const tableData: Record<string, unknown[]> = {
   unit_subcategory_hours: [
-    { unit: 'Algebra', category: 'Math', subcategory: 'Core', hours: 100 },
+    { unit: 'Algebra', category: 'Math', subcategory: 'Core', hours: 100, curriculum_id: 'gatherround' },
   ],
   unit_option_groups: [
-    { id: 'group-1', unit: 'Algebra', category: 'Math', label: 'Track', note: null },
+    { id: 'group-1', unit: 'Algebra', category: 'Math', label: 'Track', note: null, curriculum_id: 'gatherround' },
   ],
   unit_option_choices: [
-    { id: 'choice-1', option_group_id: 'group-1', subcategory: 'Track A', hours: 10, recommended_books: [] },
-    { id: 'choice-2', option_group_id: 'group-1', subcategory: 'Track B', hours: 12, recommended_books: [] },
+    { id: 'choice-1', option_group_id: 'group-1', subcategory: 'Track A', hours: 10, recommended_books: [], curriculum_id: 'gatherround' },
+    { id: 'choice-2', option_group_id: 'group-1', subcategory: 'Track B', hours: 12, recommended_books: [], curriculum_id: 'gatherround' },
   ],
   unit_optional_items: [
-    { id: 'opt-1', unit: 'Algebra', category: 'Math', subcategory: 'Lab', hours: 4, description: 'Optional lab' },
+    { id: 'opt-1', unit: 'Algebra', category: 'Math', subcategory: 'Lab', hours: 4, description: 'Optional lab', curriculum_id: 'gatherround' },
   ],
 }
 
 vi.mock('../supabase', () => ({
   supabase: {
     from: (table: string) => ({
-      select: () =>
-        Promise.resolve({
-          data: tableData[table] ?? [],
-          error: null,
-        }),
+      select: () => ({
+        in: () =>
+          Promise.resolve({
+            data: tableData[table] ?? [],
+            error: null,
+          }),
+      }),
     }),
   },
 }))
@@ -36,9 +38,10 @@ describe('useCurriculum', () => {
     const optionChoices: OptionChoiceState = { Algebra: { 'group-1': 'Track B' } }
     const includedOptionalItems: OptionalItemInclusionState = { Algebra: { 'opt-1': true } }
     const optionGroupHoursOverride: OptionGroupHoursOverrideState = { Algebra: { 'group-1': 14 } }
+    const curriculumUnits = [{ curriculumId: 'gatherround', unit: 'Algebra' }]
 
     const { result } = renderHook(() =>
-      useCurriculum(optionChoices, includedOptionalItems, optionGroupHoursOverride)
+      useCurriculum(optionChoices, includedOptionalItems, optionGroupHoursOverride, curriculumUnits)
     )
 
     await waitFor(() => expect(result.current.loading).toBe(false))
@@ -48,8 +51,9 @@ describe('useCurriculum', () => {
   })
 
   it('marks units with unselected option groups', async () => {
+    const curriculumUnits = [{ curriculumId: 'gatherround', unit: 'Algebra' }]
     const { result } = renderHook(() =>
-      useCurriculum({}, {}, {})
+      useCurriculum({}, {}, {}, curriculumUnits)
     )
 
     await waitFor(() => expect(result.current.loading).toBe(false))

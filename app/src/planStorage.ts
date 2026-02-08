@@ -6,6 +6,7 @@ import type {
   PlanData,
   PlannerConfig,
   Year,
+  CurriculumUnitRef,
 } from './types'
 import { DEFAULT_HOURS_PER_CREDIT, DEFAULT_MIN_CREDITS } from './types'
 
@@ -88,6 +89,21 @@ function saveOptionGroupHoursOverrideToKey(key: string, state: OptionGroupHoursO
   localStorage.setItem(key, JSON.stringify(state))
 }
 
+function loadCurriculumUnitsFromKey(key: string): CurriculumUnitRef[] {
+  try {
+    const raw = localStorage.getItem(key)
+    if (!raw) return []
+    const parsed = JSON.parse(raw) as CurriculumUnitRef[]
+    return Array.isArray(parsed) ? parsed : []
+  } catch {
+    return []
+  }
+}
+
+function saveCurriculumUnitsToKey(key: string, units: CurriculumUnitRef[]) {
+  localStorage.setItem(key, JSON.stringify(units))
+}
+
 function loadLockedYearsFromKey(key: string): Set<Year> {
   try {
     const raw = localStorage.getItem(key)
@@ -155,6 +171,26 @@ export function saveOptionGroupHoursOverride(planId: string, state: OptionGroupH
   saveOptionGroupHoursOverrideToKey(getPlanStorageKey(planId, 'option-group-hours'), state)
 }
 
+export function loadCurriculumUnits(planId: string): CurriculumUnitRef[] {
+  const stored = loadCurriculumUnitsFromKey(getPlanStorageKey(planId, 'curriculum-units'))
+  if (stored.length > 0) return stored
+  const inferredUnits = new Set<string>([
+    ...Object.keys(loadAssignments(planId)),
+    ...Object.keys(loadOptionChoices(planId)),
+    ...Object.keys(loadIncludedOptionalItems(planId)),
+    ...Object.keys(loadOptionGroupHoursOverride(planId)),
+  ])
+  if (inferredUnits.size === 0) return []
+  return Array.from(inferredUnits).map((unit) => ({
+    curriculumId: 'gatherround',
+    unit,
+  }))
+}
+
+export function saveCurriculumUnits(planId: string, units: CurriculumUnitRef[]) {
+  saveCurriculumUnitsToKey(getPlanStorageKey(planId, 'curriculum-units'), units)
+}
+
 export function loadLockedYears(planId: string): Set<Year> {
   return loadLockedYearsFromKey(getPlanStorageKey(planId, 'locked-years'))
 }
@@ -185,12 +221,49 @@ function normalizeLockedYears(raw: Year[] | null | undefined): Year[] {
   return raw.filter((year): year is Year => year >= 1 && year <= 4)
 }
 
+function normalizeCurriculumUnits(raw: CurriculumUnitRef[] | null | undefined): CurriculumUnitRef[] {
+  if (!Array.isArray(raw)) return []
+  const out: CurriculumUnitRef[] = []
+  const seen = new Set<string>()
+  for (const entry of raw) {
+    if (!entry || typeof entry !== 'object') continue
+    const curriculumId = String((entry as CurriculumUnitRef).curriculumId ?? '').trim()
+    const unit = String((entry as CurriculumUnitRef).unit ?? '').trim()
+    if (!curriculumId || !unit) continue
+    const key = `${curriculumId}\t${unit}`
+    if (seen.has(key)) continue
+    seen.add(key)
+    out.push({ curriculumId, unit })
+  }
+  return out
+}
+
 export function normalizePlanData(data: Partial<PlanData> | null | undefined): PlanData {
+  const assignments = normalizeAssignments(data?.assignments ?? {})
+  const optionChoices = data?.optionChoices ?? {}
+  const includedOptionalItems = data?.includedOptionalItems ?? {}
+  const optionGroupHoursOverride = data?.optionGroupHoursOverride ?? {}
+  let curriculumUnits = normalizeCurriculumUnits(data?.curriculumUnits ?? [])
+  if (curriculumUnits.length === 0) {
+    const inferredUnits = new Set<string>([
+      ...Object.keys(assignments),
+      ...Object.keys(optionChoices),
+      ...Object.keys(includedOptionalItems),
+      ...Object.keys(optionGroupHoursOverride),
+    ])
+    if (inferredUnits.size > 0) {
+      curriculumUnits = Array.from(inferredUnits).map((unit) => ({
+        curriculumId: 'gatherround',
+        unit,
+      }))
+    }
+  }
   return {
-    assignments: normalizeAssignments(data?.assignments ?? {}),
-    optionChoices: data?.optionChoices ?? {},
-    includedOptionalItems: data?.includedOptionalItems ?? {},
-    optionGroupHoursOverride: data?.optionGroupHoursOverride ?? {},
+    assignments,
+    optionChoices,
+    includedOptionalItems,
+    optionGroupHoursOverride,
+    curriculumUnits,
     lockedYears: normalizeLockedYears(data?.lockedYears ?? []),
     config: {
       hoursPerCredit: Number(data?.config?.hoursPerCredit) || DEFAULT_HOURS_PER_CREDIT,
@@ -205,6 +278,7 @@ export function readPlanDataFromStorage(planId: string): PlanData {
     optionChoices: loadOptionChoices(planId),
     includedOptionalItems: loadIncludedOptionalItems(planId),
     optionGroupHoursOverride: loadOptionGroupHoursOverride(planId),
+    curriculumUnits: loadCurriculumUnits(planId),
     lockedYears: Array.from(loadLockedYears(planId)),
     config: loadConfig(planId),
   }
@@ -215,6 +289,7 @@ export function writePlanDataToStorage(planId: string, data: PlanData) {
   saveOptionChoices(planId, data.optionChoices)
   saveIncludedOptionalItems(planId, data.includedOptionalItems)
   saveOptionGroupHoursOverride(planId, data.optionGroupHoursOverride)
+  saveCurriculumUnits(planId, data.curriculumUnits)
   saveLockedYears(planId, new Set(data.lockedYears))
   saveConfig(planId, data.config)
 }
@@ -225,6 +300,7 @@ export function clearPlanDataFromStorage(planId: string) {
     getPlanStorageKey(planId, 'option-choices'),
     getPlanStorageKey(planId, 'included-optional-items'),
     getPlanStorageKey(planId, 'option-group-hours'),
+    getPlanStorageKey(planId, 'curriculum-units'),
     getPlanStorageKey(planId, 'locked-years'),
     getPlanStorageKey(planId, 'config'),
   ]

@@ -1,30 +1,34 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
-import {
-  BreakdownPopup,
-  getUnitBreakdownRows,
-  getYearBreakdownRows,
-  getYearTotalHours,
-} from './components/BreakdownPopup'
+import { BreakdownPopup } from './components/BreakdownPopup'
+import { getUnitBreakdownRows, getYearBreakdownRows, getYearTotalHours } from './components/breakdownUtils'
 import { ConfigPanel } from './components/ConfigPanel'
 import { ManagePlansPanel } from './components/ManagePlansPanel'
 import { PlanComparePopup } from './components/PlanComparePopup'
 import { PlannerLayout } from './components/PlannerLayout'
 import { TallyBar } from './components/TallyBar'
+import { ImportCurriculumModal } from './components/ImportCurriculumModal'
 import gatherroundPlanJson from './data/gatherround-plan.json'
 import { useConfig } from './hooks/useConfig'
 import { useCurriculum } from './hooks/useCurriculum'
+import { useCurriculumSets } from './hooks/useCurriculumSets'
 import { useOptionChoices } from './hooks/useOptionChoices'
 import { useAssignments } from './hooks/useAssignments'
 import { useLockedYears } from './hooks/useLockedYears'
+import { useCurriculumUnits } from './hooks/useCurriculumUnits'
 import { useAuth } from './hooks/useAuth'
 import { usePlans } from './hooks/usePlans'
 import { usePlanSync } from './hooks/usePlanSync'
 import { AuthUI } from './components/AuthUI'
 import { readPlanDataFromStorage } from './planStorage'
-import type { AssignmentState, PlanData } from './types'
+import type { AssignmentState, CurriculumUnitRef, PlanData } from './types'
 import type { Year } from './types'
+import { fetchCurriculumUnitRefs } from './utils/curriculum'
 
 const gatherroundPlan = gatherroundPlanJson as AssignmentState
+const gatherroundUnitRefs: CurriculumUnitRef[] = Object.keys(gatherroundPlan).map((unit) => ({
+  curriculumId: 'gatherround',
+  unit,
+}))
 
 type DetailTarget = { type: 'unit'; unit: string } | { type: 'year'; year: Year } | null
 
@@ -33,6 +37,32 @@ function buildPlanSignature(data: PlanData) {
     ...data,
     lockedYears: [...data.lockedYears].sort(),
   })
+}
+
+function mergeCurriculumUnits(base: CurriculumUnitRef[], incoming: CurriculumUnitRef[]) {
+  const seen = new Set<string>()
+  const out: CurriculumUnitRef[] = []
+  const add = (item: CurriculumUnitRef) => {
+    const key = `${item.curriculumId}\t${item.unit}`
+    if (seen.has(key)) return
+    seen.add(key)
+    out.push(item)
+  }
+  base.forEach(add)
+  incoming.forEach(add)
+  return out
+}
+
+function buildBlankPlanData(config: PlanData['config']): PlanData {
+  return {
+    assignments: {},
+    optionChoices: {},
+    includedOptionalItems: {},
+    optionGroupHoursOverride: {},
+    curriculumUnits: [],
+    lockedYears: [],
+    config,
+  }
 }
 
 function App() {
@@ -66,17 +96,24 @@ function App() {
     replaceIncludedOptionalItems,
     replaceOptionGroupHoursOverride,
   } = useOptionChoices(currentPlanId)
+  const { curriculumUnits, replaceCurriculumUnits } = useCurriculumUnits(currentPlanId)
+  const { sets: curriculumSets, loading: curriculumSetsLoading, error: curriculumSetsError } = useCurriculumSets()
   const {
     unitsWithHours,
     unitBreakdown,
     optionGroups,
     optionChoicesByGroupId,
     optionalItemsByUnit,
+    unitCurriculumMap,
     unitsWithUnselectedOptionGroups,
     loading,
     error,
-  } = useCurriculum(optionChoices, includedOptionalItems, optionGroupHoursOverride)
+  } = useCurriculum(optionChoices, includedOptionalItems, optionGroupHoursOverride, curriculumUnits)
 
+  const curriculumSetsById = useMemo(
+    () => Object.fromEntries(curriculumSets.map((set) => [set.id, set])),
+    [curriculumSets]
+  )
   const unitsNeedingAttention = useMemo(
     () => new Set(unitsWithUnselectedOptionGroups),
     [unitsWithUnselectedOptionGroups]
@@ -88,6 +125,9 @@ function App() {
   const [detailTarget, setDetailTarget] = useState<DetailTarget>(null)
   const [manageOpen, setManageOpen] = useState(false)
   const [comparePlans, setComparePlans] = useState<{ sourceId: string; targetId: string } | null>(null)
+  const [importOpen, setImportOpen] = useState(false)
+  const [importing, setImporting] = useState(false)
+  const [importError, setImportError] = useState<string | null>(null)
   const [hoverFilter, setHoverFilter] = useState<{ category: string | null; year: Year | null }>({
     category: null,
     year: null,
@@ -101,10 +141,11 @@ function App() {
       optionChoices,
       includedOptionalItems,
       optionGroupHoursOverride,
+      curriculumUnits,
       lockedYears: Array.from(lockedYears).sort(),
       config,
     }),
-    [assignments, config, includedOptionalItems, lockedYears, optionChoices, optionGroupHoursOverride]
+    [assignments, config, includedOptionalItems, lockedYears, optionChoices, optionGroupHoursOverride, curriculumUnits]
   )
 
   const applyCurrentPlanData = useCallback(
@@ -114,6 +155,7 @@ function App() {
       replaceOptionChoices(data.optionChoices)
       replaceIncludedOptionalItems(data.includedOptionalItems)
       replaceOptionGroupHoursOverride(data.optionGroupHoursOverride)
+      replaceCurriculumUnits(data.curriculumUnits)
       replaceLockedYears(data.lockedYears)
       replaceConfig(data.config)
     },
@@ -124,6 +166,7 @@ function App() {
       replaceLockedYears,
       replaceOptionChoices,
       replaceOptionGroupHoursOverride,
+      replaceCurriculumUnits,
     ]
   )
 
@@ -181,10 +224,26 @@ function App() {
 
   const handlePrepopulateClick = () => {
     if (confirmPrepopulate) {
+      replaceCurriculumUnits(mergeCurriculumUnits(curriculumUnits, gatherroundUnitRefs))
       replaceAssignments(gatherroundPlan)
       setConfirmPrepopulate(false)
     } else {
       setConfirmPrepopulate(true)
+    }
+  }
+
+  const handleImportCurriculum = async (curriculumIds: string[]) => {
+    if (curriculumIds.length === 0 || importing) return
+    setImporting(true)
+    setImportError(null)
+    try {
+      const importedUnits = await fetchCurriculumUnitRefs(curriculumIds)
+      replaceCurriculumUnits(mergeCurriculumUnits(curriculumUnits, importedUnits))
+      setImportOpen(false)
+    } catch (err) {
+      setImportError(err instanceof Error ? err.message : String(err))
+    } finally {
+      setImporting(false)
     }
   }
 
@@ -204,6 +263,11 @@ function App() {
     const nextName = window.prompt('Rename plan', sourcePlan.name)
     if (!nextName) return
     renamePlan(planId, nextName)
+  }
+
+  const handleAddBlankPlan = () => {
+    const name = `New Plan ${activePlans.length + 1}`
+    createPlanFromData(name, buildBlankPlanData(config))
   }
 
   const handleDeletePlan = (planId: string) => {
@@ -280,6 +344,12 @@ function App() {
           <PlannerLayout
             unitsWithHours={unitsWithHours}
             unitBreakdown={unitBreakdown}
+            unitCurriculumMap={unitCurriculumMap}
+            curriculumSetsById={curriculumSetsById}
+            onOpenImport={() => {
+              setImportError(null)
+              setImportOpen(true)
+            }}
             assignments={assignments}
             lockedYears={lockedYears}
             onToggleLock={toggleLock}
@@ -347,6 +417,17 @@ function App() {
           onClose={() => setComparePlans(null)}
         />
       )}
+      {importOpen && (
+        <ImportCurriculumModal
+          sets={curriculumSets}
+          importedIds={new Set(curriculumUnits.map((entry) => entry.curriculumId))}
+          loading={curriculumSetsLoading}
+          error={importError ?? curriculumSetsError}
+          busy={importing}
+          onClose={() => setImportOpen(false)}
+          onConfirm={handleImportCurriculum}
+        />
+      )}
       {manageOpen && auth.user && (
         <ManagePlansPanel
           plans={activePlans}
@@ -360,6 +441,7 @@ function App() {
             setComparePlans({ sourceId, targetId })
             setManageOpen(false)
           }}
+          onAddBlankPlan={handleAddBlankPlan}
         />
       )}
     </div>

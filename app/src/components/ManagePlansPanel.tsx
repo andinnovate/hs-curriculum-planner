@@ -10,6 +10,7 @@ type ManagePlansPanelProps = {
   onDelete: (planId: string) => void
   onSelectPlan: (planId: string) => void
   onCompare: (sourceId: string, targetId: string) => void
+  onAddBlankPlan: () => void
 }
 
 export function ManagePlansPanel({
@@ -21,6 +22,7 @@ export function ManagePlansPanel({
   onDelete,
   onSelectPlan,
   onCompare,
+  onAddBlankPlan,
 }: ManagePlansPanelProps) {
   const [openMenuId, setOpenMenuId] = useState<string | null>(null)
   const [menuPosition, setMenuPosition] = useState<{ top: number; left: number; minWidth: number } | null>(null)
@@ -221,9 +223,14 @@ export function ManagePlansPanel({
             )
           })}
         </ul>
-        {!canDelete && (
-          <p className="manage-plan-hint">You must keep at least one plan.</p>
-        )}
+        <div className="manage-plans-footer">
+          {!canDelete && (
+            <p className="manage-plan-hint">You must keep at least one plan.</p>
+          )}
+          <button type="button" className="manage-plan-link manage-plan-add" onClick={onAddBlankPlan}>
+            Add a blank plan
+          </button>
+        </div>
       </div>
     </div>
   )

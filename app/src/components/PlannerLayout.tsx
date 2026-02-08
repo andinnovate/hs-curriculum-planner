@@ -8,7 +8,7 @@ import {
   useSensor,
   useSensors,
 } from '@dnd-kit/core'
-import type { AssignmentState, UnitBreakdown, UnitWithHours } from '../types'
+import type { AssignmentState, CurriculumSet, UnitBreakdown, UnitWithHours } from '../types'
 import type { Year } from '../types'
 import { UnitPool } from './UnitPool'
 import { YearColumn } from './YearColumn'
@@ -16,6 +16,8 @@ import { YearColumn } from './YearColumn'
 interface PlannerLayoutProps {
   unitsWithHours: UnitWithHours[]
   unitBreakdown: UnitBreakdown
+  unitCurriculumMap: Record<string, string>
+  curriculumSetsById: Record<string, CurriculumSet>
   assignments: AssignmentState
   lockedYears: Set<Year>
   onToggleLock: (year: Year) => void
@@ -25,11 +27,14 @@ interface PlannerLayoutProps {
   unitsNeedingAttention?: Set<string>
   highlightCategory?: string | null
   highlightYear?: Year | null
+  onOpenImport: () => void
 }
 
 export function PlannerLayout({
   unitsWithHours,
   unitBreakdown,
+  unitCurriculumMap,
+  curriculumSetsById,
   assignments,
   lockedYears,
   onToggleLock,
@@ -39,6 +44,7 @@ export function PlannerLayout({
   unitsNeedingAttention,
   highlightCategory,
   highlightYear,
+  onOpenImport,
 }: PlannerLayoutProps) {
   const [activeId, setActiveId] = useState<string | null>(null)
   const [selectionMode, setSelectionMode] = useState(false)
@@ -116,6 +122,9 @@ export function PlannerLayout({
             maxUnitHours={maxUnitHours}
             highlightCategory={highlightCategory}
             highlightYear={highlightYear}
+            unitCurriculumMap={unitCurriculumMap}
+            curriculumSetsById={curriculumSetsById}
+            onOpenImport={onOpenImport}
             assignments={assignments}
             onShowUnitDetails={onShowUnitDetails}
             unitsNeedingAttention={unitsNeedingAttention}
@@ -137,6 +146,8 @@ export function PlannerLayout({
               maxUnitHours={maxUnitHours}
               highlightCategory={highlightCategory}
               highlightYear={highlightYear}
+              unitCurriculumMap={unitCurriculumMap}
+              curriculumSetsById={curriculumSetsById}
               assignments={assignments}
               isLocked={lockedYears.has(y)}
               onToggleLock={onToggleLock}

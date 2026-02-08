@@ -24,6 +24,7 @@ export interface UnitOptionGroup {
   unit: string
   category: string
   label: string
+  curriculumId?: string
   /** Body/instructions from curriculum (e.g. "1 hour per day; add to Language Arts") */
   note?: string | null
 }
@@ -47,6 +48,7 @@ export interface UnitOptionalItem {
   subcategory: string
   hours: number
   description: string
+  curriculumId?: string
 }
 
 /** User's choice per option group: unit -> optionGroupId -> subcategory */
@@ -57,6 +59,19 @@ export type OptionalItemInclusionState = Record<string, Record<string, boolean>>
 
 /** Per-user override for option group hours: unit -> optionGroupId -> hours */
 export type OptionGroupHoursOverrideState = Record<string, Record<string, number>>
+
+export interface CurriculumUnitRef {
+  curriculumId: string
+  unit: string
+}
+
+export interface CurriculumSet {
+  id: string
+  name: string
+  provider: string
+  logoUrl?: string | null
+  description?: string | null
+}
 
 export interface PlannerConfig {
   hoursPerCredit: number
@@ -71,6 +86,7 @@ export interface PlanData {
   optionChoices: OptionChoiceState
   includedOptionalItems: OptionalItemInclusionState
   optionGroupHoursOverride: OptionGroupHoursOverrideState
+  curriculumUnits: CurriculumUnitRef[]
   lockedYears: Year[]
   config: PlannerConfig
 }

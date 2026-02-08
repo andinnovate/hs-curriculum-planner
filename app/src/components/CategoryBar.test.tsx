@@ -1,6 +1,7 @@
 import { render } from '@testing-library/react'
 import { describe, expect, it } from 'vitest'
-import { CategoryBar, getCategoryColor, rollupCategory } from './CategoryBar'
+import { CategoryBar } from './CategoryBar'
+import { getCategoryColor, rollupCategory } from './categoryUtils'
 import type { CategoryBreakdownRow } from '../types'
 
 describe('CategoryBar rollups', () => {

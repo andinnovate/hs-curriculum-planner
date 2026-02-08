@@ -5,6 +5,7 @@ import type {
   OptionChoiceState,
   OptionGroupHoursOverrideState,
   OptionalItemInclusionState,
+  CurriculumUnitRef,
   UnitBreakdown,
   UnitWithHours,
 } from '../types'
@@ -15,6 +16,7 @@ interface SubcategoryRow {
   category: string
   subcategory: string
   hours: number
+  curriculum_id?: string
 }
 
 interface OptionGroupRow {
@@ -23,6 +25,7 @@ interface OptionGroupRow {
   category: string
   label: string
   note?: string | null
+  curriculum_id?: string
 }
 
 interface OptionChoiceRow {
@@ -31,6 +34,7 @@ interface OptionChoiceRow {
   subcategory: string
   hours: number | null
   recommended_books: unknown
+  curriculum_id?: string
 }
 
 interface OptionalItemRow {
@@ -40,6 +44,7 @@ interface OptionalItemRow {
   subcategory: string
   hours: number
   description: string
+  curriculum_id?: string
 }
 
 function parseRecommendedBooks(raw: unknown): string[] {
@@ -50,25 +55,61 @@ function parseRecommendedBooks(raw: unknown): string[] {
 export function useCurriculum(
   optionChoices: OptionChoiceState,
   includedOptionalItems: OptionalItemInclusionState,
-  optionGroupHoursOverride: OptionGroupHoursOverrideState
+  optionGroupHoursOverride: OptionGroupHoursOverrideState,
+  curriculumUnits: CurriculumUnitRef[]
 ) {
   const [baseBreakdown, setBaseBreakdown] = useState<UnitBreakdown>({})
   const [optionGroups, setOptionGroups] = useState<UnitOptionGroup[]>([])
   const [choicesRaw, setChoicesRaw] = useState<UnitOptionChoice[]>([])
   const [optionalItemsRaw, setOptionalItemsRaw] = useState<UnitOptionalItem[]>([])
+  const [unitCurriculumMap, setUnitCurriculumMap] = useState<Record<string, string>>({})
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
 
   useEffect(() => {
     let cancelled = false
+    const allowedUnits = new Set(curriculumUnits.map((entry) => entry.unit))
+    const curriculumIds = Array.from(new Set(curriculumUnits.map((entry) => entry.curriculumId)))
+
+    if (curriculumUnits.length === 0) {
+      setBaseBreakdown({})
+      setOptionGroups([])
+      setChoicesRaw([])
+      setOptionalItemsRaw([])
+      setUnitCurriculumMap({})
+      setLoading(false)
+      setError(null)
+      return () => {
+        cancelled = true
+      }
+    }
+
+    setLoading(true)
 
     async function fetchData() {
       try {
+        const baseQuery = supabase
+          .from('unit_subcategory_hours')
+          .select('unit, category, subcategory, hours, curriculum_id')
+          .in('curriculum_id', curriculumIds)
+        const groupsQuery = supabase
+          .from('unit_option_groups')
+          .select('id, unit, category, label, note, curriculum_id')
+          .in('curriculum_id', curriculumIds)
+        const choicesQuery = supabase
+          .from('unit_option_choices')
+          .select('id, option_group_id, subcategory, hours, recommended_books, curriculum_id')
+          .in('curriculum_id', curriculumIds)
+        const itemsQuery = supabase
+          .from('unit_optional_items')
+          .select('id, unit, category, subcategory, hours, description, curriculum_id')
+          .in('curriculum_id', curriculumIds)
+
         const [baseRes, groupsRes, choicesRes, itemsRes] = await Promise.all([
-          supabase.from('unit_subcategory_hours').select('unit, category, subcategory, hours'),
-          supabase.from('unit_option_groups').select('id, unit, category, label, note'),
-          supabase.from('unit_option_choices').select('id, option_group_id, subcategory, hours, recommended_books'),
-          supabase.from('unit_optional_items').select('id, unit, category, subcategory, hours, description'),
+          baseQuery,
+          groupsQuery,
+          choicesQuery,
+          itemsQuery,
         ])
 
         if (baseRes.error) throw baseRes.error
@@ -78,7 +119,11 @@ export function useCurriculum(
         if (cancelled) return
 
         const breakdown: UnitBreakdown = {}
+        const curriculumByUnit: Record<string, string> = Object.fromEntries(
+          curriculumUnits.map((entry) => [entry.unit, entry.curriculumId])
+        )
         for (const row of (baseRes.data ?? []) as SubcategoryRow[]) {
+          if (!allowedUnits.has(row.unit)) continue
           const unit = row.unit
           const hours = Number(row.hours)
           if (!breakdown[unit]) breakdown[unit] = []
@@ -87,39 +132,56 @@ export function useCurriculum(
             subcategory: row.subcategory,
             hours,
           })
+          if (row.curriculum_id) curriculumByUnit[unit] = row.curriculum_id
         }
         setBaseBreakdown(breakdown)
 
+        const filteredGroups = ((groupsRes.data ?? []) as OptionGroupRow[]).filter((g) => allowedUnits.has(g.unit))
         setOptionGroups(
-          ((groupsRes.data ?? []) as OptionGroupRow[]).map((g) => ({
-            id: g.id,
-            unit: g.unit,
-            category: g.category,
-            label: g.label,
-            note: g.note ?? undefined,
-          }))
+          filteredGroups.map((g) => {
+            if (g.curriculum_id) curriculumByUnit[g.unit] = g.curriculum_id
+            return {
+              id: g.id,
+              unit: g.unit,
+              category: g.category,
+              label: g.label,
+              note: g.note ?? undefined,
+              curriculumId: g.curriculum_id,
+            }
+          })
         )
 
+        const allowedGroupIds = new Set(filteredGroups.map((g) => g.id))
         setChoicesRaw(
-          ((choicesRes.data ?? []) as OptionChoiceRow[]).map((r) => ({
-            id: r.id,
-            option_group_id: r.option_group_id,
-            subcategory: r.subcategory,
-            hours: r.hours != null ? Number(r.hours) : null,
-            recommended_books: parseRecommendedBooks(r.recommended_books),
-          }))
+          ((choicesRes.data ?? []) as OptionChoiceRow[])
+            .filter((r) => allowedGroupIds.has(r.option_group_id))
+            .map((r) => ({
+              id: r.id,
+              option_group_id: r.option_group_id,
+              subcategory: r.subcategory,
+              hours: r.hours != null ? Number(r.hours) : null,
+              recommended_books: parseRecommendedBooks(r.recommended_books),
+            }))
         )
 
         setOptionalItemsRaw(
-          ((itemsRes.data ?? []) as OptionalItemRow[]).map((r) => ({
-            id: r.id,
-            unit: r.unit,
-            category: r.category,
-            subcategory: r.subcategory,
-            hours: Number(r.hours),
-            description: r.description,
-          }))
+          ((itemsRes.data ?? []) as OptionalItemRow[])
+            .filter((r) => allowedUnits.has(r.unit))
+            .map((r) => {
+              if (r.curriculum_id) curriculumByUnit[r.unit] = r.curriculum_id
+              return {
+                id: r.id,
+                unit: r.unit,
+                category: r.category,
+                subcategory: r.subcategory,
+                hours: Number(r.hours),
+                description: r.description,
+                curriculumId: r.curriculum_id,
+              }
+            })
         )
+
+        setUnitCurriculumMap(curriculumByUnit)
 
         setError(null)
       } catch (err) {
@@ -135,7 +197,7 @@ export function useCurriculum(
     return () => {
       cancelled = true
     }
-  }, [])
+  }, [curriculumUnits])
 
   const optionChoicesByGroupId = useMemo(() => {
     const map: Record<string, UnitOptionChoice[]> = {}
@@ -288,6 +350,7 @@ export function useCurriculum(
     optionGroups,
     optionChoicesByGroupId,
     optionalItemsByUnit,
+    unitCurriculumMap,
     unitsWithUnselectedOptionGroups,
     loading,
     error,

@@ -15,6 +15,9 @@ describe('PlannerLayout', () => {
       <PlannerLayout
         unitsWithHours={units}
         unitBreakdown={{}}
+        unitCurriculumMap={{}}
+        curriculumSetsById={{}}
+        onOpenImport={() => {}}
         assignments={{}}
         lockedYears={new Set()}
         onToggleLock={() => {}}

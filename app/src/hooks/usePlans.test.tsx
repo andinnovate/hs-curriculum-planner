@@ -8,6 +8,7 @@ const emptyData: PlanData = {
   optionChoices: {},
   includedOptionalItems: {},
   optionGroupHoursOverride: {},
+  curriculumUnits: [],
   lockedYears: [],
   config: {
     hoursPerCredit: 120,

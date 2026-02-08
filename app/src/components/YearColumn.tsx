@@ -1,5 +1,5 @@
 import { useDroppable } from '@dnd-kit/core'
-import type { AssignmentState, UnitBreakdown, UnitWithHours } from '../types'
+import type { AssignmentState, CurriculumSet, UnitBreakdown, UnitWithHours } from '../types'
 import type { Year } from '../types'
 import { UnitCard } from './UnitCard'
 
@@ -10,6 +10,8 @@ interface YearColumnProps {
   maxUnitHours: number
   highlightCategory?: string | null
   highlightYear?: Year | null
+  unitCurriculumMap: Record<string, string>
+  curriculumSetsById: Record<string, CurriculumSet>
   assignments: AssignmentState
   isLocked: boolean
   onToggleLock: (year: Year) => void
@@ -27,6 +29,8 @@ export function YearColumn({
   maxUnitHours,
   highlightCategory,
   highlightYear,
+  unitCurriculumMap,
+  curriculumSetsById,
   assignments,
   isLocked,
   onToggleLock,
@@ -40,6 +44,15 @@ export function YearColumn({
 
   const unitsInYear = unitsWithHours.filter((u) => assignments[u.unit] === year)
   const canAssignSelection = !isLocked && selectedUnitCount > 0 && onAssignSelectionToYear
+  const providerIds = new Set(
+    unitsInYear
+      .map((u) => unitCurriculumMap[u.unit])
+      .filter((id): id is string => Boolean(id))
+  )
+  const providers = Array.from(providerIds)
+    .map((id) => curriculumSetsById[id])
+    .filter(Boolean)
+  const providerIcons = providers.filter((provider) => Boolean(provider.logoUrl))
 
   return (
     <div
@@ -49,6 +62,19 @@ export function YearColumn({
     >
       <div className="year-column-header">
         <h3 className="year-column-title">Year {year}</h3>
+        {providerIcons.length > 0 && (
+          <div className="year-column-providers" aria-label={`Year ${year} curriculum providers`}>
+            {providerIcons.map((provider) => (
+              <img
+                key={provider.id}
+                src={provider.logoUrl ?? undefined}
+                alt={provider.name}
+                title={provider.name}
+                className="year-column-provider"
+              />
+            ))}
+          </div>
+        )}
         {canAssignSelection && (
           <button
             type="button"
@@ -92,6 +118,8 @@ export function YearColumn({
               highlightCategory={highlightCategory}
               highlightYear={highlightYear}
               unitYear={year}
+              providerLogoUrl={curriculumSetsById[unitCurriculumMap[u.unit] ?? '']?.logoUrl ?? null}
+              providerName={curriculumSetsById[unitCurriculumMap[u.unit] ?? '']?.name ?? null}
               onShowDetails={onShowUnitDetails}
               isLocked={isLocked}
               needsAttention={unitsNeedingAttention?.has(u.unit)}

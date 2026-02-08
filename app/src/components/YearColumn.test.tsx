@@ -17,6 +17,8 @@ describe('YearColumn', () => {
         unitsWithHours={units}
         unitBreakdown={{}}
         maxUnitHours={120}
+        unitCurriculumMap={{}}
+        curriculumSetsById={{}}
         assignments={{ Algebra: 1 }}
         isLocked={false}
         onToggleLock={() => {}}
@@ -37,6 +39,8 @@ describe('YearColumn', () => {
         unitsWithHours={units}
         unitBreakdown={{}}
         maxUnitHours={120}
+        unitCurriculumMap={{}}
+        curriculumSetsById={{}}
         assignments={{ Biology: 2 }}
         isLocked={true}
         onToggleLock={() => {}}
@@ -56,6 +60,8 @@ describe('YearColumn', () => {
         unitsWithHours={units}
         unitBreakdown={{}}
         maxUnitHours={120}
+        unitCurriculumMap={{}}
+        curriculumSetsById={{}}
         assignments={{ Biology: 2 }}
         isLocked={false}
         onToggleLock={() => {}}

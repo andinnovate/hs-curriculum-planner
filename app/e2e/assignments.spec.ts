@@ -3,6 +3,12 @@ import { expect, test } from '@playwright/test'
 test('assigns units via selection and supports lock/remove', async ({ page }) => {
   await page.goto('/')
 
+  await page.getByRole('button', { name: /import curriculum/i }).click()
+  const importDialog = page.getByRole('dialog', { name: /import curriculum/i })
+  await expect(importDialog).toBeVisible()
+  await importDialog.getByRole('checkbox', { name: /Gather 'Round/i }).check()
+  await importDialog.getByRole('button', { name: /import selected/i }).click()
+
   const firstUnit = page.locator('.unit-pool-list-item .unit-card-name').first()
   await expect(firstUnit).toBeVisible()
   const unitName = (await firstUnit.textContent())?.trim()
