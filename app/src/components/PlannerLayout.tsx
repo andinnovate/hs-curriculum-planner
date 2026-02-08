@@ -28,6 +28,10 @@ interface PlannerLayoutProps {
   highlightCategory?: string | null
   highlightYear?: Year | null
   onOpenImport: () => void
+  showPrepopulate?: boolean
+  confirmPrepopulate?: boolean
+  onPrepopulateClick?: () => void
+  onCancelPrepopulate?: () => void
 }
 
 export function PlannerLayout({
@@ -45,6 +49,10 @@ export function PlannerLayout({
   highlightCategory,
   highlightYear,
   onOpenImport,
+  showPrepopulate,
+  confirmPrepopulate,
+  onPrepopulateClick,
+  onCancelPrepopulate,
 }: PlannerLayoutProps) {
   const [activeId, setActiveId] = useState<string | null>(null)
   const [selectionMode, setSelectionMode] = useState(false)
@@ -125,6 +133,10 @@ export function PlannerLayout({
             unitCurriculumMap={unitCurriculumMap}
             curriculumSetsById={curriculumSetsById}
             onOpenImport={onOpenImport}
+            showPrepopulate={showPrepopulate}
+            confirmPrepopulate={confirmPrepopulate}
+            onPrepopulateClick={onPrepopulateClick}
+            onCancelPrepopulate={onCancelPrepopulate}
             assignments={assignments}
             onShowUnitDetails={onShowUnitDetails}
             unitsNeedingAttention={unitsNeedingAttention}

@@ -13,6 +13,10 @@ interface UnitPoolProps {
   unitCurriculumMap: Record<string, string>
   curriculumSetsById: Record<string, CurriculumSet>
   onOpenImport: () => void
+  showPrepopulate?: boolean
+  confirmPrepopulate?: boolean
+  onPrepopulateClick?: () => void
+  onCancelPrepopulate?: () => void
   assignments: AssignmentState
   onShowUnitDetails: (unit: string) => void
   unitsNeedingAttention?: Set<string>
@@ -34,6 +38,10 @@ export function UnitPool({
   unitCurriculumMap,
   curriculumSetsById,
   onOpenImport,
+  showPrepopulate = false,
+  confirmPrepopulate = false,
+  onPrepopulateClick,
+  onCancelPrepopulate,
   assignments,
   onShowUnitDetails,
   unitsNeedingAttention,
@@ -88,6 +96,40 @@ export function UnitPool({
 
   const poolContent = (
     <>
+      {showPrepopulate && (
+        <div className="unit-pool-prepopulate">
+          {confirmPrepopulate ? (
+            <>
+              <span className="app-prepopulate-confirm">Replace current plan?</span>
+              <button
+                type="button"
+                className="app-prepopulate-btn confirm"
+                onClick={onPrepopulateClick}
+                disabled={!onPrepopulateClick}
+              >
+                Yes, prepopulate
+              </button>
+              <button
+                type="button"
+                className="app-prepopulate-btn"
+                onClick={onCancelPrepopulate}
+                disabled={!onCancelPrepopulate}
+              >
+                Cancel
+              </button>
+            </>
+          ) : (
+            <button
+              type="button"
+              className="app-prepopulate-link"
+              onClick={onPrepopulateClick}
+              disabled={!onPrepopulateClick}
+            >
+              Prepopulate Gather &apos;Round 4 year plan
+            </button>
+          )}
+        </div>
+      )}
       <div className="unit-pool-header-row">
         <h2 className="unit-pool-title">Curriculum units</h2>
         <button

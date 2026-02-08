@@ -134,6 +134,8 @@ function App() {
   })
   const suppressTouchRef = useRef(false)
   const planSwitchRef = useRef(false)
+  const prepopulateSignatureByPlanRef = useRef<Record<string, string>>({})
+  const markPrepopulatePlanIdRef = useRef<string | null>(null)
 
   const currentPlanData = useMemo<PlanData>(
     () => ({
@@ -187,11 +189,16 @@ function App() {
     const storedSignature = buildPlanSignature(readPlanDataFromStorage(currentPlanId))
     lastSignatureRef.current[currentPlanId] = storedSignature
     planSwitchRef.current = true
+    setConfirmPrepopulate(false)
   }, [currentPlanId])
 
   useEffect(() => {
     if (!currentPlanId) return
     const signatureMap = lastSignatureRef.current
+    if (markPrepopulatePlanIdRef.current === currentPlanId) {
+      prepopulateSignatureByPlanRef.current[currentPlanId] = planSignature
+      markPrepopulatePlanIdRef.current = null
+    }
     if (planSwitchRef.current) {
       if (signatureMap[currentPlanId] === planSignature) {
         planSwitchRef.current = false
@@ -226,6 +233,9 @@ function App() {
     if (confirmPrepopulate) {
       replaceCurriculumUnits(mergeCurriculumUnits(curriculumUnits, gatherroundUnitRefs))
       replaceAssignments(gatherroundPlan)
+      if (currentPlanId) {
+        markPrepopulatePlanIdRef.current = currentPlanId
+      }
       setConfirmPrepopulate(false)
     } else {
       setConfirmPrepopulate(true)
@@ -281,6 +291,10 @@ function App() {
   const compareSource = comparePlans?.sourceId ? activePlans.find((plan) => plan.id === comparePlans.sourceId) : null
   const compareTarget = comparePlans?.targetId ? activePlans.find((plan) => plan.id === comparePlans.targetId) : null
   const comparePlanData = comparePlans ? readPlanDataFromStorage(comparePlans.targetId) : null
+  const hasGatherroundImported = curriculumUnits.some((entry) => entry.curriculumId === 'gatherround')
+  const lastPrepopulateSignature = currentPlanId ? prepopulateSignatureByPlanRef.current[currentPlanId] : null
+  const showPrepopulateLink =
+    hasGatherroundImported && (!lastPrepopulateSignature || lastPrepopulateSignature !== planSignature)
 
   return (
     <div className="app">
@@ -296,21 +310,6 @@ function App() {
             onSignOut={auth.signOut}
             onClearError={auth.clearError}
           />
-          {confirmPrepopulate ? (
-            <>
-              <span className="app-prepopulate-confirm">Replace current plan?</span>
-              <button type="button" className="app-prepopulate-btn confirm" onClick={handlePrepopulateClick}>
-                Yes, prepopulate
-              </button>
-              <button type="button" className="app-prepopulate-btn" onClick={() => setConfirmPrepopulate(false)}>
-                Cancel
-              </button>
-            </>
-          ) : (
-            <button type="button" className="app-prepopulate-link" onClick={handlePrepopulateClick}>
-              Prepopulate Gather &apos;Round 4 year plan
-            </button>
-          )}
         </div>
         <ConfigPanel
           hoursPerCredit={config.hoursPerCredit}
@@ -350,6 +349,10 @@ function App() {
               setImportError(null)
               setImportOpen(true)
             }}
+            showPrepopulate={showPrepopulateLink}
+            confirmPrepopulate={confirmPrepopulate}
+            onPrepopulateClick={handlePrepopulateClick}
+            onCancelPrepopulate={() => setConfirmPrepopulate(false)}
             assignments={assignments}
             lockedYears={lockedYears}
             onToggleLock={toggleLock}

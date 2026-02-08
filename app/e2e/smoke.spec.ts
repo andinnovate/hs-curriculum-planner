@@ -11,6 +11,12 @@ test('shows auth prompt and plan note when logged out', async ({ page }) => {
 test('prepopulate prompt can be cancelled', async ({ page }) => {
   await page.goto('/')
 
+  await page.getByRole('button', { name: /import curriculum/i }).click()
+  const importDialog = page.getByRole('dialog', { name: /import curriculum/i })
+  await expect(importDialog).toBeVisible()
+  await importDialog.getByRole('checkbox', { name: /Gather 'Round/i }).check()
+  await importDialog.getByRole('button', { name: /import selected/i }).click()
+
   await page.getByRole('button', { name: /prepopulate/i }).click()
   await expect(page.getByText('Replace current plan?')).toBeVisible()
   await page.getByRole('button', { name: /cancel/i }).click()

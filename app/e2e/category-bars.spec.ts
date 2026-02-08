@@ -1,6 +1,12 @@
 import { expect, test, type Page } from '@playwright/test'
 
 async function prepopulatePlan(page: Page) {
+  await page.getByRole('button', { name: /import curriculum/i }).click()
+  const importDialog = page.getByRole('dialog', { name: /import curriculum/i })
+  await expect(importDialog).toBeVisible()
+  await importDialog.getByRole('checkbox', { name: /Gather 'Round/i }).check()
+  await importDialog.getByRole('button', { name: /import selected/i }).click()
+
   await page.getByRole('button', { name: /prepopulate/i }).click()
   await page.getByRole('button', { name: /yes, prepopulate/i }).click()
   await expect.poll(async () => page.locator('[aria-label="Year 1"] .unit-card').count()).toBeGreaterThan(0)

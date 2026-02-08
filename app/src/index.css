@@ -615,6 +615,14 @@ body {
   background: #e0e7ff;
 }
 
+.unit-pool-prepopulate {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 0.4rem;
+}
+
 .unit-pool-header-row {
   display: flex;
   align-items: center;
