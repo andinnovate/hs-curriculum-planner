@@ -9,6 +9,7 @@ const __dirname = path.dirname(__filename)
 type TestUser = {
   id?: string
   email?: string
+  appMetadata?: Record<string, unknown>
 }
 
 function readEnvFileValue(key: string) {
@@ -64,6 +65,7 @@ export async function injectSupabaseSession(
       email: user.email ?? 'test@example.com',
       aud: 'authenticated',
       role: 'authenticated',
+      app_metadata: user.appMetadata ?? {},
     },
   }
 

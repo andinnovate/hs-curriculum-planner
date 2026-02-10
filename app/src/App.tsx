@@ -7,6 +7,7 @@ import { PlanComparePopup } from './components/PlanComparePopup'
 import { PlannerLayout } from './components/PlannerLayout'
 import { TallyBar } from './components/TallyBar'
 import { ImportCurriculumModal } from './components/ImportCurriculumModal'
+import { AdminPage } from './components/AdminPage'
 import gatherroundPlanJson from './data/gatherround-plan.json'
 import { useConfig } from './hooks/useConfig'
 import { useCurriculum } from './hooks/useCurriculum'
@@ -16,6 +17,7 @@ import { useAssignments } from './hooks/useAssignments'
 import { useLockedYears } from './hooks/useLockedYears'
 import { useCurriculumUnits } from './hooks/useCurriculumUnits'
 import { useAuth } from './hooks/useAuth'
+import { useAdmin } from './hooks/useAdmin'
 import { usePlans } from './hooks/usePlans'
 import { usePlanSync } from './hooks/usePlanSync'
 import { AuthUI } from './components/AuthUI'
@@ -66,6 +68,11 @@ function buildBlankPlanData(config: PlanData['config']): PlanData {
 }
 
 function App() {
+  const getRoute = useCallback(() => {
+    if (typeof window === 'undefined') return 'planner'
+    return window.location.hash === '#/admin' ? 'admin' : 'planner'
+  }, [])
+  const [activePage, setActivePage] = useState<'planner' | 'admin'>(() => getRoute())
   const {
     plans,
     activePlans,
@@ -121,6 +128,7 @@ function App() {
   const { assignments, setAssignment, removeAssignment, replaceAssignments } = useAssignments(currentPlanId)
   const { lockedYears, toggleLock, replaceLockedYears } = useLockedYears(currentPlanId)
   const auth = useAuth()
+  const { isAdmin, loading: adminLoading, error: adminError } = useAdmin(auth.user)
   const [confirmPrepopulate, setConfirmPrepopulate] = useState(false)
   const [detailTarget, setDetailTarget] = useState<DetailTarget>(null)
   const [manageOpen, setManageOpen] = useState(false)
@@ -191,6 +199,13 @@ function App() {
     planSwitchRef.current = true
     setConfirmPrepopulate(false)
   }, [currentPlanId])
+
+  useEffect(() => {
+    if (typeof window === 'undefined') return
+    const handleHashChange = () => setActivePage(getRoute())
+    window.addEventListener('hashchange', handleHashChange)
+    return () => window.removeEventListener('hashchange', handleHashChange)
+  }, [getRoute])
 
   useEffect(() => {
     if (!currentPlanId) return
@@ -296,6 +311,8 @@ function App() {
   const showPrepopulateLink =
     hasGatherroundImported && (!lastPrepopulateSignature || lastPrepopulateSignature !== planSignature)
 
+  const isAdminPage = activePage === 'admin'
+
   return (
     <div className="app">
       <header className="app-header">
@@ -310,6 +327,30 @@ function App() {
             onSignOut={auth.signOut}
             onClearError={auth.clearError}
           />
+          {isAdmin && !isAdminPage && (
+            <button
+              type="button"
+              className="app-prepopulate-link"
+              onClick={() => {
+                if (typeof window !== 'undefined') window.location.hash = '#/admin'
+                setActivePage('admin')
+              }}
+            >
+              Admin
+            </button>
+          )}
+          {isAdminPage && (
+            <button
+              type="button"
+              className="app-prepopulate-link"
+              onClick={() => {
+                if (typeof window !== 'undefined') window.location.hash = ''
+                setActivePage('planner')
+              }}
+            >
+              Back to planner
+            </button>
+          )}
         </div>
         <ConfigPanel
           hoursPerCredit={config.hoursPerCredit}
@@ -337,7 +378,14 @@ function App() {
         )}
       </header>
       <main className="app-main">
-        {loading ? (
+        {isAdminPage ? (
+          <AdminPage
+            user={auth.user}
+            isAdmin={isAdmin}
+            adminLoading={adminLoading}
+            adminError={adminError}
+          />
+        ) : loading ? (
           <p>Loading curriculum…</p>
         ) : (
           <PlannerLayout
@@ -365,7 +413,7 @@ function App() {
           />
         )}
       </main>
-      {!loading && (
+      {!loading && !isAdminPage && (
         <TallyBar
           unitsWithHours={unitsWithHours}
           unitBreakdown={unitBreakdown}
