@@ -61,6 +61,7 @@ function buildBlankPlanData(config: PlanData['config']): PlanData {
     optionChoices: {},
     includedOptionalItems: {},
     optionGroupHoursOverride: {},
+    optionalItemHoursOverride: {},
     curriculumUnits: [],
     lockedYears: [],
     config,
@@ -97,11 +98,15 @@ function App() {
     getChoice,
     getOptionGroupHours,
     setOptionGroupHours,
+    optionalItemHoursOverride,
+    getOptionalItemHours,
+    setOptionalItemHours,
     isOptionalItemIncluded,
     setOptionalItemIncluded,
     replaceOptionChoices,
     replaceIncludedOptionalItems,
     replaceOptionGroupHoursOverride,
+    replaceOptionalItemHoursOverride,
   } = useOptionChoices(currentPlanId)
   const { curriculumUnits, replaceCurriculumUnits } = useCurriculumUnits(currentPlanId)
   const { sets: curriculumSets, loading: curriculumSetsLoading, error: curriculumSetsError } = useCurriculumSets()
@@ -115,7 +120,13 @@ function App() {
     unitsWithUnselectedOptionGroups,
     loading,
     error,
-  } = useCurriculum(optionChoices, includedOptionalItems, optionGroupHoursOverride, curriculumUnits)
+  } = useCurriculum(
+    optionChoices,
+    includedOptionalItems,
+    optionGroupHoursOverride,
+    optionalItemHoursOverride,
+    curriculumUnits
+  )
 
   const curriculumSetsById = useMemo(
     () => Object.fromEntries(curriculumSets.map((set) => [set.id, set])),
@@ -151,11 +162,21 @@ function App() {
       optionChoices,
       includedOptionalItems,
       optionGroupHoursOverride,
+      optionalItemHoursOverride,
       curriculumUnits,
       lockedYears: Array.from(lockedYears).sort(),
       config,
     }),
-    [assignments, config, includedOptionalItems, lockedYears, optionChoices, optionGroupHoursOverride, curriculumUnits]
+    [
+      assignments,
+      config,
+      includedOptionalItems,
+      lockedYears,
+      optionChoices,
+      optionGroupHoursOverride,
+      optionalItemHoursOverride,
+      curriculumUnits,
+    ]
   )
 
   const applyCurrentPlanData = useCallback(
@@ -165,6 +186,7 @@ function App() {
       replaceOptionChoices(data.optionChoices)
       replaceIncludedOptionalItems(data.includedOptionalItems)
       replaceOptionGroupHoursOverride(data.optionGroupHoursOverride)
+      replaceOptionalItemHoursOverride(data.optionalItemHoursOverride)
       replaceCurriculumUnits(data.curriculumUnits)
       replaceLockedYears(data.lockedYears)
       replaceConfig(data.config)
@@ -176,6 +198,7 @@ function App() {
       replaceLockedYears,
       replaceOptionChoices,
       replaceOptionGroupHoursOverride,
+      replaceOptionalItemHoursOverride,
       replaceCurriculumUnits,
     ]
   )
@@ -457,6 +480,8 @@ function App() {
           setOptionGroupHours={detailTarget.type === 'unit' ? setOptionGroupHours : undefined}
           isOptionalItemIncluded={detailTarget.type === 'unit' ? isOptionalItemIncluded : undefined}
           setOptionalItemIncluded={detailTarget.type === 'unit' ? setOptionalItemIncluded : undefined}
+          getOptionalItemHours={detailTarget.type === 'unit' ? getOptionalItemHours : undefined}
+          setOptionalItemHours={detailTarget.type === 'unit' ? setOptionalItemHours : undefined}
         />
       )}
       {comparePlans && compareSource && compareTarget && comparePlanData && (

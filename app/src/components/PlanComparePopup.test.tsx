@@ -8,6 +8,7 @@ const baseData: PlanData = {
   optionChoices: {},
   includedOptionalItems: {},
   optionGroupHoursOverride: {},
+  optionalItemHoursOverride: {},
   curriculumUnits: [],
   lockedYears: [],
   config: {
@@ -44,6 +45,7 @@ describe('PlanComparePopup', () => {
     expect(screen.getByText(/Assignment differences: 2/i)).toBeTruthy()
     expect(screen.getByText(/Option choice differences: 0/i)).toBeTruthy()
     expect(screen.getByText(/Locked year differences: 2/i)).toBeTruthy()
+    expect(screen.getByText(/Optional item hours differences: 0/i)).toBeTruthy()
     expect(screen.getByText(/Config differences: 1/i)).toBeTruthy()
     expect(screen.getByText('Algebra')).toBeTruthy()
     expect(screen.getByText('Biology')).toBeTruthy()

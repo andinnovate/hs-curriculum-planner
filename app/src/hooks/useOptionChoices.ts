@@ -2,15 +2,18 @@ import { useCallback, useEffect, useState } from 'react'
 import type {
   OptionChoiceState,
   OptionGroupHoursOverrideState,
+  OptionalItemHoursOverrideState,
   OptionalItemInclusionState,
 } from '../types'
 import {
   loadIncludedOptionalItems,
   loadOptionChoices,
   loadOptionGroupHoursOverride,
+  loadOptionalItemHoursOverride,
   saveIncludedOptionalItems,
   saveOptionChoices,
   saveOptionGroupHoursOverride,
+  saveOptionalItemHoursOverride,
 } from '../planStorage'
 
 export function useOptionChoices(planId: string) {
@@ -21,12 +24,16 @@ export function useOptionChoices(planId: string) {
   const [optionGroupHoursOverride, setOptionGroupHoursOverride] = useState<OptionGroupHoursOverrideState>(() =>
     loadOptionGroupHoursOverride(planId)
   )
+  const [optionalItemHoursOverride, setOptionalItemHoursOverride] = useState<OptionalItemHoursOverrideState>(() =>
+    loadOptionalItemHoursOverride(planId)
+  )
   const [loadedPlanId, setLoadedPlanId] = useState(planId)
 
   useEffect(() => {
     setOptionChoices(loadOptionChoices(planId))
     setIncludedOptionalItems(loadIncludedOptionalItems(planId))
     setOptionGroupHoursOverride(loadOptionGroupHoursOverride(planId))
+    setOptionalItemHoursOverride(loadOptionalItemHoursOverride(planId))
     setLoadedPlanId(planId)
   }, [planId])
 
@@ -44,6 +51,11 @@ export function useOptionChoices(planId: string) {
     if (loadedPlanId !== planId) return
     saveOptionGroupHoursOverride(planId, optionGroupHoursOverride)
   }, [loadedPlanId, optionGroupHoursOverride, planId])
+
+  useEffect(() => {
+    if (loadedPlanId !== planId) return
+    saveOptionalItemHoursOverride(planId, optionalItemHoursOverride)
+  }, [loadedPlanId, optionalItemHoursOverride, planId])
 
   const getOptionGroupHours = useCallback(
     (unit: string, optionGroupId: string, defaultHours: number | null): number | null => {
@@ -112,6 +124,27 @@ export function useOptionChoices(planId: string) {
     []
   )
 
+  const getOptionalItemHours = useCallback(
+    (unit: string, optionalItemId: string, defaultHours: number): number => {
+      const override = optionalItemHoursOverride[unit]?.[optionalItemId]
+      return override != null ? override : defaultHours
+    },
+    [optionalItemHoursOverride]
+  )
+
+  const setOptionalItemHours = useCallback(
+    (unit: string, optionalItemId: string, hours: number) => {
+      setOptionalItemHoursOverride((prev) => ({
+        ...prev,
+        [unit]: {
+          ...(prev[unit] ?? {}),
+          [optionalItemId]: hours,
+        },
+      }))
+    },
+    []
+  )
+
   const replaceOptionChoices = useCallback((next: OptionChoiceState) => {
     setOptionChoices(next)
   }, [])
@@ -124,6 +157,10 @@ export function useOptionChoices(planId: string) {
     setOptionGroupHoursOverride(next)
   }, [])
 
+  const replaceOptionalItemHoursOverride = useCallback((next: OptionalItemHoursOverrideState) => {
+    setOptionalItemHoursOverride(next)
+  }, [])
+
   return {
     optionChoices,
     setChoice,
@@ -132,11 +169,15 @@ export function useOptionChoices(planId: string) {
     optionGroupHoursOverride,
     getOptionGroupHours,
     setOptionGroupHours,
+    optionalItemHoursOverride,
+    getOptionalItemHours,
+    setOptionalItemHours,
     includedOptionalItems,
     isOptionalItemIncluded,
     setOptionalItemIncluded,
     replaceOptionChoices,
     replaceIncludedOptionalItems,
     replaceOptionGroupHoursOverride,
+    replaceOptionalItemHoursOverride,
   }
 }

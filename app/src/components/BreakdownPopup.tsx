@@ -21,6 +21,8 @@ interface BreakdownPopupProps {
   setOptionGroupHours?: (unit: string, optionGroupId: string, hours: number) => void
   isOptionalItemIncluded?: (unit: string, itemId: string) => boolean
   setOptionalItemIncluded?: (unit: string, itemId: string, included: boolean) => void
+  getOptionalItemHours?: (unit: string, itemId: string, defaultHours: number) => number
+  setOptionalItemHours?: (unit: string, itemId: string, hours: number) => void
 }
 
 /** Parse note text: normalize escaped \\n (or \\\\n etc.) to newlines and return lines for display */
@@ -69,6 +71,8 @@ export function BreakdownPopup({
   setOptionGroupHours,
   isOptionalItemIncluded,
   setOptionalItemIncluded,
+  getOptionalItemHours,
+  setOptionalItemHours,
 }: BreakdownPopupProps) {
   const grouped = groupByCategory(rows)
   const breakdownTotal = useMemo(() => {
@@ -87,6 +91,8 @@ export function BreakdownPopup({
   }, [optionalItems])
   const [editingHoursGroupId, setEditingHoursGroupId] = useState<string | null>(null)
   const [editingHoursValue, setEditingHoursValue] = useState('')
+  const [editingOptionalItemId, setEditingOptionalItemId] = useState<string | null>(null)
+  const [editingOptionalItemValue, setEditingOptionalItemValue] = useState('')
 
   return (
     <div className="breakdown-popover-backdrop" onClick={onClose} role="presentation">
@@ -221,19 +227,84 @@ export function BreakdownPopup({
               {optionalItemsByType.map(([typeLabel, items]) => (
                 <div key={typeLabel} className="breakdown-optional-type">
                   <h5 className="breakdown-optional-items-label">{typeLabel}</h5>
-                  {items.map((item) => (
-                    <label key={item.id} className="breakdown-optional-item">
-                      <input
-                        type="checkbox"
-                        checked={isOptionalItemIncluded(unit, item.id)}
-                        onChange={(e) => setOptionalItemIncluded(unit, item.id, e.target.checked)}
-                      />
-                      <span className="breakdown-optional-item-desc">{item.description}</span>
-                      <span className="breakdown-optional-item-meta">
-                        {item.hours.toFixed(1)} hrs → {item.subcategory}
-                      </span>
-                    </label>
-                  ))}
+                  {items.map((item) => {
+                    const included = isOptionalItemIncluded(unit, item.id)
+                    const effectiveHours = getOptionalItemHours
+                      ? getOptionalItemHours(unit, item.id, item.hours)
+                      : item.hours
+                    const isEditing = editingOptionalItemId === item.id
+                    const checkboxId = `optional-item-${item.id}`
+                    return (
+                      <div key={item.id} className="breakdown-optional-item">
+                        <label htmlFor={checkboxId} className="breakdown-optional-item-check">
+                          <input
+                            id={checkboxId}
+                            type="checkbox"
+                            checked={included}
+                            onChange={(e) => setOptionalItemIncluded(unit, item.id, e.target.checked)}
+                          />
+                        </label>
+                        <label htmlFor={checkboxId} className="breakdown-optional-item-desc">
+                          {item.description}
+                        </label>
+                        <span className="breakdown-optional-item-meta">
+                          {included && getOptionalItemHours && setOptionalItemHours ? (
+                            isEditing ? (
+                              <span className="breakdown-option-hours-edit">
+                                <label className="breakdown-option-hours-label">
+                                  Hours:{' '}
+                                  <input
+                                    type="number"
+                                    min={0}
+                                    step={0.5}
+                                    value={editingOptionalItemValue}
+                                    onChange={(e) => setEditingOptionalItemValue(e.target.value)}
+                                    onKeyDown={(e) => {
+                                      if (e.key === 'Enter') {
+                                        const n = Number.parseFloat(editingOptionalItemValue)
+                                        if (Number.isFinite(n) && n >= 0) {
+                                          setOptionalItemHours(unit, item.id, n)
+                                          setEditingOptionalItemId(null)
+                                        }
+                                      }
+                                      if (e.key === 'Escape') setEditingOptionalItemId(null)
+                                    }}
+                                    onBlur={() => {
+                                      const n = Number.parseFloat(editingOptionalItemValue)
+                                      if (Number.isFinite(n) && n >= 0) {
+                                        setOptionalItemHours(unit, item.id, n)
+                                      }
+                                      setEditingOptionalItemId(null)
+                                    }}
+                                    aria-label="Hours"
+                                  />
+                                </label>
+                              </span>
+                            ) : (
+                              <span className="breakdown-option-hours-display">
+                                Hours: {effectiveHours.toFixed(1)}{' '}
+                                <button
+                                  type="button"
+                                  className="breakdown-option-hours-edit-link"
+                                  onClick={(event) => {
+                                    event.preventDefault()
+                                    event.stopPropagation()
+                                    setEditingOptionalItemId(item.id)
+                                    setEditingOptionalItemValue(String(effectiveHours))
+                                  }}
+                                >
+                                  Edit
+                                </button>
+                              </span>
+                            )
+                          ) : (
+                            <span>{effectiveHours.toFixed(1)} hrs</span>
+                          )}{' '}
+                          → {item.subcategory}
+                        </span>
+                      </div>
+                    )
+                  })}
                 </div>
               ))}
             </section>

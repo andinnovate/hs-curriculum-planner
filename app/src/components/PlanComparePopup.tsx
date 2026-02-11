@@ -64,6 +64,10 @@ export function PlanComparePopup({
     currentData.includedOptionalItems,
     otherData.includedOptionalItems
   )
+  const optionalItemHoursDiffs = countNestedDiffs(
+    currentData.optionalItemHoursOverride,
+    otherData.optionalItemHoursOverride
+  )
   const optionGroupHoursDiffs = countNestedDiffs(
     currentData.optionGroupHoursOverride,
     otherData.optionGroupHoursOverride
@@ -115,6 +119,7 @@ export function PlanComparePopup({
             <div>Assignment differences: {assignmentDiffs.length}</div>
             <div>Option choice differences: {optionChoiceDiffs}</div>
             <div>Optional item differences: {optionalItemDiffs}</div>
+            <div>Optional item hours differences: {optionalItemHoursDiffs}</div>
             <div>Option hours differences: {optionGroupHoursDiffs}</div>
             <div>
               Locked year differences:{' '}

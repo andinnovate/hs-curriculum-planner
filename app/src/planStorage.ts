@@ -2,6 +2,7 @@ import type {
   AssignmentState,
   OptionChoiceState,
   OptionGroupHoursOverrideState,
+  OptionalItemHoursOverrideState,
   OptionalItemInclusionState,
   PlanData,
   PlannerConfig,
@@ -20,6 +21,7 @@ const LEGACY_KEYS = {
   optionChoices: 'curric-planner-option-choices',
   includedOptionalItems: 'curric-planner-included-optional-items',
   optionGroupHoursOverride: 'curric-planner-option-group-hours',
+  optionalItemHoursOverride: 'curric-planner-optional-item-hours',
   lockedYears: 'curric-planner-locked-years',
   config: 'curric-planner-config',
 } as const
@@ -86,6 +88,20 @@ function loadOptionGroupHoursOverrideFromKey(key: string): OptionGroupHoursOverr
 }
 
 function saveOptionGroupHoursOverrideToKey(key: string, state: OptionGroupHoursOverrideState) {
+  localStorage.setItem(key, JSON.stringify(state))
+}
+
+function loadOptionalItemHoursOverrideFromKey(key: string): OptionalItemHoursOverrideState {
+  try {
+    const raw = localStorage.getItem(key)
+    if (!raw) return {}
+    return JSON.parse(raw) as OptionalItemHoursOverrideState
+  } catch {
+    return {}
+  }
+}
+
+function saveOptionalItemHoursOverrideToKey(key: string, state: OptionalItemHoursOverrideState) {
   localStorage.setItem(key, JSON.stringify(state))
 }
 
@@ -171,6 +187,14 @@ export function saveOptionGroupHoursOverride(planId: string, state: OptionGroupH
   saveOptionGroupHoursOverrideToKey(getPlanStorageKey(planId, 'option-group-hours'), state)
 }
 
+export function loadOptionalItemHoursOverride(planId: string): OptionalItemHoursOverrideState {
+  return loadOptionalItemHoursOverrideFromKey(getPlanStorageKey(planId, 'optional-item-hours'))
+}
+
+export function saveOptionalItemHoursOverride(planId: string, state: OptionalItemHoursOverrideState) {
+  saveOptionalItemHoursOverrideToKey(getPlanStorageKey(planId, 'optional-item-hours'), state)
+}
+
 export function loadCurriculumUnits(planId: string): CurriculumUnitRef[] {
   const stored = loadCurriculumUnitsFromKey(getPlanStorageKey(planId, 'curriculum-units'))
   if (stored.length > 0) return stored
@@ -179,6 +203,7 @@ export function loadCurriculumUnits(planId: string): CurriculumUnitRef[] {
     ...Object.keys(loadOptionChoices(planId)),
     ...Object.keys(loadIncludedOptionalItems(planId)),
     ...Object.keys(loadOptionGroupHoursOverride(planId)),
+    ...Object.keys(loadOptionalItemHoursOverride(planId)),
   ])
   if (inferredUnits.size === 0) return []
   return Array.from(inferredUnits).map((unit) => ({
@@ -243,6 +268,7 @@ export function normalizePlanData(data: Partial<PlanData> | null | undefined): P
   const optionChoices = data?.optionChoices ?? {}
   const includedOptionalItems = data?.includedOptionalItems ?? {}
   const optionGroupHoursOverride = data?.optionGroupHoursOverride ?? {}
+  const optionalItemHoursOverride = data?.optionalItemHoursOverride ?? {}
   let curriculumUnits = normalizeCurriculumUnits(data?.curriculumUnits ?? [])
   if (curriculumUnits.length === 0) {
     const inferredUnits = new Set<string>([
@@ -250,6 +276,7 @@ export function normalizePlanData(data: Partial<PlanData> | null | undefined): P
       ...Object.keys(optionChoices),
       ...Object.keys(includedOptionalItems),
       ...Object.keys(optionGroupHoursOverride),
+      ...Object.keys(optionalItemHoursOverride),
     ])
     if (inferredUnits.size > 0) {
       curriculumUnits = Array.from(inferredUnits).map((unit) => ({
@@ -263,6 +290,7 @@ export function normalizePlanData(data: Partial<PlanData> | null | undefined): P
     optionChoices,
     includedOptionalItems,
     optionGroupHoursOverride,
+    optionalItemHoursOverride,
     curriculumUnits,
     lockedYears: normalizeLockedYears(data?.lockedYears ?? []),
     config: {
@@ -278,6 +306,7 @@ export function readPlanDataFromStorage(planId: string): PlanData {
     optionChoices: loadOptionChoices(planId),
     includedOptionalItems: loadIncludedOptionalItems(planId),
     optionGroupHoursOverride: loadOptionGroupHoursOverride(planId),
+    optionalItemHoursOverride: loadOptionalItemHoursOverride(planId),
     curriculumUnits: loadCurriculumUnits(planId),
     lockedYears: Array.from(loadLockedYears(planId)),
     config: loadConfig(planId),
@@ -289,6 +318,7 @@ export function writePlanDataToStorage(planId: string, data: PlanData) {
   saveOptionChoices(planId, data.optionChoices)
   saveIncludedOptionalItems(planId, data.includedOptionalItems)
   saveOptionGroupHoursOverride(planId, data.optionGroupHoursOverride)
+  saveOptionalItemHoursOverride(planId, data.optionalItemHoursOverride)
   saveCurriculumUnits(planId, data.curriculumUnits)
   saveLockedYears(planId, new Set(data.lockedYears))
   saveConfig(planId, data.config)
@@ -300,6 +330,7 @@ export function clearPlanDataFromStorage(planId: string) {
     getPlanStorageKey(planId, 'option-choices'),
     getPlanStorageKey(planId, 'included-optional-items'),
     getPlanStorageKey(planId, 'option-group-hours'),
+    getPlanStorageKey(planId, 'optional-item-hours'),
     getPlanStorageKey(planId, 'curriculum-units'),
     getPlanStorageKey(planId, 'locked-years'),
     getPlanStorageKey(planId, 'config'),
@@ -312,6 +343,7 @@ export function migrateLegacyPlan(planId: string) {
   const legacyOptionChoices = localStorage.getItem(LEGACY_KEYS.optionChoices)
   const legacyIncludedOptionalItems = localStorage.getItem(LEGACY_KEYS.includedOptionalItems)
   const legacyOptionGroupHours = localStorage.getItem(LEGACY_KEYS.optionGroupHoursOverride)
+  const legacyOptionalItemHours = localStorage.getItem(LEGACY_KEYS.optionalItemHoursOverride)
   const legacyLockedYears = localStorage.getItem(LEGACY_KEYS.lockedYears)
   const legacyConfig = localStorage.getItem(LEGACY_KEYS.config)
 
@@ -320,6 +352,7 @@ export function migrateLegacyPlan(planId: string) {
     !legacyOptionChoices &&
     !legacyIncludedOptionalItems &&
     !legacyOptionGroupHours &&
+    !legacyOptionalItemHours &&
     !legacyLockedYears &&
     !legacyConfig
   ) {
@@ -330,6 +363,7 @@ export function migrateLegacyPlan(planId: string) {
   const optionChoicesKey = getPlanStorageKey(planId, 'option-choices')
   const includedOptionalItemsKey = getPlanStorageKey(planId, 'included-optional-items')
   const optionGroupHoursKey = getPlanStorageKey(planId, 'option-group-hours')
+  const optionalItemHoursKey = getPlanStorageKey(planId, 'optional-item-hours')
   const lockedYearsKey = getPlanStorageKey(planId, 'locked-years')
   const configKey = getPlanStorageKey(planId, 'config')
 
@@ -344,6 +378,9 @@ export function migrateLegacyPlan(planId: string) {
   }
   if (!localStorage.getItem(optionGroupHoursKey) && legacyOptionGroupHours) {
     localStorage.setItem(optionGroupHoursKey, legacyOptionGroupHours)
+  }
+  if (!localStorage.getItem(optionalItemHoursKey) && legacyOptionalItemHours) {
+    localStorage.setItem(optionalItemHoursKey, legacyOptionalItemHours)
   }
   if (!localStorage.getItem(lockedYearsKey) && legacyLockedYears) {
     localStorage.setItem(lockedYearsKey, legacyLockedYears)

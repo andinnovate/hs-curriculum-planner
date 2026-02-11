@@ -61,6 +61,9 @@ export type OptionalItemInclusionState = Record<string, Record<string, boolean>>
 /** Per-user override for option group hours: unit -> optionGroupId -> hours */
 export type OptionGroupHoursOverrideState = Record<string, Record<string, number>>
 
+/** Per-user override for optional item hours: unit -> optionalItemId -> hours */
+export type OptionalItemHoursOverrideState = Record<string, Record<string, number>>
+
 export interface CurriculumUnitRef {
   curriculumId: string
   unit: string
@@ -87,6 +90,7 @@ export interface PlanData {
   optionChoices: OptionChoiceState
   includedOptionalItems: OptionalItemInclusionState
   optionGroupHoursOverride: OptionGroupHoursOverrideState
+  optionalItemHoursOverride: OptionalItemHoursOverrideState
   curriculumUnits: CurriculumUnitRef[]
   lockedYears: Year[]
   config: PlannerConfig

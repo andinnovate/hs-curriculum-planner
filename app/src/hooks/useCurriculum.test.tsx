@@ -38,22 +38,29 @@ describe('useCurriculum', () => {
     const optionChoices: OptionChoiceState = { Algebra: { 'group-1': 'Track B' } }
     const includedOptionalItems: OptionalItemInclusionState = { Algebra: { 'opt-1': true } }
     const optionGroupHoursOverride: OptionGroupHoursOverrideState = { Algebra: { 'group-1': 14 } }
+    const optionalItemHoursOverride = { Algebra: { 'opt-1': 6 } }
     const curriculumUnits = [{ curriculumId: 'gatherround', unit: 'Algebra' }]
 
     const { result } = renderHook(() =>
-      useCurriculum(optionChoices, includedOptionalItems, optionGroupHoursOverride, curriculumUnits)
+      useCurriculum(
+        optionChoices,
+        includedOptionalItems,
+        optionGroupHoursOverride,
+        optionalItemHoursOverride,
+        curriculumUnits
+      )
     )
 
     await waitFor(() => expect(result.current.loading).toBe(false))
 
     const algebra = result.current.unitsWithHours.find((u) => u.unit === 'Algebra')
-    expect(algebra?.totalHours).toBe(100 + 14 + 4)
+    expect(algebra?.totalHours).toBe(100 + 14 + 6)
   })
 
   it('marks units with unselected option groups', async () => {
     const curriculumUnits = [{ curriculumId: 'gatherround', unit: 'Algebra' }]
     const { result } = renderHook(() =>
-      useCurriculum({}, {}, {}, curriculumUnits)
+      useCurriculum({}, {}, {}, {}, curriculumUnits)
     )
 
     await waitFor(() => expect(result.current.loading).toBe(false))

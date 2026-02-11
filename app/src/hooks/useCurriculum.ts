@@ -4,6 +4,7 @@ import type {
   CategoryBreakdownRow,
   OptionChoiceState,
   OptionGroupHoursOverrideState,
+  OptionalItemHoursOverrideState,
   OptionalItemInclusionState,
   CurriculumUnitRef,
   UnitBreakdown,
@@ -57,6 +58,7 @@ export function useCurriculum(
   optionChoices: OptionChoiceState,
   includedOptionalItems: OptionalItemInclusionState,
   optionGroupHoursOverride: OptionGroupHoursOverrideState,
+  optionalItemHoursOverride: OptionalItemHoursOverrideState,
   curriculumUnits: CurriculumUnitRef[]
 ) {
   const [baseBreakdown, setBaseBreakdown] = useState<UnitBreakdown>({})
@@ -294,12 +296,14 @@ export function useCurriculum(
       const optionalItems = optionalItemsByUnit[unit] ?? []
       for (const item of optionalItems) {
         if (includedOptionalItems[unit]?.[item.id]) {
+          const hoursOverride = optionalItemHoursOverride[unit]?.[item.id]
+          const hours = hoursOverride != null ? hoursOverride : item.hours
           const typeLabel = item.type?.trim() || 'Optional work'
           out.push({
             category: item.category,
             subcategory: `${item.subcategory} ${typeLabel}`.trim(),
-            hours: item.hours,
-            source: `${typeLabel}: ${item.hours} hrs`,
+            hours,
+            source: `${typeLabel}: ${hours} hrs`,
           })
         }
       }
@@ -342,6 +346,7 @@ export function useCurriculum(
     optionChoices,
     includedOptionalItems,
     optionGroupHoursOverride,
+    optionalItemHoursOverride,
   ])
 
   return {

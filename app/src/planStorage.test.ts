@@ -20,6 +20,7 @@ describe('planStorage', () => {
       optionChoices: { Algebra: { choiceA: 'Track 1' } },
       includedOptionalItems: { Algebra: { lab: true } },
       optionGroupHoursOverride: { Algebra: { choiceA: 12 } },
+      optionalItemHoursOverride: { Algebra: { lab: 6 } },
       curriculumUnits: [{ curriculumId: 'gatherround', unit: 'Algebra' }],
       lockedYears: [2, 4],
       config: { hoursPerCredit: 100, minCreditsForGraduation: 30 },
@@ -32,6 +33,7 @@ describe('planStorage', () => {
     expect(read.optionChoices).toEqual(data.optionChoices)
     expect(read.includedOptionalItems).toEqual(data.includedOptionalItems)
     expect(read.optionGroupHoursOverride).toEqual(data.optionGroupHoursOverride)
+    expect(read.optionalItemHoursOverride).toEqual(data.optionalItemHoursOverride)
     expect(read.curriculumUnits).toEqual(data.curriculumUnits)
     expect([...read.lockedYears].sort()).toEqual([...data.lockedYears].sort())
     expect(read.config).toEqual(data.config)

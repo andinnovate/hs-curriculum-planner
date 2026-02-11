@@ -70,4 +70,41 @@ describe('BreakdownPopup', () => {
     fireEvent.click(screen.getByText('Optional lab'))
     expect(setOptionalItemIncluded).toHaveBeenCalledWith('Algebra', 'opt-1', true)
   })
+
+  it('allows editing optional item hours when selected', () => {
+    const optionalItems: UnitOptionalItem[] = [
+      {
+        id: 'opt-1',
+        unit: 'Algebra',
+        category: 'Math',
+        subcategory: 'Lab',
+        hours: 4,
+        description: 'Optional lab',
+        type: 'Optional Lab',
+      },
+    ]
+
+    const setOptionalItemHours = vi.fn()
+
+    render(
+      <BreakdownPopup
+        title="Algebra"
+        rows={[]}
+        totalHours={0}
+        onClose={() => {}}
+        unit="Algebra"
+        optionalItems={optionalItems}
+        isOptionalItemIncluded={() => true}
+        setOptionalItemIncluded={() => {}}
+        getOptionalItemHours={() => 6}
+        setOptionalItemHours={setOptionalItemHours}
+      />
+    )
+
+    fireEvent.click(screen.getByText('Edit'))
+    const input = screen.getByLabelText('Hours') as HTMLInputElement
+    fireEvent.change(input, { target: { value: '7' } })
+    fireEvent.keyDown(input, { key: 'Enter' })
+    expect(setOptionalItemHours).toHaveBeenCalledWith('Algebra', 'opt-1', 7)
+  })
 })
