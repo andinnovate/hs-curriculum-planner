@@ -294,18 +294,12 @@ export function useCurriculum(
       const optionalItems = optionalItemsByUnit[unit] ?? []
       for (const item of optionalItems) {
         if (includedOptionalItems[unit]?.[item.id]) {
-          const typeLabel = item.type?.trim() ?? ''
-          const isOptionalLab = typeLabel === 'Optional Lab'
-          const shortLabel = isOptionalLab
-            ? null
-            : item.description.includes(':')
-              ? item.description.split(':')[0].trim() + `: ${item.hours} hrs`
-              : `${item.description} (${item.hours} hrs)`
+          const typeLabel = item.type?.trim() || 'Optional work'
           out.push({
             category: item.category,
-            subcategory: isOptionalLab ? `${item.subcategory} Optional Lab` : item.subcategory,
+            subcategory: `${item.subcategory} ${typeLabel}`.trim(),
             hours: item.hours,
-            source: shortLabel ?? undefined,
+            source: `${typeLabel}: ${item.hours} hrs`,
           })
         }
       }
