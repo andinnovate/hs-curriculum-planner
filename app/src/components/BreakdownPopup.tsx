@@ -76,6 +76,15 @@ export function BreakdownPopup({
     return grouped.reduce((sum, g) => sum + g.total, 0)
   }, [grouped, totalHours])
   const showUnitOptions = unit && (optionGroups.length > 0 || optionalItems.length > 0)
+  const optionalItemsByType = useMemo(() => {
+    const map = new Map<string, UnitOptionalItem[]>()
+    for (const item of optionalItems) {
+      const key = item.type?.trim() || 'Optional work'
+      if (!map.has(key)) map.set(key, [])
+      map.get(key)!.push(item)
+    }
+    return Array.from(map.entries())
+  }, [optionalItems])
   const [editingHoursGroupId, setEditingHoursGroupId] = useState<string | null>(null)
   const [editingHoursValue, setEditingHoursValue] = useState('')
 
@@ -209,19 +218,23 @@ export function BreakdownPopup({
           )}
           {showUnitOptions && optionalItems.length > 0 && unit && isOptionalItemIncluded && setOptionalItemIncluded && (
             <section className="breakdown-optional-items" aria-label="Optional work">
-              <h5 className="breakdown-optional-items-label">Optional work</h5>
-              {optionalItems.map((item) => (
-                <label key={item.id} className="breakdown-optional-item">
-                  <input
-                    type="checkbox"
-                    checked={isOptionalItemIncluded(unit, item.id)}
-                    onChange={(e) => setOptionalItemIncluded(unit, item.id, e.target.checked)}
-                  />
-                  <span className="breakdown-optional-item-desc">{item.description}</span>
-                  <span className="breakdown-optional-item-meta">
-                    {item.hours.toFixed(1)} hrs → {item.subcategory}
-                  </span>
-                </label>
+              {optionalItemsByType.map(([typeLabel, items]) => (
+                <div key={typeLabel} className="breakdown-optional-type">
+                  <h5 className="breakdown-optional-items-label">{typeLabel}</h5>
+                  {items.map((item) => (
+                    <label key={item.id} className="breakdown-optional-item">
+                      <input
+                        type="checkbox"
+                        checked={isOptionalItemIncluded(unit, item.id)}
+                        onChange={(e) => setOptionalItemIncluded(unit, item.id, e.target.checked)}
+                      />
+                      <span className="breakdown-optional-item-desc">{item.description}</span>
+                      <span className="breakdown-optional-item-meta">
+                        {item.hours.toFixed(1)} hrs → {item.subcategory}
+                      </span>
+                    </label>
+                  ))}
+                </div>
               ))}
             </section>
           )}

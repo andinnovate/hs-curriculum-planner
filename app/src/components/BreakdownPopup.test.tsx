@@ -37,6 +37,7 @@ describe('BreakdownPopup', () => {
         subcategory: 'Lab',
         hours: 4,
         description: 'Optional lab',
+        type: 'Optional Lab',
       },
     ]
 
@@ -65,6 +66,7 @@ describe('BreakdownPopup', () => {
     fireEvent.click(screen.getByText(/Track B/i))
     expect(setChoice).toHaveBeenCalledWith('Algebra', 'group-1', 'Track B')
 
+    expect(screen.getByText('Optional Lab')).toBeInTheDocument()
     fireEvent.click(screen.getByText('Optional lab'))
     expect(setOptionalItemIncluded).toHaveBeenCalledWith('Algebra', 'opt-1', true)
   })

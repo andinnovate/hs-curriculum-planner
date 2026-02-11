@@ -44,6 +44,7 @@ interface OptionalItemRow {
   subcategory: string
   hours: number
   description: string
+  type?: string | null
   curriculum_id?: string
 }
 
@@ -102,7 +103,7 @@ export function useCurriculum(
           .in('curriculum_id', curriculumIds)
         const itemsQuery = supabase
           .from('unit_optional_items')
-          .select('id, unit, category, subcategory, hours, description, curriculum_id')
+          .select('id, unit, category, subcategory, hours, description, type, curriculum_id')
           .in('curriculum_id', curriculumIds)
 
         const [baseRes, groupsRes, choicesRes, itemsRes] = await Promise.all([
@@ -176,6 +177,7 @@ export function useCurriculum(
                 subcategory: r.subcategory,
                 hours: Number(r.hours),
                 description: r.description,
+                type: r.type ?? undefined,
                 curriculumId: r.curriculum_id,
               }
             })
@@ -292,14 +294,18 @@ export function useCurriculum(
       const optionalItems = optionalItemsByUnit[unit] ?? []
       for (const item of optionalItems) {
         if (includedOptionalItems[unit]?.[item.id]) {
-          const shortLabel = item.description.includes(':')
-            ? item.description.split(':')[0].trim() + `: ${item.hours} hrs`
-            : `${item.description} (${item.hours} hrs)`
+          const typeLabel = item.type?.trim() ?? ''
+          const isOptionalLab = typeLabel === 'Optional Lab'
+          const shortLabel = isOptionalLab
+            ? null
+            : item.description.includes(':')
+              ? item.description.split(':')[0].trim() + `: ${item.hours} hrs`
+              : `${item.description} (${item.hours} hrs)`
           out.push({
             category: item.category,
-            subcategory: item.subcategory,
+            subcategory: isOptionalLab ? `${item.subcategory} Optional Lab` : item.subcategory,
             hours: item.hours,
-            source: shortLabel,
+            source: shortLabel ?? undefined,
           })
         }
       }

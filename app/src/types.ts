@@ -48,6 +48,7 @@ export interface UnitOptionalItem {
   subcategory: string
   hours: number
   description: string
+  type?: string
   curriculumId?: string
 }
 
