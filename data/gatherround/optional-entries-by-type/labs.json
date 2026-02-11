@@ -3,12 +3,20 @@
     "year": 1,
     "unit": "Ancient Civilizations",
     "type": "Optional Chemistry Lab",
+      "options": [
+      ["mummification process experiment", "Chemistry"]
+    ],
+    "hours": 10,
     "body": "Study the mummification process of an apple or other fruit and complete a lab report.\n\nAdd 10 hours for Chemistry"
   },
   {
     "year": 1,
     "unit": "Botany",
     "type": "Optional Biology Lab",
+    "options": [
+      ["germination + plant growth experiment", "Biology"]
+    ],
+    "hours": 10,
     "body": "Germination + Plant Growth Experiment: study the process under different conditions and complete lab report\n\nAdd 10 hours for Botany"
   },
   {
@@ -16,8 +24,10 @@
     "unit": "Sports + PE",
     "type": "Optional Physics Lab",
     "options": [
-      "kinetic energy experiment",
-      "friction experiment"
+      ["kinetic energy experiment", "Physics"],
+      [
+        "friction experiment",
+        "Physics"]
     ],
     "hours": 10,
     "body": "Perform another experiment to demonstrate kinetic energy\nComplete lab report\nAdd 10 hours to Physics\n\nPerform another friction experiment\nComplete lab report\nAdd 10 hours to Physics"
@@ -27,6 +37,10 @@
     "unit": "Ocean Life",
     "type": "Optional Labs",
     "options": [
+      [
+        "Water quality sampling + testing",
+        "Biology"
+      ],
       [
         "Water quality sampling + testing",
         "Marine Biology"
@@ -47,9 +61,12 @@
     "year": 1,
     "unit": "NAB (v2)",
     "type": "Optional Biology Lab",
-    "options": [
-      "Dissect owl pellets"
-    ],
+      "options": [
+        [
+          "owl pellet dissection",
+          "Biology"
+        ]
+      ],
     "hours": 10,
     "body": "Dissect owl pellets, observe and categorize the bones, and complete a lab report.\n\nAdd 10 hours for Biology"
   },
@@ -58,7 +75,10 @@
     "unit": "Chemistry",
     "type": "Optional Lab Addition",
     "options": [
-      "Experiment Book + Observation Journal"
+      [
+        "Experiment Book + Observation Journal",
+        "Chemistry"
+      ]
     ],
     "hours": 20,
     "body": "Add 20 hours for Chemistry Labs if using the Experiment Book + Observation Journal"
@@ -68,8 +88,8 @@
     "unit": "Astronomy",
     "type": "Optional Physics Labs",
     "options": [
-      "egg drop experiment",
-      "microgravity experiment"
+      ["egg drop experiment", "Physics"],
+      ["microgravity experiment", "Physics"]
     ],
     "hours": 10,
     "body": "Perform the egg drop experiment in Lesson 10\nComplete lab report\nAdd 10 hours for Physics\n\nPerform a second microgravity experiment\nComplete lab report\nAdd 10 hours for Physics"
@@ -125,7 +145,10 @@
     "unit": "Europe",
     "type": "Optional Physics Lab",
     "options": [
-      "Newton's three laws of motion experiment"
+      [
+        "Newton's three laws of motion experiment",
+        "Physics"
+      ]
     ],
     "hours": 10,
     "body": "Perform experiments to demonstrate Newton's three laws of motion\nComplete lab report\nAdd 10 hours to Physics"
@@ -135,10 +158,11 @@
     "unit": "Transportation",
     "type": "Optional Physics Lab",
     "options": [
-      "Archimedes' principle experiment",
-      "surface tension experiment",
-      "variables affecting force experiment"
+      ["Archimedes' principle experiment", "Physics"],
+      ["surface tension experiment", "Physics"],
+      ["variables affecting force experiment", "Physics"]
     ],
+    "hours": 10,
     "body": "Perform additional experiment to understand Archimedes' principle\nComplete lab report\nAdd 10 hours to Physics\n\nPerform additional surface tension experiment\nComplete lab report\nAdd 10 hours to Physics\n\nPerform an experiment to demonstrate variables affecting force \nComplete lab report\nAdd 10 hours to Physics"
   },
   {
@@ -151,6 +175,7 @@
         "Life Science"
       ]
     ],
+    "hours": 10,
     "body": "Perform a noise filtering/sleep experiment \nComplete lab report\nAdd 10 hours to Life Science"
   },
   {
@@ -271,6 +296,6 @@
       ]
     ],
     "hours": 10,
-    "body": "Perform a cow heart dissection\nComplete lab report\nAdd 10 hours to Life Science lab\n\nExpand the taste test lab in L10 \nComplete lab repoert\nAdd 10 hours to Life Science lab"
+    "body": "Perform a cow heart dissection\nComplete lab report\nAdd 10 hours to Life Science lab\n\nExpand the taste test lab in L10 \nComplete lab report\nAdd 10 hours to Life Science lab"
   }
 ]
