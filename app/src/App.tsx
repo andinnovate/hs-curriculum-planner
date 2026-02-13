@@ -27,11 +27,27 @@ import {
   computeAssignmentsAfterYearReorder,
   permuteUnitOrderAfterYearReorder,
 } from './utils/orderUtils'
-import type { AssignmentState, CurriculumUnitRef, PlanData } from './types'
+import type { AssignmentState, CurriculumUnitRef, PlanData, UnitOrderByYear } from './types'
 import type { Year } from './types'
 import { fetchCurriculumUnitRefs } from './utils/curriculum'
 
-const gatherroundPlan = gatherroundPlanJson as AssignmentState
+type GatherroundPlanData =
+  | AssignmentState
+  | { assignments: AssignmentState; unitOrderByYear?: UnitOrderByYear }
+
+const gatherroundPlanData = gatherroundPlanJson as GatherroundPlanData
+const gatherroundPlan: AssignmentState =
+  typeof gatherroundPlanData.assignments === 'object'
+    ? gatherroundPlanData.assignments
+    : (gatherroundPlanData as AssignmentState)
+const rawOrder = (gatherroundPlanData as { unitOrderByYear?: Record<string, string[]> }).unitOrderByYear
+const gatherroundUnitOrder: UnitOrderByYear = {}
+if (rawOrder && typeof rawOrder === 'object') {
+  for (const year of [1, 2, 3, 4] as const) {
+    const arr = rawOrder[String(year)]
+    if (Array.isArray(arr)) gatherroundUnitOrder[year] = arr
+  }
+}
 const gatherroundUnitRefs: CurriculumUnitRef[] = Object.keys(gatherroundPlan).map((unit) => ({
   curriculumId: 'gatherround',
   unit,
@@ -290,6 +306,7 @@ function App() {
     if (confirmPrepopulate) {
       replaceCurriculumUnits(mergeCurriculumUnits(curriculumUnits, gatherroundUnitRefs))
       replaceAssignments(gatherroundPlan)
+      replaceUnitOrderByYear(gatherroundUnitOrder)
       if (currentPlanId) {
         markPrepopulatePlanIdRef.current = currentPlanId
       }
