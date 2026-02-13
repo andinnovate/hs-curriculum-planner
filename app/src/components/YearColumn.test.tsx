@@ -20,9 +20,11 @@ describe('YearColumn', () => {
         unitCurriculumMap={{}}
         curriculumSetsById={{}}
         assignments={{ Algebra: 1 }}
+        orderedUnitsInYear={['Algebra']}
         isLocked={false}
         onToggleLock={() => {}}
         onRemove={onRemove}
+        onReorderUnitsInYear={() => {}}
         onShowUnitDetails={() => {}}
       />
     )
@@ -42,9 +44,11 @@ describe('YearColumn', () => {
         unitCurriculumMap={{}}
         curriculumSetsById={{}}
         assignments={{ Biology: 2 }}
+        orderedUnitsInYear={['Biology']}
         isLocked={true}
         onToggleLock={() => {}}
         onRemove={() => {}}
+        onReorderUnitsInYear={() => {}}
         onShowUnitDetails={() => {}}
         selectedUnitCount={2}
         onAssignSelectionToYear={onAssignSelectionToYear}
@@ -63,9 +67,11 @@ describe('YearColumn', () => {
         unitCurriculumMap={{}}
         curriculumSetsById={{}}
         assignments={{ Biology: 2 }}
+        orderedUnitsInYear={['Biology']}
         isLocked={false}
         onToggleLock={() => {}}
         onRemove={() => {}}
+        onReorderUnitsInYear={() => {}}
         onShowUnitDetails={() => {}}
         selectedUnitCount={2}
         onAssignSelectionToYear={onAssignSelectionToYear}

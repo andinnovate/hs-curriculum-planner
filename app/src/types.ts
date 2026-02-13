@@ -18,6 +18,9 @@ export type UnitBreakdown = Record<string, CategoryBreakdownRow[]>
 
 export type AssignmentState = Record<string, Year>
 
+/** Optional per-year ordered list of unit ids (for drag-to-reorder within a year). */
+export type UnitOrderByYear = Partial<Record<Year, string[]>>
+
 /** Option group (e.g. "Required Reading" for a unit); choices are mutually exclusive */
 export interface UnitOptionGroup {
   id: string
@@ -93,6 +96,7 @@ export interface PlanData {
   optionalItemHoursOverride: OptionalItemHoursOverrideState
   curriculumUnits: CurriculumUnitRef[]
   lockedYears: Year[]
+  unitOrderByYear?: UnitOrderByYear
   config: PlannerConfig
 }
 

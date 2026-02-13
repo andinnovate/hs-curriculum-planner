@@ -20,9 +20,12 @@ describe('PlannerLayout', () => {
         onOpenImport={() => {}}
         assignments={{}}
         lockedYears={new Set()}
+        unitOrderByYear={{}}
         onToggleLock={() => {}}
         onSetAssignment={onSetAssignment}
         onRemoveAssignment={() => {}}
+        onReorderYears={() => {}}
+        onReorderUnitsInYear={() => {}}
         onShowUnitDetails={() => {}}
       />
     )

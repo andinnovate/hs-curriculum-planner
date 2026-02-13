@@ -6,6 +6,7 @@ import type {
   OptionalItemInclusionState,
   PlanData,
   PlannerConfig,
+  UnitOrderByYear,
   Year,
   CurriculumUnitRef,
 } from './types'
@@ -23,6 +24,7 @@ const LEGACY_KEYS = {
   optionGroupHoursOverride: 'curric-planner-option-group-hours',
   optionalItemHoursOverride: 'curric-planner-optional-item-hours',
   lockedYears: 'curric-planner-locked-years',
+  unitOrderByYear: 'curric-planner-unit-order',
   config: 'curric-planner-config',
 } as const
 
@@ -135,6 +137,28 @@ function saveLockedYearsToKey(key: string, set: Set<Year>) {
   localStorage.setItem(key, JSON.stringify(Array.from(set)))
 }
 
+function loadUnitOrderByYearFromKey(key: string): UnitOrderByYear {
+  try {
+    const raw = localStorage.getItem(key)
+    if (!raw) return {}
+    const parsed = JSON.parse(raw) as Record<string, unknown>
+    const out: UnitOrderByYear = {}
+    for (const [yearStr, arr] of Object.entries(parsed)) {
+      const y = parseInt(yearStr, 10)
+      if (y >= 1 && y <= 4 && Array.isArray(arr)) {
+        out[y as Year] = arr.filter((id): id is string => typeof id === 'string')
+      }
+    }
+    return out
+  } catch {
+    return {}
+  }
+}
+
+function saveUnitOrderByYearToKey(key: string, state: UnitOrderByYear) {
+  localStorage.setItem(key, JSON.stringify(state))
+}
+
 function loadConfigFromKey(key: string): PlannerConfig {
   try {
     const raw = localStorage.getItem(key)
@@ -224,6 +248,14 @@ export function saveLockedYears(planId: string, set: Set<Year>) {
   saveLockedYearsToKey(getPlanStorageKey(planId, 'locked-years'), set)
 }
 
+export function loadUnitOrderByYear(planId: string): UnitOrderByYear {
+  return loadUnitOrderByYearFromKey(getPlanStorageKey(planId, 'unit-order'))
+}
+
+export function saveUnitOrderByYear(planId: string, state: UnitOrderByYear) {
+  saveUnitOrderByYearToKey(getPlanStorageKey(planId, 'unit-order'), state)
+}
+
 export function loadConfig(planId: string): PlannerConfig {
   return loadConfigFromKey(getPlanStorageKey(planId, 'config'))
 }
@@ -244,6 +276,36 @@ function normalizeAssignments(raw: AssignmentState | null | undefined): Assignme
 function normalizeLockedYears(raw: Year[] | null | undefined): Year[] {
   if (!raw) return []
   return raw.filter((year): year is Year => year >= 1 && year <= 4)
+}
+
+function normalizeUnitOrderByYear(
+  raw: UnitOrderByYear | null | undefined,
+  assignments: AssignmentState
+): UnitOrderByYear {
+  if (!raw || typeof raw !== 'object') return {}
+  const out: UnitOrderByYear = {}
+  const unitsByYear: Record<Year, Set<string>> = { 1: new Set(), 2: new Set(), 3: new Set(), 4: new Set() }
+  for (const [unit, year] of Object.entries(assignments)) {
+    if (year >= 1 && year <= 4) unitsByYear[year as Year].add(unit)
+  }
+  for (const y of [1, 2, 3, 4] as const) {
+    const year = y as Year
+    const arr = raw[year]
+    if (!Array.isArray(arr)) continue
+    const valid = arr.filter((id) => typeof id === 'string' && unitsByYear[year].has(id))
+    const seen = new Set<string>()
+    const ordered: string[] = []
+    for (const id of valid) {
+      if (seen.has(id)) continue
+      seen.add(id)
+      ordered.push(id)
+    }
+    for (const id of unitsByYear[year]) {
+      if (!seen.has(id)) ordered.push(id)
+    }
+    if (ordered.length > 0) out[year] = ordered
+  }
+  return out
 }
 
 function normalizeCurriculumUnits(raw: CurriculumUnitRef[] | null | undefined): CurriculumUnitRef[] {
@@ -285,6 +347,8 @@ export function normalizePlanData(data: Partial<PlanData> | null | undefined): P
       }))
     }
   }
+  const lockedYears = normalizeLockedYears(data?.lockedYears ?? [])
+  const unitOrderByYear = normalizeUnitOrderByYear(data?.unitOrderByYear ?? {}, assignments)
   return {
     assignments,
     optionChoices,
@@ -292,7 +356,8 @@ export function normalizePlanData(data: Partial<PlanData> | null | undefined): P
     optionGroupHoursOverride,
     optionalItemHoursOverride,
     curriculumUnits,
-    lockedYears: normalizeLockedYears(data?.lockedYears ?? []),
+    lockedYears,
+    unitOrderByYear,
     config: {
       hoursPerCredit: Number(data?.config?.hoursPerCredit) || DEFAULT_HOURS_PER_CREDIT,
       minCreditsForGraduation: Number(data?.config?.minCreditsForGraduation) || DEFAULT_MIN_CREDITS,
@@ -301,14 +366,16 @@ export function normalizePlanData(data: Partial<PlanData> | null | undefined): P
 }
 
 export function readPlanDataFromStorage(planId: string): PlanData {
+  const assignments = loadAssignments(planId)
   return {
-    assignments: loadAssignments(planId),
+    assignments,
     optionChoices: loadOptionChoices(planId),
     includedOptionalItems: loadIncludedOptionalItems(planId),
     optionGroupHoursOverride: loadOptionGroupHoursOverride(planId),
     optionalItemHoursOverride: loadOptionalItemHoursOverride(planId),
     curriculumUnits: loadCurriculumUnits(planId),
     lockedYears: Array.from(loadLockedYears(planId)),
+    unitOrderByYear: normalizeUnitOrderByYear(loadUnitOrderByYear(planId), assignments),
     config: loadConfig(planId),
   }
 }
@@ -321,6 +388,7 @@ export function writePlanDataToStorage(planId: string, data: PlanData) {
   saveOptionalItemHoursOverride(planId, data.optionalItemHoursOverride)
   saveCurriculumUnits(planId, data.curriculumUnits)
   saveLockedYears(planId, new Set(data.lockedYears))
+  saveUnitOrderByYear(planId, data.unitOrderByYear ?? {})
   saveConfig(planId, data.config)
 }
 
@@ -333,6 +401,7 @@ export function clearPlanDataFromStorage(planId: string) {
     getPlanStorageKey(planId, 'optional-item-hours'),
     getPlanStorageKey(planId, 'curriculum-units'),
     getPlanStorageKey(planId, 'locked-years'),
+    getPlanStorageKey(planId, 'unit-order'),
     getPlanStorageKey(planId, 'config'),
   ]
   keys.forEach((key) => localStorage.removeItem(key))

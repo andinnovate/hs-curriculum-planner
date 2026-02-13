@@ -15,6 +15,7 @@ import { useCurriculumSets } from './hooks/useCurriculumSets'
 import { useOptionChoices } from './hooks/useOptionChoices'
 import { useAssignments } from './hooks/useAssignments'
 import { useLockedYears } from './hooks/useLockedYears'
+import { useUnitOrderByYear } from './hooks/useUnitOrderByYear'
 import { useCurriculumUnits } from './hooks/useCurriculumUnits'
 import { useAuth } from './hooks/useAuth'
 import { useAdmin } from './hooks/useAdmin'
@@ -22,6 +23,10 @@ import { usePlans } from './hooks/usePlans'
 import { usePlanSync } from './hooks/usePlanSync'
 import { AuthUI } from './components/AuthUI'
 import { readPlanDataFromStorage } from './planStorage'
+import {
+  computeAssignmentsAfterYearReorder,
+  permuteUnitOrderAfterYearReorder,
+} from './utils/orderUtils'
 import type { AssignmentState, CurriculumUnitRef, PlanData } from './types'
 import type { Year } from './types'
 import { fetchCurriculumUnitRefs } from './utils/curriculum'
@@ -64,6 +69,7 @@ function buildBlankPlanData(config: PlanData['config']): PlanData {
     optionalItemHoursOverride: {},
     curriculumUnits: [],
     lockedYears: [],
+    unitOrderByYear: {},
     config,
   }
 }
@@ -138,6 +144,7 @@ function App() {
   )
   const { assignments, setAssignment, removeAssignment, replaceAssignments } = useAssignments(currentPlanId)
   const { lockedYears, toggleLock, replaceLockedYears } = useLockedYears(currentPlanId)
+  const { unitOrderByYear, reorderUnitsInYear, replaceUnitOrderByYear } = useUnitOrderByYear(currentPlanId)
   const auth = useAuth()
   const { isAdmin, loading: adminLoading, error: adminError } = useAdmin(auth.user)
   const [confirmPrepopulate, setConfirmPrepopulate] = useState(false)
@@ -165,6 +172,7 @@ function App() {
       optionalItemHoursOverride,
       curriculumUnits,
       lockedYears: Array.from(lockedYears).sort(),
+      unitOrderByYear: unitOrderByYear ?? {},
       config,
     }),
     [
@@ -176,6 +184,7 @@ function App() {
       optionGroupHoursOverride,
       optionalItemHoursOverride,
       curriculumUnits,
+      unitOrderByYear,
     ]
   )
 
@@ -189,6 +198,7 @@ function App() {
       replaceOptionalItemHoursOverride(data.optionalItemHoursOverride)
       replaceCurriculumUnits(data.curriculumUnits)
       replaceLockedYears(data.lockedYears)
+      replaceUnitOrderByYear(data.unitOrderByYear ?? {})
       replaceConfig(data.config)
     },
     [
@@ -200,7 +210,16 @@ function App() {
       replaceOptionGroupHoursOverride,
       replaceOptionalItemHoursOverride,
       replaceCurriculumUnits,
+      replaceUnitOrderByYear,
     ]
+  )
+
+  const handleReorderYears = useCallback(
+    (fromIndex: number, toIndex: number) => {
+      replaceAssignments(computeAssignmentsAfterYearReorder(assignments, fromIndex, toIndex))
+      replaceUnitOrderByYear(permuteUnitOrderAfterYearReorder(unitOrderByYear ?? {}, fromIndex, toIndex))
+    },
+    [assignments, replaceAssignments, replaceUnitOrderByYear, unitOrderByYear]
   )
 
   const syncStatus = usePlanSync({
@@ -426,9 +445,12 @@ function App() {
             onCancelPrepopulate={() => setConfirmPrepopulate(false)}
             assignments={assignments}
             lockedYears={lockedYears}
+            unitOrderByYear={unitOrderByYear ?? {}}
             onToggleLock={toggleLock}
             onSetAssignment={setAssignment}
             onRemoveAssignment={removeAssignment}
+            onReorderYears={handleReorderYears}
+            onReorderUnitsInYear={reorderUnitsInYear}
             onShowUnitDetails={(unit) => setDetailTarget({ type: 'unit', unit })}
             unitsNeedingAttention={unitsNeedingAttention}
             highlightCategory={hoverFilter.category}
